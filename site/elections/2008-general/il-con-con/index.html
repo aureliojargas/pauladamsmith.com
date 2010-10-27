@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; utf-8">
+  <title>2008 vote on Illinois Constitutional Convention / Paul Smith</title>
+  <script type="text/javascript" src="http://openlayers.org/api/OpenLayers.js"></script>
+  <style type="text/css">
+    body {
+      font-family: Verdana, Bitstream Vera Sans, sans-serif;
+      color: #323233;
+    }
+
+    h1 {
+      font-size: 125%;
+    }
+
+    #map {
+      width: 600px;
+      height: 600px;
+      border: 1px solid #808080;
+      float: left;
+    }
+
+    #colorbar {
+      margin-left: 620px;
+    }
+
+    h3.county {
+      margin: 0;
+      padding: 0 0 5px 0;
+      font-size: 80%;
+    }
+
+    .votes td {
+      font-size: 75%;
+    }
+
+    i {
+      font-size: 80%;
+    }
+
+    .olPopup {
+      color: #eee !important;
+      background: #334 !important;
+      border: 1px solid #889 !important;
+    }
+
+    hr {
+      display: none;
+    }
+
+    #credits {
+      font-size: 80%;
+    }
+  </style>
+  <script type="text/javascript" src="con_con.js"></script>
+</head>
+<body>
+<h1>2008 vote on Illinois Constitutional Convention</h1>
+<div id="map"></div>
+<div id="colorbar"><img src="colorbar.png"></div>
+<div style="clear: both;"></div>
+<hr>
+<p id="credits">
+  <a href="http://www.pauladamsmith.com/">Paul Smith</a>.
+  Election results from Illinois county boards of elections, compiled by
+  <a href="http://www.progressillinois.com/">Progress Illinois</a>.
+</p>
+<div id="popup-tpl" style="display: none;">
+  <h3 class="county">${county}</h3> 
+  <div class="votes"> 
+    <table>
+      <tr>
+	<td>Yes:</td>
+	<td>${percent_yes}</td>
+      </tr>
+      <tr>
+	<td>No:</td>
+	<td>${percent_no}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+</body>
+</html>

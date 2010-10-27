@@ -1,19 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Paul Smith</title>
-  <link rel="stylesheet" href="styles.css" type="text/css" media="screen">
-  <link rel="openid.server" href="http://idproxy.net/openid/server/">
-  <link rel="openid.delegate" href="http://paul.idproxy.net/">
-  <meta name="verify-v1" content="JGWpUVGeSZp407VK35oscFKsTMIEalzD8cTIBcScWNQ=" >
-</head>
-<body id="pauladamsmith-com">
-<div id="wrap">
-  <div id="header">
-    <p>Paul Smith</p>
-  </div>
+{% extends "base.html" %}
 
+{% block content %}
   <div class="bio vcard">
   	<h1>A brief bio</h1>
    	<p>
@@ -23,7 +10,7 @@
 		developer.<span style="color: #999">&lt;/thirdpersonvoice&gt;</span>
   	</p>
 
-    <p><b>Currently &hellip;</b> I am a co-founder of 
+    <p><b>Currently &hellip;</b> I am a co-founder of
        <a id="everyblock" href="http://www.everyblock.com/">EveryBlock</a> and one
        of its software engineers.
     </p>
@@ -85,23 +72,4 @@
   	<li><a href="gpg-key.html">GPG public key</a></li>
   	<li><a href="http://en.wikipedia.org/wiki/Paul_Smith">Paul Smiths</a></li>
   </ul>
-
-  <hr>
-
-  <div id="footer">
-    <div id="badges">
-        <a href='http://change-congress.org/pledge/citizen/info?l=1&amp;t=1&amp;f=1&amp;district=IL4&amp;btn=4'><img src='http://images.change-congress.org/cc-badge-3-small-l_tf.png' alt='Change Congress' /></a>
-    </div>
-    <div id="lastEdit">
-      Last updated: October 18, 2010
-    </div>
-  </div>
-</div>
-<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
-<script type="text/javascript">
-_uacct = "UA-304677-1";
-urchinTracker();
-</script>
-<script type="text/javascript" src="http://twitter.com/statuses/user_timeline/paulsmith.json?count=1&amp;callback=reportTweet"></script>
-</body>
-</html>
+{% endblock %}

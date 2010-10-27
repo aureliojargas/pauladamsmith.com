@@ -5,6 +5,9 @@
 <title></title>
 <link rel="stylesheet" href="/css/style.css" type="text/css">
 <link rel="alternate" href="/rss.xml" type="rss/xml">
+<link rel="openid.server" href="http://idproxy.net/openid/server/">
+<link rel="openid.delegate" href="http://paul.idproxy.net/">
+<meta name="verify-v1" content="JGWpUVGeSZp407VK35oscFKsTMIEalzD8cTIBcScWNQ=" >
 </head>
 <body>
   <header>
@@ -21,12 +24,94 @@
 
   <div id="main">
     
-This is the home page.
+  <div class="bio vcard">
+  	<h1>A brief bio</h1>
+   	<p>
+		<span class="fn">Paul Smith</span> is a <span
+		class="adr"><span class="locality">Baltimore</span>,
+		<span class="region">MD</span></span>-based software
+		developer.<span style="color: #999">&lt;/thirdpersonvoice&gt;</span>
+  	</p>
+
+    <p><b>Currently &hellip;</b> I am a co-founder of
+       <a id="everyblock" href="http://www.everyblock.com/">EveryBlock</a> and one
+       of its software engineers.
+    </p>
+    <p>I am also
+       a co-founder and board member <i>emeritus</i> of <a id="fbt"
+       href="http://www.bloomingdaletrail.org/">Friends of the
+       Bloomingdale Trail</a>. I am a co-creator of the <a id="edac"
+       href="http://www.electiondayadventcalendar.com/">Election
+       Day Advent Calendar</a>.
+       </p>
+  </div>
+
+    <h1>Articles</h1>
+    <ul>
+      <li><a href="/articles/redis_under_the_hood.html" title="A deep dive into Redis's internals, focusing on server startup, and the request/response cycle.">Redis: under the hood</a></li>
+      <li><a href="http://www.alistapart.com/articles/takecontrolofyourmaps">Take Control of Your Maps</a> (<i>A List Apart</i>, No. 256)</li>
+    </ul>
+
+    <h1>Speaking</h1>
+    <ul>
+        <li><a href="http://www.slideshare.net/pauladamsmith/the-web-map-stack-on-django">The Web map stack on Django</a> &mdash; given May 4, 2009 at EuroDjangoCon</li>
+    </ul>
+
+  <h1>Past projects of note</h1>
+  <ul>
+      <li><a href="http://www.civicfootprint.org/">Civic Footprint</a></li>
+      <li><a href="http://www.chrishayes.org/blog/">chrishayes.org</a></li>
+      <li><a href="http://wcn.cnt.org/">Community wireless networking</a></li>
+      <li><a href="http://www.nytimes.com/2005/09/18/magazine/18idea.html">Communications recovery after Katrina</a></li>
+  </ul>
+
+  <h1>Me elsewhere &hellip;</h1>
+  <ul>
+    <li>
+        <a href="http://twitter.com/paulsmith" rel="me">Follow me on Twitter</a>, why not.
+        <div id="twitter">Latest: </div>
+        <script type="text/javascript">
+            var reportTweet = function(latest) {
+                var twitter = document.getElementById("twitter");
+                if (latest) {
+                    var tweet = document.createElement("div");
+                    tweet.id = "tweet";
+                    tweet.innerHTML = latest[0].text;
+                    twitter.appendChild(tweet);
+                } else {
+                    twitter.appendChild(document.createTextNode("communication breakdown—Twitter retrieval error"));
+                }
+            };
+        </script>
+    </li>
+    <li><a href="http://flickr.com/photos/psmith" rel="me">Flickr</a></li>
+    <li><a href="http://del.icio.us/thaislump" rel="me">del.icio.us</a></li>
+  </ul>
+
+  <h1>More info</h1>
+  <ul>
+    <li><a href="mailto:paulsmith@pobox.com">Email Paul</a></li>
+    <li><a href="resume.html" title="My resume, which may not be up-to-date">Résumé</a></li>
+  	<li><a href="gpg-key.html">GPG public key</a></li>
+  	<li><a href="http://en.wikipedia.org/wiki/Paul_Smith">Paul Smiths</a></li>
+  </ul>
 
   </div><!-- #main -->
   
   <footer>
-    <div id="twitter"><a href="http://twitter.com/paulsmith" title="@paulsmith">Follow me, @paulsmith, on Twitter</a>, why not</div>
+    <div id="twitter"><a href="http://twitter.com/paulsmith" title="@paulsmith">Follow me, @paulsmith, on Twitter</a>, why not</div>.
   </footer>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-304677-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
 </body>
 </html>
