@@ -44,32 +44,15 @@
 
   <h1>My other sites</h1>
   <ul>
-    <li>
-        <a href="http://twitter.com/paulsmith" rel="me">Follow me on Twitter</a>, why not.
-        <div id="twitter">Latest: </div>
-        <script type="text/javascript">
-            var reportTweet = function(latest) {
-                var twitter = document.getElementById("twitter");
-                if (latest) {
-                    var tweet = document.createElement("div");
-                    tweet.id = "tweet";
-                    tweet.innerHTML = latest[0].text;
-                    twitter.appendChild(tweet);
-                } else {
-                    twitter.appendChild(document.createTextNode("communication breakdown—Twitter retrieval error"));
-                }
-            };
-        </script>
-    </li>
+    <li><a href="http://twitter.com/paulsmith" rel="me">Follow me on Twitter</a>, why not.</li>
     <li><a href="http://flickr.com/photos/psmith" rel="me">Flickr</a></li>
-    <li><a href="http://del.icio.us/thaislump" rel="me">del.icio.us</a></li>
   </ul>
 
   <h1>More info</h1>
   <ul>
-    <li><a href="mailto:paulsmith@pobox.com">Email Paul</a></li>
+    <li><a href="mailto:paulsmith@pobox.com">Email me</a></li>
     <li><a href="resume.html" title="My resume, which may not be up-to-date">Résumé</a></li>
-  	<li><a href="gpg-key.html">GPG public key</a></li>
-  	<li><a href="http://en.wikipedia.org/wiki/Paul_Smith">Paul Smiths</a></li>
+    <li><a href="gpg-key.html">GPG public key</a></li>
+    <li><a href="http://en.wikipedia.org/wiki/Paul_Smith">Paul Smiths</a></li>
   </ul>
 {% endblock %}
