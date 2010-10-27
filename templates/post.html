@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+{{ body }}
+
+<div>
+Previous: <a href="{{ prev_post.url }}">{{ prev_post.title }}</a><br>
+Next: <a href="{{ next_post.url }}">{{ next_post.title }}</a>
+</div>
+{% endblock %}
