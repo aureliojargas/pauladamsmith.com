@@ -4,9 +4,12 @@
 
 {% block content %}
 <h1>Blog archive for {{ year }}</h1>
-<ul>
+<ol>
   {% for post in posts -%}
-    <li><i class="date">{{ post.pub_date.strftime('%Y-%m-%d') }}</i> <a href="{{ post.url }}">{{ post.title }}</a></li>
+    <li>
+      <time datetime="{{ post.pub_date.strftime('%Y-%m-%d') }}" pubdate>{{ post.pub_date.strftime('%B %d, %Y') }}</time>
+      <a href="{{ post.url }}">{{ post.title }}</a>
+    </li>
   {% endfor -%}
-</ul>
+</ol>
 {% endblock %}

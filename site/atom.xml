@@ -44,8 +44,8 @@ technology stories.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Héllö, Wòrld!</title>
-    <link href="/blog/2010/10/hello_world.html" />
-    <id>http://pauladamsmith.com/blog/2010/10/hello_world.html</id>
+    <link href="/blog/2010/10/hello-world.html" />
+    <id>http://pauladamsmith.com/blog/2010/10/hello-world.html</id>
     <updated>2010-10-27T14:02:01Z</updated>
     <content type="html">&lt;p&gt;This is a test of the emergency broadcast system.&lt;/p&gt;
 &lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;antigravity&lt;/span&gt;
@@ -58,8 +58,8 @@ technology stories.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>This is only a test</title>
-    <link href="/blog/2010/10/this_is_only_a_test.html" />
-    <id>http://pauladamsmith.com/blog/2010/10/this_is_only_a_test.html</id>
+    <link href="/blog/2010/10/this-is-only-a-test.html" />
+    <id>http://pauladamsmith.com/blog/2010/10/this-is-only-a-test.html</id>
     <updated>2010-10-27T14:02:01Z</updated>
     <content type="html">&lt;p&gt;Now is the time for all good men to come to the aid of their party.&lt;/p&gt;</content>
   </entry>

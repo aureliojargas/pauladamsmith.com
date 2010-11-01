@@ -1,16 +1,16 @@
-<div class="post">
-  <h2>{{ post.title }}</h2>
+<article>
+  <h1><a href="{{ post.url }}" title="Permalink to this post">{{ post.title }}</a></h1>
 
-  <div class="meta">
-    {{ post.pub_date.strftime('%Y-%m-%d') }}
-  </div>
+  <time datetime="{{ post.pub_date.strftime('%Y-%m-%d') }}" pubdate>
+    {{ post.pub_date.strftime('%B %d, %Y') }}
+  </time>
 
   {{ post.body }}
 
   {% if prev_post or next_post -%}
-    <div class="post-nav">
+    <nav>
       {% if prev_post %}<div class="previous"><b>«</b> Previous: <a href="{{ prev_post.url }}">{{ prev_post.title }}</a></div>{% endif %}
       {% if next_post %}<div class="next">Next: <a href="{{ next_post.url }}">{{ next_post.title }}</a> <b>»</b></div>{% endif %}
-    </div>
+    </nav>
   {% endif -%}
-</div>
+</article>

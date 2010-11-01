@@ -5,11 +5,11 @@
       <lastmod>2010-10-31</lastmod>
       </url>
   <url>
-      <loc>http://pauladamsmith.com/blog/2010/10/hello_world.html</loc>
+      <loc>http://pauladamsmith.com/blog/2010/10/hello-world.html</loc>
       <lastmod>2010-10-27</lastmod>
       </url>
   <url>
-      <loc>http://pauladamsmith.com/blog/2010/10/this_is_only_a_test.html</loc>
+      <loc>http://pauladamsmith.com/blog/2010/10/this-is-only-a-test.html</loc>
       <lastmod>2010-10-27</lastmod>
       </url>
   <url>
@@ -30,6 +30,14 @@
   <url>
       <loc>http://pauladamsmith.com/gpg-key.html</loc>
       <lastmod>2010-10-27</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/about.html</loc>
+      <lastmod>2010-11-01</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/projects.html</loc>
+      <lastmod>2010-11-01</lastmod>
       </url>
   <url>
       <loc>http://pauladamsmith.com/robots.txt</loc>
@@ -56,7 +64,7 @@
       <lastmod>2010-10-27</lastmod>
       </url>
   <url>
-      <loc>http://pauladamsmith.com/articles/redis_under_the_hood.html</loc>
+      <loc>http://pauladamsmith.com/articles/redis-under-the-hood.html</loc>
       <lastmod>2010-10-27</lastmod>
       </url>
   <url>
