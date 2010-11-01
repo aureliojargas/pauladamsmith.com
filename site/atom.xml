@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Paul Smith</title>
+  <subtitle>Programmer, co-founder of EveryBlock</subtitle>
+  <link href="http://pauladamsmith.com/atom.xml" rel="self" />
+  <link href="http://pauladamsmith.com/" />
+  <id>pauladamsmith.com</id>
+  <updated>2010-10-31T15:07:05Z</updated>
+  <author>
+    <name>Paul Smith</name>
+    <email>paulsmith@pobox.com</email>
+  </author>
+  <entry>
+    <title>I know about old things</title>
+    <link href="/2010/10/old_things.html" />
+    <id>http://pauladamsmith.com/2010/10/old_things.html</id>
+    <updated>2010-10-31T15:07:05Z</updated>
+    <content type="html">&lt;p&gt;This post by Dave Winer is an example of an observation I’ve seen made
+recently, which roughly goes, kids today, they didn’t grow up with
+ringing-bell, handset-style telephones, or floppy disks, to name two
+obsolete technologies, and so our icons for “call” and “save” in our
+software don’t mean anything to them, because they don’t know what
+those icons stand for (and by extension, what action is expected to
+happen when you click on them). I think this overstates things. We
+should always strive for better, more universally-understood metaphors
+in our graphical interfaces, to make software easier to use and more
+accessible. The idea that future kids won’t know about technologies
+that had their heyday prior to their consciousness is belied by the
+fact that I know about things before 1977, stuff like kerosene lamps,
+telegraphs, and muskets.&lt;/p&gt;
+&lt;p&gt;Let’s set aside the fact that abstract graphical representations of
+physical things, icons, tend to take on lives of their own, semantic
+meanings that diverge from their real-world analogues (think folders,
+files, and the desktop), so we don’t need to fully understand or even
+be aware of the physical object to successfully use the virtual
+one. (It’s not as if we had in-born knowledge of telephones and floppy
+disks, and similarly we have to learn about software and its metaphors
+in their own context.) In part because there is uneven deployment and
+obsolescence of technology, in part because of cultural memory like
+movies, and in part because of software and the Internet, we will
+remember, and especially we will remember technologies that overlap,
+in function or metaphor, and which are relevant to our contemporary
+technology stories.&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Héllö, Wòrld!</title>
+    <link href="/2010/10/hello_world.html" />
+    <id>http://pauladamsmith.com/2010/10/hello_world.html</id>
+    <updated>2010-10-27T10:02:01Z</updated>
+    <content type="html">&lt;p&gt;This is a test of the emergency broadcast system.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;antigravity&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;antigravity&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fly&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Four score and seven years ago our fathers brought forth upon this continent a new nation …&lt;/p&gt;
+&lt;p&gt;¿I’m dining at “Café Foo”?&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>This is only a test</title>
+    <link href="/2010/10/this_is_only_a_test.html" />
+    <id>http://pauladamsmith.com/2010/10/this_is_only_a_test.html</id>
+    <updated>2010-10-27T10:02:01Z</updated>
+    <content type="html">&lt;p&gt;Now is the time for all good men to come to the aid of their party.&lt;/p&gt;</content>
+  </entry>
+  </feed>

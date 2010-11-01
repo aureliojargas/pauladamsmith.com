@@ -1,0 +1,30 @@
+title: I know about old things
+slug: old_things
+---
+This post by Dave Winer is an example of an observation I’ve seen made
+recently, which roughly goes, kids today, they didn’t grow up with
+ringing-bell, handset-style telephones, or floppy disks, to name two
+obsolete technologies, and so our icons for “call” and “save” in our
+software don’t mean anything to them, because they don’t know what
+those icons stand for (and by extension, what action is expected to
+happen when you click on them). I think this overstates things. We
+should always strive for better, more universally-understood metaphors
+in our graphical interfaces, to make software easier to use and more
+accessible. The idea that future kids won’t know about technologies
+that had their heyday prior to their consciousness is belied by the
+fact that I know about things before 1977, stuff like kerosene lamps,
+telegraphs, and muskets.
+
+Let’s set aside the fact that abstract graphical representations of
+physical things, icons, tend to take on lives of their own, semantic
+meanings that diverge from their real-world analogues (think folders,
+files, and the desktop), so we don’t need to fully understand or even
+be aware of the physical object to successfully use the virtual
+one. (It’s not as if we had in-born knowledge of telephones and floppy
+disks, and similarly we have to learn about software and its metaphors
+in their own context.) In part because there is uneven deployment and
+obsolescence of technology, in part because of cultural memory like
+movies, and in part because of software and the Internet, we will
+remember, and especially we will remember technologies that overlap,
+in function or metaphor, and which are relevant to our contemporary
+technology stories.

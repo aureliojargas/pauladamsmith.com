@@ -3,10 +3,18 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-{{ body }}
+<div class="post">
+  <h2>{{ title }}</h2>
 
-<div>
-Previous: <a href="{{ prev_post.url }}">{{ prev_post.title }}</a><br>
-Next: <a href="{{ next_post.url }}">{{ next_post.title }}</a>
+  <div class="meta">
+    {{ pub_date }}
+  </div>
+
+  {{ body }}
+
+  <div class="post-nav">
+    {% if prev_post %}<div class="previous"><b>«</b> Previous: <a href="{{ prev_post.url }}">{{ prev_post.title }}</a></div>{% endif %}
+    {% if next_post %}<div class="next">Next: <a href="{{ next_post.url }}">{{ next_post.title }}</a> <b>»</b></div>{% endif %}
+  </div>
 </div>
 {% endblock %}
