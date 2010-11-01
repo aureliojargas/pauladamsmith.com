@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}{{ month }} {{ year }} blog archive{% endblock %}
+
+{% block content %}
+<h1>Blog archive for {{ month }} {{ year }}</h1>
+{% for post in posts -%}
+  {% include "_post.html" %}
+{% endfor -%}
+{% endblock %}

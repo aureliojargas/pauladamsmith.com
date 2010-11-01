@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}{{ year }} blog archive{% endblock %}
+
+{% block content %}
+<h1>Blog archive for {{ year }}</h1>
+<ul>
+  {% for post in posts -%}
+    <li><i class="date">{{ post.pub_date.strftime('%Y-%m-%d') }}</i> <a href="{{ post.url }}">{{ post.title }}</a></li>
+  {% endfor -%}
+</ul>
+{% endblock %}

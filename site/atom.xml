@@ -5,16 +5,16 @@
   <link href="http://pauladamsmith.com/atom.xml" rel="self" />
   <link href="http://pauladamsmith.com/" />
   <id>pauladamsmith.com</id>
-  <updated>2010-10-31T15:07:05Z</updated>
+  <updated>2010-10-31T19:07:05Z</updated>
   <author>
     <name>Paul Smith</name>
     <email>paulsmith@pobox.com</email>
   </author>
   <entry>
     <title>I know about old things</title>
-    <link href="/2010/10/old_things.html" />
-    <id>http://pauladamsmith.com/2010/10/old_things.html</id>
-    <updated>2010-10-31T15:07:05Z</updated>
+    <link href="/blog/2010/10/old_things.html" />
+    <id>http://pauladamsmith.com/blog/2010/10/old_things.html</id>
+    <updated>2010-10-31T19:07:05Z</updated>
     <content type="html">&lt;p&gt;This post by Dave Winer is an example of an observation I’ve seen made
 recently, which roughly goes, kids today, they didn’t grow up with
 ringing-bell, handset-style telephones, or floppy disks, to name two
@@ -44,9 +44,9 @@ technology stories.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Héllö, Wòrld!</title>
-    <link href="/2010/10/hello_world.html" />
-    <id>http://pauladamsmith.com/2010/10/hello_world.html</id>
-    <updated>2010-10-27T10:02:01Z</updated>
+    <link href="/blog/2010/10/hello_world.html" />
+    <id>http://pauladamsmith.com/blog/2010/10/hello_world.html</id>
+    <updated>2010-10-27T14:02:01Z</updated>
     <content type="html">&lt;p&gt;This is a test of the emergency broadcast system.&lt;/p&gt;
 &lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;antigravity&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;antigravity&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fly&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
@@ -58,9 +58,9 @@ technology stories.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>This is only a test</title>
-    <link href="/2010/10/this_is_only_a_test.html" />
-    <id>http://pauladamsmith.com/2010/10/this_is_only_a_test.html</id>
-    <updated>2010-10-27T10:02:01Z</updated>
+    <link href="/blog/2010/10/this_is_only_a_test.html" />
+    <id>http://pauladamsmith.com/blog/2010/10/this_is_only_a_test.html</id>
+    <updated>2010-10-27T14:02:01Z</updated>
     <content type="html">&lt;p&gt;Now is the time for all good men to come to the aid of their party.&lt;/p&gt;</content>
   </entry>
   </feed>
