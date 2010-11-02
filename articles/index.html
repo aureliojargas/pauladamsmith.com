@@ -1,9 +1,18 @@
 {% extends "base.html" %}
 
+{% block title %}Articles{% endblock %}
+
 {% block content %}
-<ul>
-    <li><a href="redis_under_the_hood.html" title="Redis: under the hood">Redis: under the hood</a>
-        <i>October 18, 2010</i>
+<h1>Articles</h1>
+<ol>
+    <li>
+      <time datetime="2010-10-18" pubdate>October 18, 2010</time>
+      <a href="redis-under-the-hood.html" title="Redis: under the hood">Redis: under the hood</a>
     </li>
-</ul>
+    <li>
+      <time datetime="2008-04-08" pubdate>April 8, 2008</time>
+      <a href="http://www.alistapart.com/articles/takecontrolofyourmaps">Take Control of Your Maps</a>
+      (A List Apart No. 256)
+    </li>
+</ol>
 {% endblock %}

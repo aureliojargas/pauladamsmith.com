@@ -118,6 +118,10 @@ ul, ol {
     padding-left: 2em;
 }
 
+ul ul {
+    margin: 0;
+}
+
 code, pre {
     font-family: "Inconsolata", "Andale Mono", monospace;
     font-size: 0.875em;
@@ -170,6 +174,10 @@ article nav {
     box-shadow: 2px 2px 1px rgba(0, 0, 14, 0.025);
 }
 
+#side {
+    font-size: 0.75em;
+}
+
 footer {
     font-size: 0.75em;
     color: rgba(0, 0, 14, 0.4);
@@ -181,7 +189,7 @@ footer {
  ********************************************************************/
 
 #page {
-    overflow: auto;
+    overflow: hidden;
     width: 100%;
 }
 
@@ -215,15 +223,31 @@ header nav li a {
     margin-left: 20.242914979757085%;
 }
 
-#side {
-    float: right;
-    width: 20.344129554655879%;
-    font-size: 0.875em;
+article {
+    display: block;
 }
 
 article time {
     display: inline-block;
+}
+
+article.post time {
     margin: 0.75em 0 1em;
+}
+
+body.blog article.post {
+    margin-bottom: 3em;
+    padding-bottom: 2em;
+    border-bottom: 1px dotted rgba(0, 0, 14, 0.2);
+}
+
+body.blog article.post:last-child {
+    border-bottom: none;
+}
+
+ol li time {
+    display: inline-block;
+    width: 20%;
 }
 
 footer {
@@ -272,7 +296,18 @@ footer {
 	margin-right: 0;
     }
 
-    article time {
+    #side {
+	float: right;
+	width: 20.344129554655879%;
+	margin-top: 4.75em;
+    }
+
+    #side div {
+	width: 80%;
+	padding-left: 20%;
+    }
+
+    article.post time {
 	float: left;
 	margin: 0.35em 0 0 -10em;
     }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>{% block fulltitle %}Paul Smith: {% block title %}{% endblock %}{% endblock %}</title>
 <!--[if gte IE 7]><!-->
 <link rel="stylesheet" media="screen, projection" href="/css/style.css" type="text/css">
@@ -13,7 +13,7 @@
 <meta name="verify-v1" content="JGWpUVGeSZp407VK35oscFKsTMIEalzD8cTIBcScWNQ=">
 {% block extrahead %}{% endblock %}
 </head>
-<body>
+<body{% block bodyattrs %}{% endblock %}>
   <div id="page">
     <header>
       <h1><a href="/">Paul Smith</a></h1>
@@ -30,9 +30,9 @@
       {% block content %}{% endblock %}
     </div><!-- #main -->
     <div id="side">
-      This is some side content. Now is the time for all good men to
-      come to the aid of their party.
-      {% block side %}{% endblock %}
+      <div>
+	{% block side %}{% endblock %}
+      </div>
     </div>
   </div><!-- #page -->
   <footer>
