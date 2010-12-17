@@ -5,21 +5,74 @@
   <link href="http://pauladamsmith.com/atom.xml" rel="self" />
   <link href="http://pauladamsmith.com/" />
   <id>pauladamsmith.com</id>
-  <updated>2010-10-31T19:07:05Z</updated>
+  <updated>2010-12-17T05:55:03Z</updated>
   <author>
     <name>Paul Smith</name>
     <email>paulsmith@pobox.com</email>
   </author>
   <entry>
+    <title>del.icio.us is dead, long live del.icio.us</title>
+    <link href="/blog/2010/12/delicious.html" />
+    <id>http://pauladamsmith.com/blog/2010/12/delicious.html</id>
+    <updated>2010-12-17T05:55:03Z</updated>
+    <content type="html">&lt;p&gt;&lt;img src=&#34;/images/delicious-logo.png&#34; alt=&#34;Delicious logo&#34;
+style=&#34;float: right; margin-left: 1em; padding: 5px&#34;&gt; It slipped today
+that Yahoo! will soon to shut down &lt;a href=&#34;http://delicious.com/&#34;&gt;Delicious&lt;/a&gt;, née
+del.icio.us, the social bookmarking site. When it became obvious a few
+years ago care and feeding of the site had more or less stopped, I
+fled the service, like many other users, for the clones.&lt;/p&gt;
+&lt;p&gt;Delicious was important for two reasons. It was all about
+discovery—what your friends and the other interesting people you were
+following were reading. Predating Digg and reddit, it was the first
+service to do what Twitter and Facebook now do so well—point you at a
+URL you will probably be interested in, by virtue of having been
+vetted by your social network.&lt;/p&gt;
+&lt;p&gt;It was also important because it popularized &#34;folksonomies,&#34; the
+now-ubiqitous act of tagging items as a lightweight, and therefore
+actually used and useful, alternative to categorization. You can thank
+del.icio.us for tag clouds and high-quality Flickr searches, for
+example.&lt;/p&gt;
+&lt;p&gt;Delicious was internet plumbing, but it never became essential
+internet plumbing. You could automatically update your blog from it
+with what you were reading (and so many people did that they stopped
+writing in long-form and just published from their Delicious accounts
+a link and some commentary, it resembled an early Twitter-esque
+microblog in that way). Lots of people offloaded their brains to it
+(especially reference material and how-to guides and programming tips,
+learning stuff they intended to come back to later). But unlike its
+big Yahoo! sister Flickr, which has become an essential pipeline for
+web images, Delicious never grew much beyond what it was in the early
+days, never caught fire as a social network in its own right despite
+millions of users. Whether this was due to neglect or mismanagement or
+cluelessness, in any case, it was a missed opportunity, to become
+essential.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://twitter.com/#!/simonw/status/15519434139508736&#34;&gt;People&lt;/a&gt; &lt;a href=&#34;https://twitter.com/#!/michael_nielsen/status/15511360536313857&#34;&gt;are&lt;/a&gt; &lt;a href=&#34;https://twitter.com/#!/michael_nielsen/status/15515090346315776&#34;&gt;wondering&lt;/a&gt; if Yahoo!
+understands what the shutdown means for their reputation, when it
+comes to safeguarding user data or being reliably available. It&#39;s a
+classic &lt;a href=&#34;http://www.dataliberation.org/&#34;&gt;data liberation&lt;/a&gt; problem, and if Yahoo! doesn&#39;t make
+it easy for users to take their bookmarks out of Delicious (or their
+photos out of Flickr for that matter), folks might not trust a future
+Yahoo! product with their data.&lt;/p&gt;
+&lt;p&gt;Bookmarking lives on despite the fact that you can pretty much Google
+anything, replacing the offboard-brain reference index, and that
+social network-based discovery is now dominated by Twitter and
+Facebook—people still like being able to curate their own little
+slice of the web. &lt;a href=&#34;http://pinboard.in/&#34;&gt;pinboard.in&lt;/a&gt; is one post-Delicious site
+that looks particularly promising and vital; tellingly, it refers to
+itself as anti-social bookmarking.&lt;/p&gt;
+&lt;p&gt;Farewall, Delicious—for a few years at least, you were essential to
+&lt;a href=&#34;http://delicious.com/thaislump&#34;&gt;me&lt;/a&gt;.&lt;/p&gt;</content>
+  </entry>
+  <entry>
     <title>I know about old things</title>
     <link href="/blog/2010/10/old_things.html" />
     <id>http://pauladamsmith.com/blog/2010/10/old_things.html</id>
-    <updated>2010-10-31T19:07:05Z</updated>
-    <content type="html">&lt;p&gt;This post by Dave Winer is an example of an observation I’ve seen made
-recently, which roughly goes, kids today, they didn’t grow up with
-ringing-bell, handset-style telephones, or floppy disks, to name two
-obsolete technologies, and so our icons for “call” and “save” in our
-software don’t mean anything to them, because they don’t know what
+    <updated>2010-10-31T16:00:00Z</updated>
+    <content type="html">&lt;p&gt;&lt;a href=&#34;http://scripting.com/stories/2010/09/23/farewellToThePhone.html&#34;&gt;This post by Dave Winer&lt;/a&gt; is an example of an observation I’ve seen
+made recently, which roughly goes, kids today, they didn’t grow up
+with ringing-bell, handset-style telephones, or floppy disks, to name
+two obsolete technologies, and so our icons for “call” and “save” in
+our software don’t mean anything to them, because they don’t know what
 those icons stand for (and by extension, what action is expected to
 happen when you click on them). I think this overstates things. We
 should always strive for better, more universally-understood metaphors
@@ -43,24 +96,23 @@ in function or metaphor, and which are relevant to our contemporary
 technology stories.&lt;/p&gt;</content>
   </entry>
   <entry>
-    <title>Héllö, Wòrld!</title>
-    <link href="/blog/2010/10/hello-world.html" />
-    <id>http://pauladamsmith.com/blog/2010/10/hello-world.html</id>
-    <updated>2010-10-27T14:02:01Z</updated>
-    <content type="html">&lt;p&gt;This is a test of the emergency broadcast system.&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;antigravity&lt;/span&gt;
-&lt;span class=&#34;n&#34;&gt;antigravity&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fly&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;Four score and seven years ago our fathers brought forth upon this continent a new nation …&lt;/p&gt;
-&lt;p&gt;¿I’m dining at “Café Foo”?&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>This is only a test</title>
-    <link href="/blog/2010/10/this-is-only-a-test.html" />
-    <id>http://pauladamsmith.com/blog/2010/10/this-is-only-a-test.html</id>
-    <updated>2010-10-27T14:02:01Z</updated>
-    <content type="html">&lt;p&gt;Now is the time for all good men to come to the aid of their party.&lt;/p&gt;</content>
+    <title>I wrote an article about Redis</title>
+    <link href="/blog/2010/10/redis.html" />
+    <id>http://pauladamsmith.com/blog/2010/10/redis.html</id>
+    <updated>2010-10-18T16:00:00Z</updated>
+    <content type="html">&lt;p&gt;I’ve been using Redis more and more lately, and I started poking
+around in the source code trying to understand it better. I wrote &lt;a
+href=&#34;/articles/redis-under-the-hood.html&#34;&gt;an article&lt;/a&gt; about how
+Redis starts up and processes the request/response cycle. I think this
+is just the beginning of my Redis explorations—we’re already using it
+quite a bit at work, and I have an idea for a new data type that could
+be really useful. I plan to write at least one more longish article
+like this about it, on following in close detail how a SET and a GET
+command make their way through the server.&lt;/p&gt;
+&lt;p&gt;Redis is an extremely cool project. The main contributors are focused
+on making it fast, bug-free, and keeping it small (in the sense of
+features, code base, complexity). They&#39;re also working on a
+distributed version that could be very promising, taking it beyond
+what is already IMO a very successful single process model.&lt;/p&gt;</content>
   </entry>
   </feed>

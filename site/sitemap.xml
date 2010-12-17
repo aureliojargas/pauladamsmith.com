@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+      <loc>http://pauladamsmith.com/blog/2010/12/delicious.html</loc>
+      <lastmod>2010-12-17</lastmod>
+      </url>
+  <url>
       <loc>http://pauladamsmith.com/blog/2010/10/old_things.html</loc>
       <lastmod>2010-10-31</lastmod>
       </url>
   <url>
-      <loc>http://pauladamsmith.com/blog/2010/10/hello-world.html</loc>
-      <lastmod>2010-10-27</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/blog/2010/10/this-is-only-a-test.html</loc>
-      <lastmod>2010-10-27</lastmod>
+      <loc>http://pauladamsmith.com/blog/2010/10/redis.html</loc>
+      <lastmod>2010-10-18</lastmod>
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/</loc>
-      <lastmod>2010-10-31</lastmod>
+      <lastmod>2010-12-17</lastmod>
+      <changefreq>daily</changefreq>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/blog/2010/12/</loc>
+      <lastmod>2010-12-17</lastmod>
       <changefreq>daily</changefreq>
       </url>
   <url>
@@ -24,7 +29,7 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/2010/</loc>
-      <lastmod>2010-10-31</lastmod>
+      <lastmod>2010-12-17</lastmod>
       <changefreq>daily</changefreq>
       </url>
   <url>
@@ -33,11 +38,11 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/about.html</loc>
-      <lastmod>2010-11-01</lastmod>
+      <lastmod>2010-12-17</lastmod>
       </url>
   <url>
       <loc>http://pauladamsmith.com/projects.html</loc>
-      <lastmod>2010-11-01</lastmod>
+      <lastmod>2010-12-17</lastmod>
       </url>
   <url>
       <loc>http://pauladamsmith.com/robots.txt</loc>
@@ -45,7 +50,7 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/index.html</loc>
-      <lastmod>2010-10-27</lastmod>
+      <lastmod>2010-12-17</lastmod>
       </url>
   <url>
       <loc>http://pauladamsmith.com/resume.html</loc>

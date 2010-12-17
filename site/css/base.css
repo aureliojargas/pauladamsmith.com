@@ -1,4 +1,4 @@
-/*
+/**
  * Reset
  ********************************************************************/
 
@@ -49,20 +49,19 @@ blockquote, q {
     quotes: "" "";
 }
 
-/*
+/**
  * Elements
  ********************************************************************/
 
-* {
-    text-rendering: optimizeLegibility;
+html {
+    overflow-y: scroll;
 }
 
 body {
-    font-family: Vollkorn, serif;
+    font-family: 'Droid Sans', sans-serif;
     font-size: 100%;
     font-weight: normal;
-    color: #292937;
-    color: rgba(0, 0, 14, 0.8);
+    color: #333;
     line-height: 1.4;
     margin: 40px auto;
     padding: 0 1em;
@@ -79,7 +78,7 @@ body {
 }
 
 a {
-    color: rgba(52, 99, 201, 1.0);
+    color: blue;
     text-decoration: none;
     /* -moz-transition: color .2s linear; */
     /* -webkit-transition: color .2s linear; */
@@ -87,21 +86,23 @@ a {
 }
 
 a:visited {
-    color: rgba(52, 99, 201, 1.0);
+    color: blue;
 }
 
 a:hover {
-    color: rgba(52, 99, 201, 0.8);
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Droid Sans', Helvetica, Arial, sans-serif;
-    font-weight: normal;
+    background: #B1B4BE;
+    color: #444;
 }
 
 h1 {
     font-size: 1.5em;
     letter-spacing: -0.03em;
+    margin: 1em 0;
+}
+
+h2 {
+    font-size: 1.33em;
+    margin: 1em 0;
 }
 
 ul {
@@ -127,17 +128,34 @@ code, pre {
     line-height: 1.1;
 }
 
-/*
+nav a:hover {
+    background: #fff;
+}
+
+/**
  * Typography
  ********************************************************************/
 
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Droid Sans', Helvetica, Arial, sans-serif;
+    font-weight: normal;
+}
+
+header > h1 {
+    margin: 0;
+}
+
 header > h1 a,
 header > h1 a:visited {
-    color: rgba(0, 0, 14, 0.7);
+    color: #333;
+}
+
+header > h1 a:hover {
+    background: #fff;
 }
 
 header nav {
-    font-family: "Nobile", Arial, sans-serif;
+    font-family: 'Droid Sans', Helvetica, Arial, sans-serif;
     text-transform: uppercase;
     font-size: 0.875em; /* 12px / 16px */
     line-height: 1;
@@ -183,7 +201,11 @@ footer {
     text-align: center;
 }
 
-/*
+/**
+ * Blog
+ ********************************************************************/
+
+/**
  * Layout
  ********************************************************************/
 

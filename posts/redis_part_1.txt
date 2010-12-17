@@ -1,0 +1,18 @@
+title: I wrote an article about Redis
+slug: redis
+---
+I’ve been using Redis more and more lately, and I started poking
+around in the source code trying to understand it better. I wrote <a
+href="/articles/redis-under-the-hood.html">an article</a> about how
+Redis starts up and processes the request/response cycle. I think this
+is just the beginning of my Redis explorations—we’re already using it
+quite a bit at work, and I have an idea for a new data type that could
+be really useful. I plan to write at least one more longish article
+like this about it, on following in close detail how a SET and a GET
+command make their way through the server.
+
+Redis is an extremely cool project. The main contributors are focused
+on making it fast, bug-free, and keeping it small (in the sense of
+features, code base, complexity). They're also working on a
+distributed version that could be very promising, taking it beyond
+what is already IMO a very successful single process model.

@@ -1,11 +1,11 @@
 title: I know about old things
 slug: old_things
 ---
-This post by Dave Winer is an example of an observation I’ve seen made
-recently, which roughly goes, kids today, they didn’t grow up with
-ringing-bell, handset-style telephones, or floppy disks, to name two
-obsolete technologies, and so our icons for “call” and “save” in our
-software don’t mean anything to them, because they don’t know what
+[This post by Dave Winer][1] is an example of an observation I’ve seen
+made recently, which roughly goes, kids today, they didn’t grow up
+with ringing-bell, handset-style telephones, or floppy disks, to name
+two obsolete technologies, and so our icons for “call” and “save” in
+our software don’t mean anything to them, because they don’t know what
 those icons stand for (and by extension, what action is expected to
 happen when you click on them). I think this overstates things. We
 should always strive for better, more universally-understood metaphors
@@ -28,3 +28,5 @@ movies, and in part because of software and the Internet, we will
 remember, and especially we will remember technologies that overlap,
 in function or metaphor, and which are relevant to our contemporary
 technology stories.
+
+ [1]: http://scripting.com/stories/2010/09/23/farewellToThePhone.html

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>{% block fulltitle %}Paul Smith: {% block title %}{% endblock %}{% endblock %}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{% block fulltitle %}{% block title %}{% endblock %} - Paul Smith{% endblock %}</title>
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold|Inconsolata">
 <!--[if gte IE 7]><!-->
-<link rel="stylesheet" media="screen, projection" href="/css/style.css" type="text/css">
+<link rel="stylesheet" media="screen, projection" href="/css/base.css" type="text/css">
 <!-- <![endif]-->
 <link rel="stylesheet" href="/css/syntax.css" type="text/css">
 <link rel="alternate" href="/atom.xml" type="application/atom+xml">
@@ -38,6 +39,7 @@
   <footer>
     ⓒ 2010 Paul Smith
   </footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js"></script>
 <script type="text/javascript">
 // Analytics
 var _gaq = _gaq || [];
@@ -48,21 +50,6 @@ _gaq.push(['_trackPageview']);
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
-
-// Web fonts
-var WebFontConfig = {
-    google: { families: [ 'Cantarell', 'Vollkorn', 'Inconsolata' ] }
-};
-
-(function() {
-    var wf = document.createElement('script');
-    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
-        '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
-    wf.type = 'text/javascript';
-    wf.async = 'true';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(wf, s);
 })();
 </script>
 </body>

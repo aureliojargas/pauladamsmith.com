@@ -1,0 +1,66 @@
+title: del.icio.us is dead, long live del.icio.us
+slug: delicious
+---
+
+<img src="/images/delicious-logo.png" alt="Delicious logo"
+style="float: right; margin-left: 1em; padding: 5px"> It slipped today
+that Yahoo! will soon to shut down [Delicious][delicious], née
+del.icio.us, the social bookmarking site. When it became obvious a few
+years ago care and feeding of the site had more or less stopped, I
+fled the service, like many other users, for the clones.
+
+Delicious was important for two reasons. It was all about
+discovery—what your friends and the other interesting people you were
+following were reading. Predating Digg and reddit, it was the first
+service to do what Twitter and Facebook now do so well—point you at a
+URL you will probably be interested in, by virtue of having been
+vetted by your social network.
+
+It was also important because it popularized "folksonomies," the
+now-ubiqitous act of tagging items as a lightweight, and therefore
+actually used and useful, alternative to categorization. You can thank
+del.icio.us for tag clouds and high-quality Flickr searches, for
+example.
+
+Delicious was internet plumbing, but it never became essential
+internet plumbing. You could automatically update your blog from it
+with what you were reading (and so many people did that they stopped
+writing in long-form and just published from their Delicious accounts
+a link and some commentary, it resembled an early Twitter-esque
+microblog in that way). Lots of people offloaded their brains to it
+(especially reference material and how-to guides and programming tips,
+learning stuff they intended to come back to later). But unlike its
+big Yahoo! sister Flickr, which has become an essential pipeline for
+web images, Delicious never grew much beyond what it was in the early
+days, never caught fire as a social network in its own right despite
+millions of users. Whether this was due to neglect or mismanagement or
+cluelessness, in any case, it was a missed opportunity, to become
+essential.
+
+[People][simon] [are][michael] [wondering][michael2] if Yahoo!
+understands what the shutdown means for their reputation, when it
+comes to safeguarding user data or being reliably available. It's a
+classic [data liberation][datalib] problem, and if Yahoo! doesn't make
+it easy for users to take their bookmarks out of Delicious (or their
+photos out of Flickr for that matter), folks might not trust a future
+Yahoo! product with their data.
+
+Bookmarking lives on despite the fact that you can pretty much Google
+anything, replacing the offboard-brain reference index, and that
+social network-based discovery is now dominated by Twitter and
+Facebook—people still like being able to curate their own little
+slice of the web. [pinboard.in][pinboard] is one post-Delicious site
+that looks particularly promising and vital; tellingly, it refers to
+itself as anti-social bookmarking.
+
+Farewall, Delicious—for a few years at least, you were essential to
+[me][thaislump].
+
+ [delicious]: http://delicious.com/
+ [pinboard]: http://pinboard.in/
+ [simon]: https://twitter.com/#!/simonw/status/15519434139508736
+ [michael]: https://twitter.com/#!/michael_nielsen/status/15511360536313857
+ [michael2]: https://twitter.com/#!/michael_nielsen/status/15515090346315776
+ [datalib]: http://www.dataliberation.org/
+ [thaislump]: http://delicious.com/thaislump
+ [logo]: /images/delicious-logo.png

@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Paul Smith</title>
+<title>I wrote an article about Redis / Paul Smith</title>
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold|Inconsolata">
 <!--[if gte IE 7]><!-->
 <link rel="stylesheet" media="screen, projection" href="/css/base.css" type="text/css">
@@ -29,30 +29,33 @@
     </header>
     <div id="main">
       
-  <ol>
-    
-      <li>
-	<time datetime="2010-12-17" pubdate>December 17, 2010</time>
-	<a href="/blog/2010/12/delicious.html">del.icio.us is dead, long live del.icio.us</a>
-      </li>
-    
-      <li>
-	<time datetime="2010-10-31" pubdate>October 31, 2010</time>
-	<a href="/blog/2010/10/old_things.html">I know about old things</a>
-      </li>
-    
-      <li>
-	<time datetime="2010-10-18" pubdate>October 18, 2010</time>
-	<a href="/blog/2010/10/redis.html">I wrote an article about Redis</a>
-      </li>
-    
-  </ol>
-  
-  <h2>Me, elsewhere</h2>
-  <ul>
-    <li><a href="http://twitter.com/paulsmith" title="Follow me on Twitter">@paulsmith</a></li>
-    <li><a href="http://www.flickr.com/photos/psmith" title="My photos">Flickr</a></li>
-  </ul>
+<article class="post">
+  <h1><a href="/blog/2010/10/redis.html" title="Permalink to this post">I wrote an article about Redis</a></h1>
+
+  <time datetime="2010-10-18" pubdate>
+    October 18, 2010
+  </time>
+
+  <p>I’ve been using Redis more and more lately, and I started poking
+around in the source code trying to understand it better. I wrote <a
+href="/articles/redis-under-the-hood.html">an article</a> about how
+Redis starts up and processes the request/response cycle. I think this
+is just the beginning of my Redis explorations—we’re already using it
+quite a bit at work, and I have an idea for a new data type that could
+be really useful. I plan to write at least one more longish article
+like this about it, on following in close detail how a SET and a GET
+command make their way through the server.</p>
+<p>Redis is an extremely cool project. The main contributors are focused
+on making it fast, bug-free, and keeping it small (in the sense of
+features, code base, complexity). They're also working on a
+distributed version that could be very promising, taking it beyond
+what is already IMO a very successful single process model.</p>
+
+  <nav>
+      
+      <div class="next">Next: <a href="/blog/2010/10/old_things.html">I know about old things</a> <b>»</b></div>
+    </nav>
+  </article>
 
     </div><!-- #main -->
     <div id="side">
