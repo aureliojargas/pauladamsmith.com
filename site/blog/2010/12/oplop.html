@@ -36,10 +36,12 @@
     December 18, 2010
   </time>
 
-  <p>The <a href="http://news.google.com/?q=gawker+breach">Gawker breach</a> showed what we’ve known for a while, that
-we don’t use good strong passwords, and we use the same password over
-and over again on multiple sites. This is a problem because a breach
-at one site potentially means a breach across a number of sites.</p>
+  <div style="float: right; margin-left: 1em; padding: 5px"><a href="http://www.flickr.com/photos/slieschke/226873460/" title="Secure password of the week by Simon Lieschke, on Flickr"><img src="http://farm1.static.flickr.com/85/226873460_c8eabd2911_m.jpg" width="240" height="180" alt="Secure password of the week" /></a></div>
+
+<p>The <a href="http://news.google.com/?q=gawker+breach">Gawker breach</a> made mainstream what’s been known for a
+while: we don’t use good passwords, and we use the same password over
+and over again on multiple sites, exposing us to a potential chain
+reaction of account intrusions if it is uncovered.</p>
 <p>One way to address this problem is to use a password generator—the
 idea is that all you have to remember is a single, good, strong
 password, and the password generator will spit out a random string of
@@ -52,13 +54,16 @@ is compromised, it may suck for you with respect to your sensitive
 information on that site, but because the generated password is unique
 to the site, you’re safe from having it used against you on other
 sites where you have accounts.</p>
+<img src="/images/oplop-screenshot.png" alt="Oplop screenshot"
+style="float: left; margin-right: 1em; padding: 5px">
+
 <p>The password generator I use is called <a href="https://oplop.appspot.com/">Oplop</a>. It’s just a web
 site, so you visit it in your browser; there’s nothing to
 install. There are two fields to enter—a nickname, and the master
 password. The nickname is any name you want to identify the site or
 service for which you need a password. After you enter a nickname and
-your master password, you click the “Create” button, and <a href="http://code.google.com/p/oplop/wiki/HowItWorks">an
-unguessable password is generated</a> for you in the field below the
+your master password, you click the “Create” button, and an
+unguessable password is generated for you in the field below the
 button. Enter that password into the site that’s asking you for a
 password, and you’re all done. The next time you visit the site and
 need to enter your password, you repeat the process exactly to get the
@@ -71,11 +76,11 @@ consistent, and ideally use a simple convention so that you enter the
 label the same way every time. I’ve chosen a convention of using
 all-lowercase and no non-alphanumeric characters, and the domain name
 of the site, minus the top-level domain (the .com or .org, etc.). For
-example, if I’m visiting amazon.com, I’ll use “amazon” (without the
-quotes) for the nickname. If I was visiting a site with the domain
-name “Cat-Pics-123.net”, I’d use “catpics123” for the
-nickname. Whatever your convention for nicknames, it should be simple
-and you should use it consistently.</p>
+example, if I’m on amazon.com, I’ll use “amazon” (without the quotes)
+for the nickname. If I was visiting a site with the domain name
+“Cat-Pics-123.net”, I’d use “catpics123” for the nickname. Whatever
+your convention for nicknames, it should be simple and you should use
+it consistently.</p>
 <p>Your master password should be a good one—fairly long and hard to
 guess—since it is the key to the kingdom. Security researchers often
 praise the idea of “passphrase,” a sentence instead of a single
@@ -127,12 +132,37 @@ account names and passwords, Oplop provides a universally-accessible
 password management tool. Those unique generated passwords are just
 ephemera, the results of combining the secret you keep in your head
 (your master password), the site nicknames, and a cryptographic
-function in your computer.</p>
-<p>There are other approaches to securing your passwords and the web
-accounts you access, including [writing them down]. In fact, if you
-have trouble remembering strong passwords or passphrases of sufficient
-length, you might consider writing down your Oplop master password on
-a slip of paper you keep in your wallet.</p>
+function in your computer. Even the notion of the “master password” is
+turned on its head—it’s not unlocking some database of passwords, it’s
+<a href="http://code.google.com/p/oplop/wiki/HowItWorks">combined with the nickname to make a cryptographic hash</a>, the
+bits of which make up the final generated password. You could start
+using a different master password at any time, which essentially would
+invalidate any extant passwords generated with the old one (you still
+would have to manually go in and update each password on each site,
+though).</p>
+<p>There are other approaches to securing your passwords, including
+<a href="http://www.schneier.com/blog/archives/2005/06/write_down_your.html">writing them down</a>. In fact, if you have trouble
+remembering strong passwords or passphrases of sufficient length, you
+might consider writing down your Oplop master password on a slip of
+paper you keep in your wallet.</p>
+<p>Oplop is not perfect—it outputs a fixed style of generated passwords
+that may not meet the password criteria for various sites and
+services, which require certain lengths, or a certain mix of
+characters. It also doesn't address the need of strong,
+crypotgraphically-secure storage of ad-hoc information such as credit
+card numbers and other sensitive account information, which are often
+stored alongside passwords and account names in more traditional
+central database-style password generator programs. But this is by
+design and not a failing of Oplop. I continue to use Password Gorilla
+for this scenario, especially for protecting financial
+information. Also, there are certain <a href="http://code.google.com/p/oplop/wiki/ThreatModel">threats Oplop can’t protect
+against</a>, And it’s worth understanding what they are before
+you start using it.</p>
+<p>Oplop addresses the proliferation of passwords across multiple web
+site accounts, is simple to use, and works everywhere there’s a
+browser. So stop using “letmein” for all your web site accounts—you’d
+be much better off plugging that in to Oplop as your master
+password. But don’t. Use a better one.</p>
 
   <nav>
       <div class="previous"><b>«</b> Previous: <a href="/blog/2010/12/delicious.html">del.icio.us is dead, long live del.icio.us</a></div>
