@@ -5,11 +5,114 @@
   <link href="http://pauladamsmith.com/atom.xml" rel="self" />
   <link href="http://pauladamsmith.com/" />
   <id>pauladamsmith.com</id>
-  <updated>2010-12-17T05:55:03Z</updated>
+  <updated>2010-12-18T05:07:52Z</updated>
   <author>
     <name>Paul Smith</name>
     <email>paulsmith@pobox.com</email>
   </author>
+  <entry>
+    <title>Use Oplop for your web site passwords</title>
+    <link href="/blog/2010/12/oplop.html" />
+    <id>http://pauladamsmith.com/blog/2010/12/oplop.html</id>
+    <updated>2010-12-18T05:07:52Z</updated>
+    <content type="html">&lt;p&gt;The &lt;a href=&#34;http://news.google.com/?q=gawker+breach&#34;&gt;Gawker breach&lt;/a&gt; showed what we’ve known for a while, that
+we don’t use good strong passwords, and we use the same password over
+and over again on multiple sites. This is a problem because a breach
+at one site potentially means a breach across a number of sites.&lt;/p&gt;
+&lt;p&gt;One way to address this problem is to use a password generator—the
+idea is that all you have to remember is a single, good, strong
+password, and the password generator will spit out a random string of
+characters to be used as a password on a particular site. This
+generated password is hard for an attacker to guess, and hard for them
+to “crack” with password-attacking software. You’re not supposed to
+remember or even care what the actual password is: you just remember
+the master password. And if one of the sites you have an account with
+is compromised, it may suck for you with respect to your sensitive
+information on that site, but because the generated password is unique
+to the site, you’re safe from having it used against you on other
+sites where you have accounts.&lt;/p&gt;
+&lt;p&gt;The password generator I use is called &lt;a href=&#34;https://oplop.appspot.com/&#34;&gt;Oplop&lt;/a&gt;. It’s just a web
+site, so you visit it in your browser; there’s nothing to
+install. There are two fields to enter—a nickname, and the master
+password. The nickname is any name you want to identify the site or
+service for which you need a password. After you enter a nickname and
+your master password, you click the “Create” button, and &lt;a href=&#34;http://code.google.com/p/oplop/wiki/HowItWorks&#34;&gt;an
+unguessable password is generated&lt;/a&gt; for you in the field below the
+button. Enter that password into the site that’s asking you for a
+password, and you’re all done. The next time you visit the site and
+need to enter your password, you repeat the process exactly to get the
+same unique password that’s just for that site.&lt;/p&gt;
+&lt;p&gt;There are a few tips and tricks to using Oplop successfully. The
+nickname is just a label that you remember to refer to the site you
+need a password for, but if it is different by even one character, an
+entirely different password will be generated. So it’s important to be
+consistent, and ideally use a simple convention so that you enter the
+label the same way every time. I’ve chosen a convention of using
+all-lowercase and no non-alphanumeric characters, and the domain name
+of the site, minus the top-level domain (the .com or .org, etc.). For
+example, if I’m visiting amazon.com, I’ll use “amazon” (without the
+quotes) for the nickname. If I was visiting a site with the domain
+name “Cat-Pics-123.net”, I’d use “catpics123” for the
+nickname. Whatever your convention for nicknames, it should be simple
+and you should use it consistently.&lt;/p&gt;
+&lt;p&gt;Your master password should be a good one—fairly long and hard to
+guess—since it is the key to the kingdom. Security researchers often
+praise the idea of “passphrase,” a sentence instead of a single
+word. These can often be easier to remember and are just as strong if
+not stronger than shorter, gobbledygook passwords, even if the
+passphrase is composed of simple words. A four or five word sentence,
+separated with spaces, should suffice, although longer passphrases are
+even better. In any case, use care when entering your master password
+into Oplop. By default, it doesn’t do any checking, so, like in the
+case of the nickname, a single character’s difference means a whole
+different generated password. You can optionally click on the checkbox
+“Validate master password?”, which adds an additional password field
+for you to re-enter your master password, providing a simple check
+that might catch a typo in the first field.&lt;/p&gt;
+&lt;p&gt;The final tip is to cut-and-paste the generated password out of its
+field instead of copy-and-paste. It’s not so much a tip per se because
+Oplop recommends that you do this right on the page, but it’s
+important enough to reiterate. Doing it this way prevents someone from
+snooping over your shoulder, or if you are careless and leave the
+Oplop page open untentionally on a shared computer.&lt;/p&gt;
+&lt;p&gt;You might have stopped short at the notion of a web-based password
+generator. Isn’t it insecure to trust a web site to generate a
+password for you? The answer is, you are only actually interacting
+with your browser—there is no network activity taking place when you
+generate a password with Oplop. That is because the entire Oplop
+program is just HTML and JavaScript loaded in your browser, and it is
+your browser on your local computer that takes the nickname and master
+password, performs the cryptographic magic on them, and outputs the
+generated password. In fact, Oplop works offline just as well. You can
+test it by visiting the site and bookmarking it on your iPhone or
+Android, deleting the browser window, putting the phone in airplane
+mode, then loading Oplop from the bookmark. It works just the same as
+if you were connected to the internet.&lt;/p&gt;
+&lt;p&gt;The browser-centric nature of Oplop gets to another key concept about
+it—there’s nothing to install. In fact, it is essentially already
+installed on any internet-enabled device with a JavaScript-enabled
+browser. There’s no central database of account names and generated
+passwords, like you might expect, and which password generators like
+1Password and Password Gorilla are built around. These programs work
+similarly to Oplop in the end result, but their central database
+presents a user experience problem—it needs to be shared among the
+computers you want to use the program on. This can make it difficult
+to retrieve a password if you are on your friend’s laptop or a PC at
+an internet café. Not only do you have to install the password
+generator software itself, if you are allowed to by policy of the
+computer’s owner or manager, you have to synchronize the central
+database with the computer. By simply eschewing the notion of storing
+account names and passwords, Oplop provides a universally-accessible
+password management tool. Those unique generated passwords are just
+ephemera, the results of combining the secret you keep in your head
+(your master password), the site nicknames, and a cryptographic
+function in your computer.&lt;/p&gt;
+&lt;p&gt;There are other approaches to securing your passwords and the web
+accounts you access, including [writing them down]. In fact, if you
+have trouble remembering strong passwords or passphrases of sufficient
+length, you might consider writing down your Oplop master password on
+a slip of paper you keep in your wallet.&lt;/p&gt;</content>
+  </entry>
   <entry>
     <title>del.icio.us is dead, long live del.icio.us</title>
     <link href="/blog/2010/12/delicious.html" />
