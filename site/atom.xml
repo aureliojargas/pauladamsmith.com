@@ -21,7 +21,7 @@ conventionally high-level languages like Python. Given Go’s identification
 as a systems programming language, this is initially surprising, because
 such languages tend to be low-level for performance reasons (Go does
 expose a lot of low-level interfaces through various packages like &lt;code&gt;os&lt;/code&gt;
-and &lt;code&gt;syscall&lt;/code&gt;), but it of course there would be good support for these
+and &lt;code&gt;syscall&lt;/code&gt;), but of course there would be good support for these
 things because Go is a modern language designed by folks with many years
 of experience writing networked servers.&lt;/p&gt;
 &lt;p&gt;Specifically, the &lt;code&gt;net&lt;/code&gt; package provides the &lt;code&gt;Listener&lt;/code&gt; and &lt;code&gt;Conn&lt;/code&gt; types
