@@ -1,0 +1,68 @@
+We'll show a GET on a nonexistent key, SET the key, and finally GET that key.
+readQueryFromClient. (If you recall from the last article, this is a good
+function to set a breakpoint for debugging because it is the handler the event
+loop calls when there is data to be read from a new client connection.) Before
+I built redis, I commented out the line in the Makefile that read
+"OPTIMIZATION?=-O2" to ensure the compiler didn't remove valuable information
+from the debugger.
+
+    # terminal A
+    $ cd redis/src
+    $ sed -i -e 's/^OPTIMIZATION/#&/' Makefile
+    $ make
+    $ gdb ./redis-server
+    (gdb) b readQueryFromClient
+    Breakpoint 1 at ...
+    (gdb) run
+
+In other terminal, start the command-line Redis client, and issue a GET on our
+key, "myfoo."
+
+    # terminal B
+    $ cd redis/src
+    $ gdb ./redis-cli
+    (gdb) b cliSendCommand
+    Breakpoint 1 at ...
+    redis> get myfoo
+
+The client will appear to pause at a blank line of course because we will have
+reached our breakpoint in the both terminals.
+
+    // networking.c:882
+    void readQueryFromClient(aeEventLoop *el, int fd, void *privdata, int mask) {
+        redisClient *c = (redisClient*) privdata;
+        char buf[REDIS_IOBUF_LEN];
+        int nread;
+        REDIS_NOTUSED(el);
+        REDIS_NOTUSED(mask);
+
+        nread = read(fd, buf, REDIS_IOBUF_LEN);
+        if (nread == -1) {
+            if (errno == EAGAIN) {
+                nread = 0;
+            } else {
+                redisLog(REDIS_VERBOSE, "Reading from client: %s",strerror(errno));
+                freeClient(c);
+                return;
+            }
+        } else if (nread == 0) {
+            redisLog(REDIS_VERBOSE, "Client closed connection");
+            freeClient(c);
+            return;
+        }
+        if (nread) {
+            c->querybuf = sdscatlen(c->querybuf,buf,nread);
+            c->lastinteraction = time(NULL);
+        } else {
+            return;
+        }
+        processInputBuffer(c);
+    }
+
+The function reads bytes from the client connection and appends it to a query
+buffer, which is part of the client object. It reads at most 1024 bytes (as
+defined by REDIS_IOBUF_LEN). If the incoming command payload from the client
+is larger than 1024 bytes, this function will be called again from the event
+loop, hence the need to append bytes to the query buffer.
+
+In our case, though, the length of our "GET myfoo" command is a mere 

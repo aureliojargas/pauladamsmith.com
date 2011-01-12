@@ -1,5 +1,6 @@
 title: I wrote an article about Redis
 slug: redis
+pub_date: 2010-10-18 12:00
 ---
 I’ve been using Redis more and more lately, and I started poking
 around in the source code trying to understand it better. I wrote <a

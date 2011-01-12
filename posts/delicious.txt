@@ -1,5 +1,6 @@
 title: del.icio.us is dead, long live del.icio.us
 slug: delicious
+pub_date: 2010-12-17 01:55:03
 ---
 
 <img src="/images/delicious-logo.png" alt="Delicious logo"

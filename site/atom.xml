@@ -5,11 +5,157 @@
   <link href="http://pauladamsmith.com/atom.xml" rel="self" />
   <link href="http://pauladamsmith.com/" />
   <id>pauladamsmith.com</id>
-  <updated>2010-12-18T05:52:52Z</updated>
+  <updated>2011-01-12T12:00:00Z</updated>
   <author>
     <name>Paul Smith</name>
     <email>paulsmith@pobox.com</email>
   </author>
+  <entry>
+    <title>Taking Go for a spin</title>
+    <link href="/blog/2011/01/go.html" />
+    <id>http://pauladamsmith.com/blog/2011/01/go.html</id>
+    <updated>2011-01-12T12:00:00Z</updated>
+    <content type="html">&lt;p&gt;I was struck by the high-level abstractions &lt;a href=&#34;http://golang.org/&#34;&gt;Go&lt;/a&gt;
+provides for writing networked clients and servers, even by the standards of
+conventionally high-level languages like Python. Given Go’s identification
+as a systems programming language, this is initially surprising, because
+such languages tend to be low-level for performance reasons (Go does
+expose a lot of low-level interfaces through various packages like &lt;code&gt;os&lt;/code&gt;
+and &lt;code&gt;syscall&lt;/code&gt;), but it of course there would be good support for these
+things because Go is a modern language designed by folks with many years
+of experience writing networked servers.&lt;/p&gt;
+&lt;p&gt;Specifically, the &lt;code&gt;net&lt;/code&gt; package provides the &lt;code&gt;Listener&lt;/code&gt; and &lt;code&gt;Conn&lt;/code&gt; types
+that hide many of the details of setting up socket connections. A simple
+&lt;code&gt;net.Listen(&#34;tcp&#34;, &#34;:1234&#34;)&lt;/code&gt; is enough to get the equivalent of a listener,
+or server, socket. The &lt;code&gt;bufio&lt;/code&gt; package provides buffered read methods,
+simplifying common tasks like reading lines from a socket.&lt;/p&gt;
+&lt;p&gt;Let’s dive in and take a look at one way to implement a classic echo
+server. I tried to use Go’s language features for concurrent communication,
+goroutines and channels, at crucial points. Where a different implementation
+in different language might fork a new process or spawn a new thread to
+handle a new client connection, a goroutine was started and the details
+of the connection communicated with a channel.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;k&#34;&gt;package&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;main&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;s&#34;&gt;&amp;quot;net&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;s&#34;&gt;&amp;quot;bufio&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;s&#34;&gt;&amp;quot;strconv&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;s&#34;&gt;&amp;quot;fmt&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;PORT&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3540&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;All Go programs must have a &lt;code&gt;package main&lt;/code&gt;. We declare a number of packages to
+be imported, &lt;code&gt;net&lt;/code&gt; and &lt;code&gt;bufio&lt;/code&gt; already mentioned, &lt;code&gt;strconv&lt;/code&gt; for its conversion
+function &lt;code&gt;Itoa()&lt;/code&gt; that converts an integer to a string, and &lt;code&gt;fmt&lt;/code&gt; for printing
+strings to the console. Our echo server will listen on port 3540.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;k&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;net&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Listen&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;tcp&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;quot;:&amp;quot;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;strconv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Itoa&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;PORT&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;server&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;panic&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;couldn&amp;#39;t start listening: &amp;quot;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;conns&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;clientConns&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;go&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;handleConn&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&amp;lt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;conns&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Every Go program must have a function &lt;code&gt;main()&lt;/code&gt; in its &lt;code&gt;package main&lt;/code&gt;. We start
+by declaring and initializing a new listener for our echo server. We choose
+the more generic &lt;code&gt;net.Listen()&lt;/code&gt; over &lt;code&gt;net.TCPListen()&lt;/code&gt;, because we can
+conveniently parameterize the type of the listener with a string to the first
+argument of &lt;code&gt;Listen&lt;/code&gt;. (It is generally preferred in Go to deal with the most
+generic type, or interface, especially when writing function and method
+signatures, and either allow a specific type to be inferred by the compiler or
+specify it when declaring/initializing a variable.) &lt;code&gt;&#34;:&#34; + strconv.Itoa(PORT)&lt;/code&gt;
+is a string concentation expression, and the port constant we defined earlier
+is converted to a string. (Strictly, a numeric constant is not an integer of a
+particular type, but the string conversion function works here because the
+compiler converts the constant into the concrete type to match the function
+signature.)&lt;/p&gt;
+&lt;p&gt;The idiom for Go when handling multiple return values where the last has an
+error type is to check the main object for nil, and then &lt;code&gt;panic()&lt;/code&gt; with the
+stringified error object. This is generally preferred over printing to stderr
+and using &lt;code&gt;os.Exit()&lt;/code&gt;, because it gives callers higher up the stack the chance
+to &lt;code&gt;recover()&lt;/code&gt;, sort of a raise/catch exception flow.&lt;/p&gt;
+&lt;p&gt;Using Go’s compact syntax for simultaneous declaration and initialization, we
+set &lt;code&gt;conns&lt;/code&gt; to the value of the function call &lt;code&gt;clientConns(server)&lt;/code&gt;. This is
+the channel we’ll use for getting new client connections.&lt;/p&gt;
+&lt;p&gt;The equivalent of a infinite loop like &lt;code&gt;while True:&lt;/code&gt; or &lt;code&gt;for (;;)&lt;/code&gt; in Go is
+&lt;code&gt;for { ... }&lt;/code&gt;. Each time through the loop, we start a goroutine, calling
+&lt;code&gt;handleConn()&lt;/code&gt; with the value of the receive operation on our client connections
+channel. The unary receive operator &lt;code&gt;&amp;lt;-&lt;/code&gt; blocks until a value is available on
+the channel, in our case, a new client having connected.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;k&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;clientConns&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;listener&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;net&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Listener&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;chan&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;net&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Conn&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;ch&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;make&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;chan&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;net&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Conn&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;go&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;func&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;client&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;listener&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Accept&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+            &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;client&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+                &lt;span class=&#34;n&#34;&gt;fmt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;couldn&amp;#39;t accept: &amp;quot;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt;
+                &lt;span class=&#34;k&#34;&gt;continue&lt;/span&gt;
+            &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;++&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;fmt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;%d: %v &amp;lt;-&amp;gt; %v\n&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;client&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;LocalAddr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt;
+                &lt;span class=&#34;n&#34;&gt;client&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RemoteAddr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;ch&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;client&lt;/span&gt;
+        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}()&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ch&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We create a new channel of type &lt;code&gt;net.Conn&lt;/code&gt;, which corresponds to the type that
+we’ll get from calling &lt;code&gt;Accept()&lt;/code&gt; on our listener connection object. We start
+off a new, anonymous goroutine which runs in an infinite loop, constantly
+accepting new connections. &lt;code&gt;listener.Accept()&lt;/code&gt; blocks as long as there are no
+new clients to deal with, but since we’re running inside a goroutine and
+&#34;detached&#34; from the main program flow, other already-connected clients can
+continue to be handled without interruption (this is where a &lt;code&gt;fork()&lt;/code&gt; or a new
+thread would happen in a typical server). Instead of &lt;code&gt;panic()&lt;/code&gt;ing here if
+there is an error connecting with the client, we simply note it on the console
+of the server and move on. We also keep track of the number of clients we’ve
+seen with the counter &lt;code&gt;i&lt;/code&gt;. &lt;code&gt;fmt.Printf()&lt;/code&gt; works like you’d expect, though the
+&lt;code&gt;%v&lt;/code&gt; format is not like anything in C’s &lt;code&gt;printf()&lt;/code&gt; — it prints a value in a
+default format and works for any type, somewhat like &lt;code&gt;repr()&lt;/code&gt; in Python.&lt;/p&gt;
+&lt;p&gt;The binary &lt;code&gt;&amp;lt;-&lt;/code&gt; communication operator is used to send the client, of type
+&lt;code&gt;net.Conn&lt;/code&gt; to the channel we created at the top. Go has lexical scope (and is
+garbage-collected), so &lt;code&gt;ch&lt;/code&gt; is available inside the anonymous goroutine and
+after our function returns (because the infinite &lt;code&gt;Accept()&lt;/code&gt;ing for-loop keeps
+the goroutine alive).&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;k&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;handleConn&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;client&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;net&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Conn&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;bufio&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;NewReader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;client&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;line&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ReadBytes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;sc&#34;&gt;&amp;#39;\n&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// EOF, or worse&lt;/span&gt;
+            &lt;span class=&#34;k&#34;&gt;break&lt;/span&gt;
+        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;client&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Write&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;line&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;As we saw back in &lt;code&gt;main()&lt;/code&gt;, &lt;code&gt;handleConn()&lt;/code&gt; is invoked as a goroutine with each
+new client connection (the connection being received from the other side of
+the channel we just created). &lt;code&gt;bufio.NewReader()&lt;/code&gt; wraps the client object with
+a nicer interface for reading lines of bytes from. If we decided to use the
+&lt;code&gt;Read()&lt;/code&gt; method of the &lt;code&gt;net.Conn&lt;/code&gt; object, our code would be more complex,
+having to check for the substring &lt;code&gt;&#34;\n&#34;&lt;/code&gt; and testing for EOF. Instead, we can
+treat this as a line-oriented protocol, and simply get a line and write it
+back to the client, as long as there are lines to be read.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://gist.github.com/775764&#34;&gt;Here’s the whole thing&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The pattern of getting new connections from a channel and starting a goroutine
+to handle them is conceptually clean, and also happens to be a straightforward
+way to write a multiplexing, concurrent server.&lt;/p&gt;</content>
+  </entry>
   <entry>
     <title>Use Oplop for your web site passwords</title>
     <link href="/blog/2010/12/oplop.html" />

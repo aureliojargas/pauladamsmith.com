@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+      <loc>http://pauladamsmith.com/blog/2011/01/go.html</loc>
+      <lastmod>2011-01-12</lastmod>
+      </url>
+  <url>
       <loc>http://pauladamsmith.com/blog/2010/12/oplop.html</loc>
       <lastmod>2010-12-18</lastmod>
       </url>
@@ -18,13 +22,18 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/</loc>
-      <lastmod>2010-12-18</lastmod>
+      <lastmod>2011-01-12</lastmod>
+      <changefreq>daily</changefreq>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/blog/2011/01/</loc>
+      <lastmod>2011-01-12</lastmod>
       <changefreq>daily</changefreq>
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/2010/12/</loc>
       <lastmod>2010-12-18</lastmod>
-      <changefreq>daily</changefreq>
+      <changefreq>never</changefreq>
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/2010/10/</loc>
@@ -32,9 +41,14 @@
       <changefreq>never</changefreq>
       </url>
   <url>
+      <loc>http://pauladamsmith.com/blog/2011/</loc>
+      <lastmod>2011-01-12</lastmod>
+      <changefreq>daily</changefreq>
+      </url>
+  <url>
       <loc>http://pauladamsmith.com/blog/2010/</loc>
       <lastmod>2010-12-18</lastmod>
-      <changefreq>daily</changefreq>
+      <changefreq>never</changefreq>
       </url>
   <url>
       <loc>http://pauladamsmith.com/gpg-key.html</loc>
@@ -74,7 +88,11 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/articles/redis-under-the-hood.html</loc>
-      <lastmod>2010-11-01</lastmod>
+      <lastmod>2011-01-03</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/articles/redis-get-set.txt</loc>
+      <lastmod>2011-01-06</lastmod>
       </url>
   <url>
       <loc>http://pauladamsmith.com/articles/index.html</loc>

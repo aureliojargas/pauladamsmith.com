@@ -275,7 +275,7 @@
 </pre>
   </div>
 
-  <p>(Sidebar: a <code>redisCommand</code> struct keeps track of its name
+  <p class="sidebar">A <code>redisCommand</code> struct keeps track of its name
   &mdash; the mnemonic, i.e., &ldquo;get&rdquo; &mdash; a pointer to the actual
   C function that performs the command, the command&rsquo;s arity, command
   flags such as whether it returns a bulk response, and a number of VM-specific
@@ -362,8 +362,8 @@
 
   <h5 id="shared-integers">Shared integers</h5>
 
-  <p>Users of Redis will see the greatest impact in terms of memory savings
-  from shared objects by the creation of a number of shared integers.</p>
+  <p>The greatest impact in terms of memory savings with shared objects comes
+  from a large pool of shared integers.</p>
 
   <div class="codehilite">
     <pre>
@@ -409,21 +409,25 @@
   <p><code>initServer()</code> continues by creating the core event loop,
   calling <code>aeCreateEventLoop()</code> (see <code>ae.c</code>) and
   assigning the result to the <code>el</code> member of <code>server</code>.
-  (Sidebar: one key aspect of Redis&rsquo;s implementation is the use of
+  </p>
+
+  <p class="sidebar">One key aspect of Redis&rsquo;s implementation is the use of
   locally-provided wrappers to simplify and hide the complexity of common
   tasks, without adding dependecies at build-time. For example,
   <code>zmalloc.h</code> defines a number of wrappers for the family of
   <code>*alloc()</code> functions, which keep track of how much memory Redis
   has allocated. <code>sds.h</code> defines an API to a dynamic strings library
   (basically, a string that keeps track of its length and whether its memory
-  can be freed). <code>ae.h</code> provides a platform-independent wrapper for
+  can be freed.</p>
+  
+  <p><code>ae.h</code> provides a platform-independent wrapper for
   setting up I/O event notification loops, which uses <code>epoll</code> on
   Linux, <code>kqueue</code> on BSD, and falls back to <code>select</code> if
   the respective first choice is not available.) Redis&rsquo;s event loop polls
   for new connections and I/O events (reading requests from and writing
   responses to a socket), being triggered when a new event arrives. This is
   what makes Redis so responsive, it can serve thousands of clients
-  simultaneously without blockig while individual requests are processed and
+  simultaneously without blocking while individual requests are processed and
   responded to.</p>
 
   <h4 id="databases">Databases</h4>
@@ -885,26 +889,29 @@
 </pre>
   </div>
 
-  <p>(Sidebar: Each Redis command is responsible for setting the reply for the
-  client. This is possible because the signature of a Redis command procedure
-  is of a single argument, which is the client object. Likewise, each command
-  procedure is responsible for encoding, or deserializing, arguments from the
-  command, and for decoding, or serializing, Redis objects in memory for
-  response to the client.) Write commands, like <code>SET</code> and
-  <code>ZADD</code>, make the server &ldquo;dirty,&rdquo; in other words, the
-  server is marked as having pages in memory that have changed. This is
-  important for the automatic save process, which keeps track of how many keys
-  have changed in a certain period, or the writing to the AOF. The function
-  calls <code>feedAppendOnlyFile()</code> if use of the AOF has been enabled,
-  which writes out the command buffer from the client to the AOF, so the
-  command can be replayed. (It translates commands that set a relative key
-  expiration to an absolute expiration, but otherwise it basically copies the
-  command as it came in from the client, see
-  <code>catAppendOnlyGenericCommand()</code>.) If any slaves are connected,
-  <code>call()</code> will send the command to each of them to be executed
-  locally, see <code>replicationFeedSlaves()</code>. Likewise, if any clients
-  are connected and have issued the <code>MONITOR</code> command, Redis will
-  send a representation of the command, prefixed with a timestamp, see
+  <p class="sidebar">Each Redis command is responsible for setting
+  the reply for the client. This is possible because the signature of a Redis
+  command procedure is of a single argument, which is the client object.
+  Likewise, each command procedure is responsible for encoding, or
+  deserializing, arguments from the command, and for decoding, or serializing,
+  Redis objects in memory for response to the client.
+  </p>
+  
+  <p>Write commands, like <code>SET</code> and <code>ZADD</code>, make the
+  server &ldquo;dirty,&rdquo; in other words, the server is marked as having
+  pages in memory that have changed. This is important for the automatic save
+  process, which keeps track of how many keys have changed in a certain
+  period, or the writing to the AOF. The function calls
+  <code>feedAppendOnlyFile()</code> if use of the AOF has been enabled, which
+  writes out the command buffer from the client to the AOF, so the command can
+  be replayed. (It translates commands that set a relative key expiration to
+  an absolute expiration, but otherwise it basically copies the command as it
+  came in from the client, see <code>catAppendOnlyGenericCommand()</code>.) If
+  any slaves are connected, <code>call()</code> will send the command to each
+  of them to be executed locally, see <code>replicationFeedSlaves()</code>.
+  Likewise, if any clients are connected and have issued the
+  <code>MONITOR</code> command, Redis will send a representation of the
+  command, prefixed with a timestamp, see
   <code>replicationFeedMonitors()</code>.</p>
 
   <div class="codehilite">

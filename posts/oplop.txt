@@ -1,5 +1,6 @@
 title: Use Oplop for your web site passwords
 slug: oplop
+pub_date: 2010-12-18 01:52:52
 ---
 <div style="float: right; margin-left: 1em; padding: 5px"><a href="http://www.flickr.com/photos/slieschke/226873460/" title="Secure password of the week by Simon Lieschke, on Flickr"><img src="http://farm1.static.flickr.com/85/226873460_c8eabd2911_m.jpg" width="240" height="180" alt="Secure password of the week" /></a></div>
 

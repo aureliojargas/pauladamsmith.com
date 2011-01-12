@@ -1,0 +1,152 @@
+title: Taking Go for a spin
+slug: go
+pub_date: 2011-01-12 08:00
+---
+I was struck by the high-level abstractions [Go](http://golang.org/)
+provides for writing networked clients and servers, even by the standards of
+conventionally high-level languages like Python. Given Go’s identification
+as a systems programming language, this is initially surprising, because
+such languages tend to be low-level for performance reasons (Go does
+expose a lot of low-level interfaces through various packages like `os`
+and `syscall`), but it of course there would be good support for these
+things because Go is a modern language designed by folks with many years
+of experience writing networked servers.
+
+Specifically, the `net` package provides the `Listener` and `Conn` types
+that hide many of the details of setting up socket connections. A simple
+`net.Listen("tcp", ":1234")` is enough to get the equivalent of a listener,
+or server, socket. The `bufio` package provides buffered read methods,
+simplifying common tasks like reading lines from a socket.
+
+Let’s dive in and take a look at one way to implement a classic echo
+server. I tried to use Go’s language features for concurrent communication,
+goroutines and channels, at crucial points. Where a different implementation
+in different language might fork a new process or spawn a new thread to
+handle a new client connection, a goroutine was started and the details
+of the connection communicated with a channel.
+
+    :::go
+    package main
+
+    import (
+        "net"
+        "bufio"
+        "strconv"
+        "fmt"
+    )
+
+    const PORT = 3540
+
+All Go programs must have a `package main`. We declare a number of packages to
+be imported, `net` and `bufio` already mentioned, `strconv` for its conversion
+function `Itoa()` that converts an integer to a string, and `fmt` for printing
+strings to the console. Our echo server will listen on port 3540.
+
+    :::go
+    func main() {
+        server, err := net.Listen("tcp", ":" + strconv.Itoa(PORT))
+        if server == nil {
+            panic("couldn't start listening: " + err.String())
+        }
+        conns := clientConns(server)
+        for {
+            go handleConn(<-conns)
+        }
+    }
+
+Every Go program must have a function `main()` in its `package main`. We start
+by declaring and initializing a new listener for our echo server. We choose
+the more generic `net.Listen()` over `net.TCPListen()`, because we can
+conveniently parameterize the type of the listener with a string to the first
+argument of `Listen`. (It is generally preferred in Go to deal with the most
+generic type, or interface, especially when writing function and method
+signatures, and either allow a specific type to be inferred by the compiler or
+specify it when declaring/initializing a variable.) `":" + strconv.Itoa(PORT)`
+is a string concentation expression, and the port constant we defined earlier
+is converted to a string. (Strictly, a numeric constant is not an integer of a
+particular type, but the string conversion function works here because the
+compiler converts the constant into the concrete type to match the function
+signature.)
+
+The idiom for Go when handling multiple return values where the last has an
+error type is to check the main object for nil, and then `panic()` with the
+stringified error object. This is generally preferred over printing to stderr
+and using `os.Exit()`, because it gives callers higher up the stack the chance
+to `recover()`, sort of a raise/catch exception flow.
+
+Using Go’s compact syntax for simultaneous declaration and initialization, we
+set `conns` to the value of the function call `clientConns(server)`. This is
+the channel we’ll use for getting new client connections.
+
+The equivalent of a infinite loop like `while True:` or `for (;;)` in Go is
+`for { ... }`. Each time through the loop, we start a goroutine, calling
+`handleConn()` with the value of the receive operation on our client connections
+channel. The unary receive operator `<-` blocks until a value is available on
+the channel, in our case, a new client having connected.
+
+    :::go
+    func clientConns(listener net.Listener) chan net.Conn {
+        ch := make(chan net.Conn)
+        i := 0
+        go func() {
+            for {
+                client, err := listener.Accept()
+                if client == nil {
+                    fmt.Printf("couldn't accept: " + err.String())
+                    continue
+                }
+                i++
+                fmt.Printf("%d: %v <-> %v\n", i, client.LocalAddr(),
+                    client.RemoteAddr())
+                ch <- client
+            }
+        }()
+        return ch
+    }
+
+We create a new channel of type `net.Conn`, which corresponds to the type that
+we’ll get from calling `Accept()` on our listener connection object. We start
+off a new, anonymous goroutine which runs in an infinite loop, constantly
+accepting new connections. `listener.Accept()` blocks as long as there are no
+new clients to deal with, but since we’re running inside a goroutine and
+"detached" from the main program flow, other already-connected clients can
+continue to be handled without interruption (this is where a `fork()` or a new
+thread would happen in a typical server). Instead of `panic()`ing here if
+there is an error connecting with the client, we simply note it on the console
+of the server and move on. We also keep track of the number of clients we’ve
+seen with the counter `i`. `fmt.Printf()` works like you’d expect, though the
+`%v` format is not like anything in C’s `printf()` — it prints a value in a
+default format and works for any type, somewhat like `repr()` in Python.
+
+The binary `<-` communication operator is used to send the client, of type
+`net.Conn` to the channel we created at the top. Go has lexical scope (and is
+garbage-collected), so `ch` is available inside the anonymous goroutine and
+after our function returns (because the infinite `Accept()`ing for-loop keeps
+the goroutine alive).
+
+    :::go
+    func handleConn(client net.Conn) {
+        b := bufio.NewReader(client)
+        for {
+            line, err := b.ReadBytes('\n')
+            if err != nil { // EOF, or worse
+                break
+            }
+            client.Write(line)
+        }
+    }
+
+As we saw back in `main()`, `handleConn()` is invoked as a goroutine with each
+new client connection (the connection being received from the other side of
+the channel we just created). `bufio.NewReader()` wraps the client object with
+a nicer interface for reading lines of bytes from. If we decided to use the
+`Read()` method of the `net.Conn` object, our code would be more complex,
+having to check for the substring `"\n"` and testing for EOF. Instead, we can
+treat this as a line-oriented protocol, and simply get a line and write it
+back to the client, as long as there are lines to be read.
+
+[Here’s the whole thing](https://gist.github.com/775764).
+
+The pattern of getting new connections from a channel and starting a goroutine
+to handle them is conceptually clean, and also happens to be a straightforward
+way to write a multiplexing, concurrent server.
