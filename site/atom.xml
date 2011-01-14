@@ -5,11 +5,69 @@
   <link href="http://pauladamsmith.com/atom.xml" rel="self" />
   <link href="http://pauladamsmith.com/" />
   <id>pauladamsmith.com</id>
-  <updated>2011-01-12T12:00:00Z</updated>
+  <updated>2011-01-14T19:38:00Z</updated>
   <author>
     <name>Paul Smith</name>
     <email>paulsmith@pobox.com</email>
   </author>
+  <entry>
+    <title>Gold is the same as paper</title>
+    <link href="/blog/2011/01/gold.html" />
+    <id>http://pauladamsmith.com/blog/2011/01/gold.html</id>
+    <updated>2011-01-14T19:38:00Z</updated>
+    <content type="html">&lt;div style=&#34;float: right; margin-left: 1em; padding: 5px&#34;&gt;&lt;a
+href=&#34;http://www.flickr.com/photos/7159212@N05/442965594/&#34; title=&#34;photo by tao_zhyn on Flickr&#34;&gt;&lt;img
+src=&#34;/images/gold.jpg&#34; width=&#34;240&#34; height=&#34;128&#34; alt=&#34;gold coins&#34;&gt;&lt;/a&gt;&lt;/div&gt;
+
+&lt;p&gt;We won’t return to a gold standard because changing to a fiat currency was
+one of the great innovations of modern economics. You aren’t literally
+and figuratively weighed down by gold, and that allows central banks and
+governments to set policy that allows them to rebound from crises, spur
+growth, and lift people out of poverty and short lifespans. As &lt;a href=&#34;http://www.thenation.com/audio/157757/breakdown-should-us-return-gold-standard&#34; title=&#34;Episode of The Breakdown with Chris Hayes podcast by The Nation&#34;&gt;Liaquat
+Ahamed points out&lt;/a&gt;, the gold standard is also a sure way to get yourself
+in a deflationary cycle.&lt;/p&gt;
+&lt;p&gt;But, wait! gold bugs will say. That paper isn’t worth the paper it’s
+printed on. Gold has &lt;em&gt;real&lt;/em&gt; value, that’s why it was the world’s
+currency for many years. The problem with this is that money is a
+&lt;a href=&#34;http://en.wikipedia.org/wiki/Turtles_all_the_way_down&#34;&gt;turtles-all-the-way-down&lt;/a&gt; concept. Gold is just as much a pointer
+to value as paper is, except it has many more downsides: it’s heavier,
+more cumbersome to exchange, and has a fixed supply.&lt;/p&gt;
+&lt;p&gt;Gold isn’t valuable in and of itself. You can’t live in gold. You can’t eat
+gold. You can’t clothe yourself in gold. A gold coin can’t paint your house,
+or build you a website. You could (hypothetically) use it to put your kids
+through college, so it that sense it’s valuable to you, but &lt;em&gt;only in its
+exchange&lt;/em&gt;, because on the other end, the trustees and professors and janitors
+at the college need to live somewhere, eat something, wear something,
+and have websites built. And again they exchange it for those goods and
+services. So really the only thing that’s intrinsic to this little economy
+I’ve just described is the fact that you, the college trustees, the service
+providers, et al., all agree on the value or rate of exchange. It’s like
+an algebraic equation where constants cancel out — gold is the constant,
+so we can abstract it away. It may as well be “neighborhood fun bucks,”
+so long as everyone agrees on the rate of exchange for goods and services.&lt;/p&gt;
+&lt;p&gt;And there you have it. Economies have nothing to do with the particulars of
+their currencies, and everything to do with people and institutions trusting
+that, in exchange for some amount, I will receive something of perceived
+equal value. Trust, and perception. Currencies are just a convenient
+means by which we mitigate that exchange, an abstraction, a stand-in
+for a hypothetical exchange, ultimately, an exchange built on trust.&lt;/p&gt;
+&lt;p&gt;Interestingly, the only inherent value gold has is in its use as
+jewelry. Which, aside from any aesthetic concerns, couldn’t be more
+appropriate for our discussion, because people wear gold jewelry &lt;em&gt;as a
+signifier of wealth&lt;/em&gt;. A pointer, a marker, an abstraction for the wealth
+itself, which, again, is just the potential for exchange.&lt;/p&gt;
+&lt;p&gt;It is this essential trust network at the core of economics that explains
+why there is so much noise about gold. It reflects a lack of trust on the
+part of gold advocates in our central banking and governmental institutions,
+which they feel pursue policies that aren’t in their interest, or are in
+the interest of undeserving populations. The switch to a gold standard,
+therefore, has nothing to do with inflation or any other “economic”
+concern, and everything to do with pursuing a political objective. The
+market of exchange in this little political economy is for ideas about
+reprioritizing our institutions. Which is a legitimate topic of national
+debate. But reverting to the gold standard, as a practical economic matter,
+would be bonkers.&lt;/p&gt;</content>
+  </entry>
   <entry>
     <title>Taking Go for a spin</title>
     <link href="/blog/2011/01/go.html" />
