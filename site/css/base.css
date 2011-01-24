@@ -230,11 +230,6 @@ body > header {
     margin-top: 3px;
 }
 
-.pub-list li a {
-    display: block;
-    padding-left: 168px;
-}
-
 .pub-list li {
     clear: both;
 }

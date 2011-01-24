@@ -124,7 +124,7 @@ named after local unions, industry.&lt;/p&gt;
     height: 50px;
     width: 50px;
     margin-right: 10px;
-    background-image: url(/images/sports_teams/blue_collar_sprite.png);
+    background-image: url(/images/blue_collar_sprite.png);
     background-repeat: no-repeat;
 }
 
