@@ -4,7 +4,7 @@
 
 {% block content %}
 <h1>Blog archive for {{ year }}</h1>
-<ol>
+<ol class="pub-list">
   {% for post in posts -%}
     <li>
       <time datetime="{{ post.pub_date.strftime('%Y-%m-%d') }}" pubdate>{{ post.pub_date.strftime('%B %d, %Y') }}</time>

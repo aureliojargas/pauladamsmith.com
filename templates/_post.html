@@ -1,12 +1,9 @@
 <article class="post">
-  <h1><a href="{{ post.url }}" title="Permalink to this post">{{ post.title }}</a></h1>
-
-  <time datetime="{{ post.pub_date.strftime('%Y-%m-%d') }}" pubdate>
-    {{ post.pub_date.strftime('%B %d, %Y') }}
-  </time>
-
+  <header>
+    <h1><a href="{{ post.url }}" title="Permalink to this post">{{ post.title }}</a></h1>
+    <time datetime="{{ post.pub_date.strftime('%Y-%m-%d') }}" pubdate>{{ post.pub_date.strftime('%B %d, %Y') }}</time>
+  </header>
   {{ post.body }}
-
   {% if prev_post or next_post -%}
     <nav>
       {% if prev_post %}<div class="previous"><b>«</b> Previous: <a href="{{ prev_post.url }}">{{ prev_post.title }}</a></div>{% endif %}

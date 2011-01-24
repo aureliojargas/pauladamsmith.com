@@ -5,11 +5,157 @@
   <link href="http://pauladamsmith.com/atom.xml" rel="self" />
   <link href="http://pauladamsmith.com/" />
   <id>pauladamsmith.com</id>
-  <updated>2011-01-14T19:38:00Z</updated>
+  <updated>2011-01-24T00:22:00Z</updated>
   <author>
     <name>Paul Smith</name>
     <email>paulsmith@pobox.com</email>
   </author>
+  <entry>
+    <title>The All-Blue-Collar League</title>
+    <link href="/blog/2011/01/bluecollarleague.html" />
+    <id>http://pauladamsmith.com/blog/2011/01/bluecollarleague.html</id>
+    <updated>2011-01-24T00:22:00Z</updated>
+    <content type="html">&lt;p&gt;In honor of the &lt;a href=&#34;http://sportsillustrated.cnn.com/football/nfl/gameflash/2011/01/23/4353_recap.html?&amp;amp;eref=sihp&#34;&gt;all&lt;/a&gt;-&lt;a href=&#34;http://sportsillustrated.cnn.com/football/nfl/gameflash/2011/01/23/4354_recap.html?eref=sihp&#34;&gt;union&lt;/a&gt; Super Bowl, I present the
+All-Blue-Collar League, a collection of U.S. professional sports franchises
+named after local unions, industry.&lt;/p&gt;
+&lt;p&gt;In solidarity:&lt;/p&gt;
+&lt;table id=&#34;teams&#34;&gt;
+    &lt;tr&gt;
+        &lt;th&gt;NFL&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr class=&#34;team packers&#34;&gt;
+        &lt;td&gt;&lt;span&gt;&lt;/span&gt;Green Bay &lt;b&gt;Packers&lt;/b&gt;
+        &lt;p class=&#34;explanation&#34;&gt;Named after the &lt;a
+        href=&#34;http://en.wikipedia.org/wiki/Indian_Packing_Company&#34;&gt;Indian
+        Packing Company&lt;/a&gt;.&lt;/p&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr class=&#34;team steelers&#34;&gt;
+        &lt;td&gt;&lt;span&gt;&lt;/span&gt;Pittsburgh &lt;b&gt;Steelers&lt;/b&gt;
+        &lt;p class=&#34;explanation&#34;&gt;Pittsburgh’s economy centered around the steel
+        industry for many years.&lt;/p&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr class=&#34;team cowboys&#34;&gt;
+        &lt;td&gt;&lt;span&gt;&lt;/span&gt;Dallas &lt;b&gt;Cowboys&lt;/b&gt;
+        &lt;p class=&#34;explanation&#34;&gt;&lt;a
+        href=&#34;http://en.wikipedia.org/wiki/Cowboy#Texas_tradition&#34;&gt;Texas
+        cowboys&lt;/a&gt; were freelance livestock herders and handlers.&lt;/p&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+
+&lt;tr&gt;
+        &lt;th&gt;MLB&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr class=&#34;team astros&#34;&gt;
+        &lt;td&gt;&lt;span&gt;&lt;/span&gt;Houston &lt;b&gt;Astros&lt;/b&gt;
+        &lt;p class=&#34;explanation&#34;&gt;&lt;a
+        href=&#34;http://www.nasa.gov/centers/johnson/home/index.html&#34;&gt;NASA’s
+        Johnson Space Center&lt;/a&gt; and the greater space industry is a huge
+        employer in the Houston region.&lt;/p&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr class=&#34;team brewers&#34;&gt;
+        &lt;td&gt;&lt;span&gt;&lt;/span&gt;Milwaukee &lt;b&gt;Brewers&lt;/b&gt;
+        &lt;p class=&#34;explanation&#34;&gt;Named for the &lt;a
+        href=&#34;http://en.wikipedia.org/wiki/Milwaukee_Brewers&#34;&gt;city’s association
+        with the beer brewing industry&lt;/a&gt;.&lt;/p&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr class=&#34;team mariners&#34;&gt;
+        &lt;td&gt;&lt;span&gt;&lt;/span&gt;Seattle &lt;b&gt;Mariners&lt;/b&gt;
+        &lt;p class=&#34;explanation&#34;&gt;The city’s location makes it a natural for many
+        maritime industries, including fishmongering, and fishwivery.&lt;/p&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr class=&#34;team rangers&#34;&gt;
+        &lt;td&gt;&lt;span&gt;&lt;/span&gt;Texas &lt;b&gt;Rangers&lt;/b&gt;
+        &lt;p class=&#34;explanation&#34;&gt;The &lt;a
+        href=&#34;http://en.wikipedia.org/wiki/Texas_Ranger_Division&#34;&gt;Texas
+        Rangers&lt;/a&gt; have been a statewide law enforcement agency since 1823, the
+        oldest such agency in the U.S.&lt;/p&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+
+&lt;tr&gt;
+        &lt;th&gt;NBA&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr class=&#34;team pistons&#34;&gt;
+        &lt;td&gt;&lt;span&gt;&lt;/span&gt;Detroit &lt;b&gt;Pistons&lt;/b&gt;
+        &lt;p class=&#34;explanation&#34;&gt;Detroit is synonymous with the American auto
+        industry, a source of high-quality middle-class jobs for most of the
+        20th century.&lt;/p&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+
+&lt;tr&gt;
+        &lt;th&gt;NHL&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr class=&#34;team oilers&#34;&gt;
+        &lt;td&gt;&lt;span&gt;&lt;/span&gt;Edmonton &lt;b&gt;Oilers&lt;/b&gt;
+        &lt;p class=&#34;explanation&#34;&gt;Edmonton is one of Canada’s major oil refinery
+        centers.&lt;/p&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Thanks to &lt;a href=&#34;http://twitter.com/kostuch&#34;&gt;@kostuch&lt;/a&gt;, &lt;a href=&#34;http://twitter.com/ikesmith&#34;&gt;@ikesmith&lt;/a&gt;, &lt;a href=&#34;http://twitter.com/joshandrews&#34;&gt;@joshandrews&lt;/a&gt;, &lt;a href=&#34;http://twitter.com/tcarmody&#34;&gt;@tcarmody&lt;/a&gt;,
+&lt;a href=&#34;http://twitter.com/lmsahistory&#34;&gt;@lmsahistory&lt;/a&gt;, and &lt;a href=&#34;http://twitter.com/janieporche&#34;&gt;@janieporche&lt;/a&gt; for suggestions.&lt;/p&gt;
+&lt;style&gt;
+#teams {
+    width: 100%;
+    margin-bottom: 1em;
+}
+
+#teams tr {
+    clear: both;
+}
+
+#teams th {
+    padding: 5px 6px;
+}
+
+#teams th {
+    background: hsla(215, 35%, 35%, 1.0);
+    color: white;
+}
+
+#teams td {
+    height: 50px;
+    line-height: 50px;
+    padding: 5px 0;
+    border-bottom: 1px solid hsla(215, 35%, 35%, 0.5);
+}
+
+#teams td span {
+    display: block;
+    float: left;
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
+    background-image: url(/images/sports_teams/blue_collar_sprite.png);
+    background-repeat: no-repeat;
+}
+
+#teams .explanation {
+    display: none;
+}
+
+.brewers td span { background-position: -50px 0px; }
+.cowboys td span { background-position: -100px 0px; }
+.mariners td span { background-position: -150px 0px; }
+.oilers td span { background-position: -200px 0px; }
+.packers td span { background-position: -250px 0px; }
+.pistons td span { background-position: -300px 0px; }
+.rangers td span { background-position: -350px 0px; }
+.steelers td span { background-position: -400px 0px; }
+
+.tooltip {
+    width: 162px;
+    height: 100px;
+    padding: 10px;
+    display: none;
+    font-size: 75%;
+    color: #fff;
+    background: #39393f;
+}
+
+.tooltip a {
+    color: #fff;
+}
+&lt;/style&gt;</content>
+  </entry>
   <entry>
     <title>Gold is the same as paper</title>
     <link href="/blog/2011/01/gold.html" />
@@ -17,7 +163,8 @@
     <updated>2011-01-14T19:38:00Z</updated>
     <content type="html">&lt;div style=&#34;float: right; margin-left: 1em; padding: 5px&#34;&gt;&lt;a
 href=&#34;http://www.flickr.com/photos/7159212@N05/442965594/&#34; title=&#34;photo by tao_zhyn on Flickr&#34;&gt;&lt;img
-src=&#34;/images/gold.jpg&#34; width=&#34;240&#34; height=&#34;128&#34; alt=&#34;gold coins&#34;&gt;&lt;/a&gt;&lt;/div&gt;
+src=&#34;/images/gold.jpg&#34; width=&#34;240&#34; height=&#34;128&#34; alt=&#34;gold coins&#34;
+class=&#34;facebook-image&#34;&gt;&lt;/a&gt;&lt;/div&gt;
 
 &lt;p&gt;We won’t return to a gold standard because changing to a fiat currency was
 one of the great innovations of modern economics. You aren’t literally

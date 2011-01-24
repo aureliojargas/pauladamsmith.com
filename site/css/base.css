@@ -1,5 +1,5 @@
 /**
- * Reset
+ * Reset - http://goo.gl/2Fft4
  ********************************************************************/
 
 html, body, div, span, applet, object, iframe,
@@ -9,48 +9,56 @@ del, dfn, em, font, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td {
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
     margin: 0;
     padding: 0;
     border: 0;
     outline: 0;
-    font-weight: inherit;
-    font-style: inherit;
+    font: inherit;
     font-size: 100%;
-    font-family: inherit;
     vertical-align: baseline;
 }
-/* remember to define focus styles!
-:focus {
-    outline: 0;
-} */
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer,
+header, hgroup, menu, nav, section {
+    display: block;
+}
 body {
     line-height: 1;
-    color: black;
-    background: white;
 }
 ol, ul {
     list-style: none;
 }
-/* tables still need 'cellspacing="0"' in the markup */
-table {
-    border-collapse: separate;
-    border-spacing: 0;
-}
-caption, th, td {
-    text-align: left;
-    font-weight: normal;
+blockquote, q {
+    quotes: none;
 }
 blockquote:before, blockquote:after,
 q:before, q:after {
-    content: "";
+    content: '';
+    content: none;
 }
-blockquote, q {
-    quotes: "" "";
+/*
+:focus {
+    outline: 0;
+}
+*/
+/* remember to highlight inserts somehow! */
+ins {
+    text-decoration: none;
+}
+del {
+    text-decoration: line-through;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
 }
 
 /**
- * Elements
+ * Basic styles
  ********************************************************************/
 
 html {
@@ -58,294 +66,445 @@ html {
 }
 
 body {
-    font-family: 'Droid Sans', Arial, Helvetica, sans-serif;
+    font-family: 'Droid Sans', sans-serif;
     font-size: 100%;
-    font-weight: normal;
+    background-color: #fff;
     color: #333;
     line-height: 1.4;
-    margin: 40px auto;
-    padding: 0 1em;
-    max-width: 61.75em; /* 988px / 16px */
 }
 
-::-moz-selection {
-    color: #ffffff;
-    background-color: #483D8B;
-}
-::selection {
-    color: #ffffff;
-    background-color: #483D8B;
+body > header h1 {
+    font-family: 'Droid Sans', sans-serif;
+    font-size: 150%;
+    line-height: 1;
+    margin-bottom: 0;
 }
 
-a {
-    color: blue;
-    text-decoration: none;
-    /* -moz-transition: color .2s linear; */
-    /* -webkit-transition: color .2s linear; */
-    /* transition: color .2s linear; */
-}
-
-a:visited {
-    color: blue;
-}
-
-a:hover {
-    background: #B1B4BE;
-    color: #444;
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Droid Serif', serif;
+    font-weight: normal;
 }
 
 h1 {
-    font-size: 1.5em;
-    letter-spacing: -0.03em;
-    margin: 1em 0;
+    font-size: 150%;
 }
 
 h2 {
-    font-size: 1.33em;
-    margin: 1em 0;
+    font-size: 135%;
 }
 
-ul {
-    list-style-type: none;
-}
-
-p {
+h1, h2 {
     margin-bottom: 1em;
 }
 
-ul, ol {
+a {
+    text-decoration: none;
+    color: #06c;
+}
+
+p, ul, ol {
     margin: 1em 0;
-    padding-left: 2em;
+}
+
+li {
+    margin-left: 1em;
 }
 
 ul ul {
     margin: 0;
 }
 
-code, pre {
-    font-family: "Inconsolata", "Andale Mono", monospace;
-    font-size: 0.875em;
-    line-height: 1.1;
-}
-
-nav a:hover {
-    background: #fff;
-}
-
 em {
-  font-style: italic;
+    font-style: italic;
 }
 
-/**
- * Typography
- ********************************************************************/
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Droid Sans', Helvetica, Arial, sans-serif;
-    font-weight: normal;
+strong {
+    font-weight: 900;
 }
 
-header > h1 {
-    margin: 0;
-}
-
-header > h1 a,
-header > h1 a:visited {
-    color: #333;
-}
-
-header > h1 a:hover {
-    background: #fff;
+time {
+    color: hsla(30, 10%, 50%, 0.6);
+    font-size: 12px;
 }
 
 header nav {
-    font-family: 'Droid Sans', Helvetica, Arial, sans-serif;
     text-transform: uppercase;
-    font-size: 0.875em; /* 12px / 16px */
+    font-size: 13px;
     line-height: 1;
 }
 
-article h1 {
-    font-size: 1.375em;
-    margin-bottom: 0.25em;
+article h1 a {
+    color: hsla(110, 42%, 45%, 1.0);
 }
 
-article time,
-ol time {
-    font-size: 0.75em;
-    color: rgba(0, 0, 14, 0.5);
+article h1 a:hover {
+    color: #06c;
 }
 
 article nav {
     text-transform: uppercase;
-    font-size: 0.875em;
-    text-align: center;
-    letter-spacing: -0.05em;
-}
-
-.codehilite {
-    margin-bottom: 1em;
-    border: 1px solid rgba(0, 0, 14, 0.075);
-    padding: 10px;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    -moz-box-shadow: 2px 2px 1px rgba(0, 0, 14, 0.025);
-    -webkit-box-shadow: 2px 2px 1px rgba(0, 0, 14, 0.025);
-    box-shadow: 2px 2px 1px rgba(0, 0, 14, 0.025);
-}
-
-#side {
-    font-size: 0.75em;
+    font-size: 13px;
+    color: hsla(30, 10%, 50%, 0.6);
 }
 
 footer {
-    font-size: 0.75em;
-    color: rgba(0, 0, 14, 0.4);
-    text-align: center;
+    color: hsla(210, 10%, 50%, 0.6);
+    font-size: 12px;
 }
 
-/**
- * Blog
- ********************************************************************/
+code,
+.codehilite pre {
+    font-family: Inconsolata, 'Courier New', monospace;
+}
+
+.codehilite pre {
+    font-size: 0.9em;
+    padding: 10px;
+    background-color: #f3f3f3;
+}
+
+aside {
+    font-size: 0.75em;
+}
+
+th {
+    text-align: left;
+    font-weight: bold;
+}
 
 /**
  * Layout
- ********************************************************************/
+ */
 
-#page {
-    overflow: hidden;
-    width: 100%;
+/*	Default 8-column layout
+	60 px columns, 24 px gutters, 60 px margins, 768 px total
+	----------------------------------------------------------------
+	1     2      3      4      5      6      7      8     
+	60px  144px  228px  312px  396px  480px  564px  648px	*/
+
+/*
+body {
+    border: solid hsla(240, 15%, 50%, 0.2);
+    border-width: 0 1px;
+}
+*/
+
+body {
+    width: 648px;
+    padding: 0 60px;
+    margin: 3em auto;
 }
 
-header {
+header nav {
     float: left;
-    width: 20.242914979757085%; /* 200px / 988px */
+    margin-top: -49px;
+    padding-left: 168px;
 }
 
 header nav ul {
-    margin: 0;
-    padding-left: 0;
+    margin-bottom: 0;
 }
 
 header nav li {
-    float: none;
-}
-
-header nav li:first-child {
-    margin-top: 1em;
-}
-
-header nav li a {
-    display: block;
-    padding: 10px 0;
-}
-
-#main {
     float: left;
-    width: 59.412955465587047%; /* 587px / 988px */
-    margin-top: 1em;
-    margin-left: 20.242914979757085%;
+    width: 120px;
+    margin-left: 0;
+}
+
+header nav a {
+    display: inline-block;
+    width: 100%;
+    padding: 20px 0;
+}
+
+body > header {
+    margin-bottom: 1em;
+    overflow: hidden;
+}
+
+.pub-list li time {
+    display: block;
+    float: left;
+    width: 144px;
+    padding-right: 24px;
+    margin-top: 3px;
+}
+
+.pub-list li a {
+    display: block;
+    padding-left: 168px;
+}
+
+.pub-list li {
+    clear: both;
 }
 
 article {
-    display: block;
+    width: 480px;
+    padding-left: 168px;
+    margin-top: 2em;
+}
+
+article h1 {
+    margin-bottom: 0.5em;
+}
+
+article time + p {
+    margin-top: 0em;
 }
 
 article time {
-    display: inline-block;
+    float: left;
+    margin-left: -168px;
+    margin-top: 8px;
 }
 
-article.post time {
-    margin: 0.75em 0 1em;
+article nav {
+    width: 648px;
+    margin: 2em 0 0 -168px;
+    overflow: auto;
 }
 
-body.blog article.post {
-    margin-bottom: 3em;
-    padding-bottom: 2em;
-    border-bottom: 1px dotted rgba(0, 0, 14, 0.2);
+article nav .previous {
+    float: left;
 }
 
-body.blog article.post:last-child {
-    border-bottom: none;
+article nav .next {
+    float: right;
 }
 
-ol li time {
-    display: inline-block;
-    width: 20%;
+aside p,
+aside li {
+    float: left;
+}
+
+aside {
+    overflow: hidden;
 }
 
 footer {
-    display: block;
-    margin: 1em 0;
-    padding: 1em 0;
-    border-top: 1px dotted rgba(0, 0, 14, 0.05);
+    width: 648px;
+    text-align: center;
+    padding: 40px 0;
+    margin: 40px 0;
+    border-top: 1px solid hsla(210, 10%, 50%, 0.2);
 }
 
-/*
- * Fluid grid
- ********************************************************************/
+/*	13-column layout
+	60 px columns, 24 px gutters, 72 px margins, 1212 px total (extra space for scrollbars)
+	-----------------------------------------------------------------------------------------
+	1     2      3      4      5      6      7      8      9      10     11     12     13
+	60px  144px  228px  312px  396px  480px  564px  648px  732px  816px  900px  984px  1068px	*/
 
-@media (min-width: 1000px) {
-    header {
-	float: none;
-	display: inline-block;
-	width: 100%;
-    }
-
-    header h1 {
-	float: left;
+@media only screen and (min-width: 1212px) {
+    body {
+        width: 1068px;
+        padding: 0 72px;
     }
 
     header nav {
-	float: right;
-	width: 59.412955465587047%; /* 587px / 988px */
-	margin-right: 20.242914979757085%;
+        padding-left: 252px;
+        width: 564px;
     }
 
     header nav li {
-	float: left;
-	width: 23.722316865417375%;
-	margin: 0 1.7035775127768313% 0 0;
+        width: 141px;
     }
 
-    header nav li:first-child {
-	margin-top: 0px;
-    }
-
-    header nav li:first-child a {
-	padding-left: 0px;
-    }
-
-    header nav li:last-child {
-	margin-right: 0;
-    }
-
-    #side {
-	float: right;
-	width: 20.344129554655879%;
-	margin-top: 4.75em;
-    }
-
-    #side div {
-	width: 80%;
-	padding-left: 20%;
-    }
-
-    article.post time {
-	float: left;
-	margin: 0.35em 0 0 -10em;
+    article {
+        float: left;
+        padding-left: 252px;
+        width: 564px;
     }
 
     article nav {
-	text-align: left;
+        width: 1068px;
+        margin-left: -252px;
     }
 
-    article nav .previous {
-	float: left;
+    aside section {
+        float: right;
+        width: 228px;
+        margin-top: 64px;
     }
 
+    #main {
+        overflow: hidden;
+        width: 1068px;
+    }
+
+    footer {
+        width: 1068px;
+    }
+}
+
+/*	5-column layout
+	60 px columns, 24 px gutters, 42 px margins, 480 px total
+	---------------------------------------------------------
+	1     2      3      4      5
+	60px  144px  228px  312px  396px	*/
+
+@media only screen and (max-width: 767px) and (min-width: 480px) {
+    body {
+        width: 396px;
+        padding: 0 42px0;
+    }
+
+    body > header h1 {
+        text-align: center;
+        padding-bottom: 0.6em;
+        border-bottom: 1px solid hsla(210, 10%, 50%, 0.2);
+    }
+
+    header nav {
+        float: none;
+        padding-left: 0px;
+        width: 396px;
+        margin-top: 0px;
+    }
+
+    header nav li {
+        width: 98px;
+    }
+
+    header nav a {
+        padding: 10px 0;
+    }
+
+    article {
+        width: 396px;
+        padding: 0;
+    }
+
+    article time {
+        float: none;
+        margin: 0px;
+    }
+
+    article nav {
+        width: 396px;
+        margin-left: 0px;
+    }
+
+    article nav .previous,
     article nav .next {
-	float: right;
+        text-align: center;
+        float: none;
+    }
+
+    h1 {
+        font-size: 135%;
+    }
+
+    h2 {
+        font-size: 110%;
+    }
+
+    footer {
+        width: 396px;
+    }
+
+    .codehilite pre {
+        font-size: 0.80em;
+        padding: 2px 5px;
+        overflow: auto;
+    }
+}
+
+/*	3-column layout
+	60 px columns, 24 px gutters, 46 px margins, 320 px total
+	---------------------------------------------------------
+	1     2      3
+	60px  144px  228px	*/
+
+@media only screen and (max-width: 479px) {
+    body {
+        font-size: 90%;
+        width: 228px;
+        padding: 0 46px 0;
+    }
+
+    body > header h1 {
+        text-align: center;
+        padding-bottom: 0.6em;
+        border-bottom: 1px solid hsla(210, 10%, 50%, 0.2);
+    }
+
+    body > header h1 {
+        font-size: 115%;
+    }
+
+    header nav {
+        float: none;
+        padding-left: 0px;
+        width: 228px;
+        margin-top: 0px;
+        font-size: 0.8em;
+    }
+
+    header nav li {
+        width: auto;
+        padding-right: 13px;
+    }
+
+    header nav a {
+        padding: 0px;
+    }
+
+    article {
+        width: 228px;
+        padding: 0;
+    }
+
+    article time {
+        float: none;
+        margin: 0px;
+    }
+
+    article img {
+        width: 100%;
+    }
+
+    article nav {
+        width: 228px;
+        margin-left: 0px;
+        font-size: 0.7em;
+    }
+
+    article nav .previous,
+    article nav .next {
+        text-align: center;
+        float: none;
+    }
+
+    h1 {
+        font-size: 110%;
+    }
+
+    h2 {
+        font-size: 100%;
+    }
+
+    footer {
+        width: 228px;
+    }
+
+    .codehilite pre {
+        font-size: 0.75em;
+        padding: 2px 5px;
+        overflow: auto;
+    }
+
+    .pub-list li time {
+        display: block;
+        float: none;
+        width: auto;
+        padding-right: 0px;
+        margin-top: 0px;
+    }
+
+    .pub-list li a {
+        display: inline;
+        padding-left: 0px;
     }
 }

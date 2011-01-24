@@ -1,0 +1,7 @@
+title: How to parse an ESRI shapefile with Python
+slug: shapefiles
+---
+According to the [official shapefile whitepaper][td] from
+, 
+
+ [td]: http://www.esri.com/library/whitepapers/pdfs/shapefile.pdf "ESRI Shapefile Technical Description"

@@ -4,7 +4,8 @@ slug: gold
 ---
 <div style="float: right; margin-left: 1em; padding: 5px"><a
 href="http://www.flickr.com/photos/7159212@N05/442965594/" title="photo by tao_zhyn on Flickr"><img
-src="/images/gold.jpg" width="240" height="128" alt="gold coins"></a></div>
+src="/images/gold.jpg" width="240" height="128" alt="gold coins"
+class="facebook-image"></a></div>
 
 We won’t return to a gold standard because changing to a fiat currency was
 one of the great innovations of modern economics. You aren’t literally

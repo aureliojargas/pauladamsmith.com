@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+      <loc>http://pauladamsmith.com/blog/2011/01/bluecollarleague.html</loc>
+      <lastmod>2011-01-24</lastmod>
+      </url>
+  <url>
       <loc>http://pauladamsmith.com/blog/2011/01/gold.html</loc>
       <lastmod>2011-01-14</lastmod>
       </url>
@@ -26,12 +30,12 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/</loc>
-      <lastmod>2011-01-14</lastmod>
+      <lastmod>2011-01-24</lastmod>
       <changefreq>daily</changefreq>
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/2011/01/</loc>
-      <lastmod>2011-01-14</lastmod>
+      <lastmod>2011-01-24</lastmod>
       <changefreq>daily</changefreq>
       </url>
   <url>
@@ -46,7 +50,7 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/2011/</loc>
-      <lastmod>2011-01-14</lastmod>
+      <lastmod>2011-01-24</lastmod>
       <changefreq>daily</changefreq>
       </url>
   <url>
@@ -72,7 +76,7 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/index.html</loc>
-      <lastmod>2011-01-12</lastmod>
+      <lastmod>2011-01-15</lastmod>
       </url>
   <url>
       <loc>http://pauladamsmith.com/resume.html</loc>
@@ -100,7 +104,7 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/articles/index.html</loc>
-      <lastmod>2010-11-01</lastmod>
+      <lastmod>2011-01-15</lastmod>
       </url>
   <url>
       <loc>http://pauladamsmith.com/misc/top_50_baltimore_restaurants_2010.html</loc>

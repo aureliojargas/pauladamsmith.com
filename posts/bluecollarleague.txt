@@ -1,0 +1,156 @@
+title: The All-Blue-Collar League
+slug: bluecollarleague
+pub_date: 2011-01-23 20:22
+---
+In honor of the [all][pack]-[union][steelers] Super Bowl, I present the
+All-Blue-Collar League, a collection of U.S. professional sports franchises
+named after local unions, industry.
+
+In solidarity:
+
+<table id="teams">
+    <tr>
+        <th>NFL</th>
+    </tr>
+    <tr class="team packers">
+        <td><span></span>Green Bay <b>Packers</b>
+        <p class="explanation">Named after the <a
+        href="http://en.wikipedia.org/wiki/Indian_Packing_Company">Indian
+        Packing Company</a>.</p></td>
+    </tr>
+    <tr class="team steelers">
+        <td><span></span>Pittsburgh <b>Steelers</b>
+        <p class="explanation">Pittsburgh’s economy centered around the steel
+        industry for many years.</p></td>
+    </tr>
+    <tr class="team cowboys">
+        <td><span></span>Dallas <b>Cowboys</b>
+        <p class="explanation"><a
+        href="http://en.wikipedia.org/wiki/Cowboy#Texas_tradition">Texas
+        cowboys</a> were freelance livestock herders and handlers.</p></td>
+    </tr>
+
+    <tr>
+        <th>MLB</th>
+    </tr>
+    <tr class="team astros">
+        <td><span></span>Houston <b>Astros</b>
+        <p class="explanation"><a
+        href="http://www.nasa.gov/centers/johnson/home/index.html">NASA’s
+        Johnson Space Center</a> and the greater space industry is a huge
+        employer in the Houston region.</p></td>
+    </tr>
+    <tr class="team brewers">
+        <td><span></span>Milwaukee <b>Brewers</b>
+        <p class="explanation">Named for the <a
+        href="http://en.wikipedia.org/wiki/Milwaukee_Brewers">city’s association
+        with the beer brewing industry</a>.</p></td>
+    </tr>
+    <tr class="team mariners">
+        <td><span></span>Seattle <b>Mariners</b>
+        <p class="explanation">The city’s location makes it a natural for many
+        maritime industries, including fishmongering, and fishwivery.</p></td>
+    </tr>
+    <tr class="team rangers">
+        <td><span></span>Texas <b>Rangers</b>
+        <p class="explanation">The <a
+        href="http://en.wikipedia.org/wiki/Texas_Ranger_Division">Texas
+        Rangers</a> have been a statewide law enforcement agency since 1823, the
+        oldest such agency in the U.S.</p></td>
+    </tr>
+
+    <tr>
+        <th>NBA</th>
+    </tr>
+    <tr class="team pistons">
+        <td><span></span>Detroit <b>Pistons</b>
+        <p class="explanation">Detroit is synonymous with the American auto
+        industry, a source of high-quality middle-class jobs for most of the
+        20th century.</p></td>
+    </tr>
+
+    <tr>
+        <th>NHL</th>
+    </tr>
+    <tr class="team oilers">
+        <td><span></span>Edmonton <b>Oilers</b>
+        <p class="explanation">Edmonton is one of Canada’s major oil refinery
+        centers.</p></td>
+    </tr>
+</table>
+
+Thanks to [@kostuch][1], [@ikesmith][2], [@joshandrews][3], [@tcarmody][4],
+[@lmsahistory][5], and [@janieporche][6] for suggestions.
+
+ [pack]: http://sportsillustrated.cnn.com/football/nfl/gameflash/2011/01/23/4353_recap.html?&eref=sihp
+ [steelers]: http://sportsillustrated.cnn.com/football/nfl/gameflash/2011/01/23/4354_recap.html?eref=sihp
+ [1]: http://twitter.com/kostuch
+ [2]: http://twitter.com/ikesmith
+ [3]: http://twitter.com/joshandrews
+ [4]: http://twitter.com/tcarmody
+ [5]: http://twitter.com/lmsahistory
+ [6]: http://twitter.com/janieporche
+
+<style>
+#teams {
+    width: 100%;
+    margin-bottom: 1em;
+}
+
+#teams tr {
+    clear: both;
+}
+
+#teams th {
+    padding: 5px 6px;
+}
+
+#teams th {
+    background: hsla(215, 35%, 35%, 1.0);
+    color: white;
+}
+
+#teams td {
+    height: 50px;
+    line-height: 50px;
+    padding: 5px 0;
+    border-bottom: 1px solid hsla(215, 35%, 35%, 0.5);
+}
+
+#teams td span {
+    display: block;
+    float: left;
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
+    background-image: url(/images/blue_collar_sprite.png);
+    background-repeat: no-repeat;
+}
+
+#teams .explanation {
+    display: none;
+}
+
+.brewers td span { background-position: -50px 0px; }
+.cowboys td span { background-position: -100px 0px; }
+.mariners td span { background-position: -150px 0px; }
+.oilers td span { background-position: -200px 0px; }
+.packers td span { background-position: -250px 0px; }
+.pistons td span { background-position: -300px 0px; }
+.rangers td span { background-position: -350px 0px; }
+.steelers td span { background-position: -400px 0px; }
+
+.tooltip {
+    width: 162px;
+    height: 100px;
+    padding: 10px;
+    display: none;
+    font-size: 75%;
+    color: #fff;
+    background: #39393f;
+}
+
+.tooltip a {
+    color: #fff;
+}
+</style>

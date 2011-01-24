@@ -1,11 +1,12 @@
-<!doctype html>
-<html lang=en>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <meta charset=utf-8>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>October 2010 blog archive - Paul Smith</title>
     <meta name="description" content="Paul Smith, programmer, EveryBlock co-founder">
-    <link rel="stylesheet" type="text/css"
-    href="http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold|Inconsolata">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold|Inconsolata|Droid+Serif:regular,bold">
     <!--[if gte IE 7]><!-->
     <link rel="stylesheet" media="screen, projection" href="/css/base.css" type="text/css">
     <!-- <![endif]-->
@@ -17,28 +18,25 @@
     
   </head>
   <body>
-    <div id="page">
-      <header>
-        <h1><a href="/">Paul Smith</a></h1>
-        <nav>
-          <ul>
-            <li><a href="/about.html">About</a></li>
-            <li><a href="/blog/">Blog</a></li>
-            <li><a href="/articles/">Articles</a></li>
-            <li><a href="/projects.html">Projects</a></li>
-          </ul>
-        </nav>
-      </header>
-      <div id="main">
-        
+    <header>
+      <h1><a href="/">Paul Smith</a></h1>
+      <nav>
+        <ul>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/articles/">Articles</a></li>
+          <li><a href="/projects.html">Projects</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div id="main">
+      
 <h1>Blog archive for October 2010</h1>
 <article class="post">
-  <h1><a href="/blog/2010/10/old_things.html" title="Permalink to this post">I know about old things</a></h1>
-
-  <time datetime="2010-10-31" pubdate>
-    October 31, 2010
-  </time>
-
+  <header>
+    <h1><a href="/blog/2010/10/old_things.html" title="Permalink to this post">I know about old things</a></h1>
+    <time datetime="2010-10-31" pubdate>October 31, 2010</time>
+  </header>
   <p><a href="http://scripting.com/stories/2010/09/23/farewellToThePhone.html">This post by Dave Winer</a> is an example of an observation I’ve seen
 made recently, which roughly goes, kids today, they didn’t grow up
 with ringing-bell, handset-style telephones, or floppy disks, to name
@@ -65,15 +63,12 @@ movies, and in part because of software and the Internet, we will
 remember, and especially we will remember technologies that overlap,
 in function or metaphor, and which are relevant to our contemporary
 technology stories.</p>
-
   </article>
 <article class="post">
-  <h1><a href="/blog/2010/10/redis.html" title="Permalink to this post">I wrote an article about Redis</a></h1>
-
-  <time datetime="2010-10-18" pubdate>
-    October 18, 2010
-  </time>
-
+  <header>
+    <h1><a href="/blog/2010/10/redis.html" title="Permalink to this post">I wrote an article about Redis</a></h1>
+    <time datetime="2010-10-18" pubdate>October 18, 2010</time>
+  </header>
   <p>I’ve been using Redis more and more lately, and I started poking
 around in the source code trying to understand it better. I wrote <a
 href="/articles/redis-under-the-hood.html">an article</a> about how
@@ -88,31 +83,29 @@ on making it fast, bug-free, and keeping it small (in the sense of
 features, code base, complexity). They're also working on a
 distributed version that could be very promising, taking it beyond
 what is already IMO a very successful single process model.</p>
-
   </article>
 
-      </div><!-- #main -->
-      <div id="side">
-        <div>
-          
-        </div>
-      </div>
-    </div><!-- #page -->
+      <aside>
+        
+      </aside>
+    </div>
     <footer>
-      ⓒ  Paul Smith. Baked with Python.
+      <p>ⓒ  Paul Smith. Baked with Python.
+      <p>Always wrong. Never in doubt.</p>
     </footer>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-
-<script type="text/javascript">
-// Google Analytics
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-304677-1']);
-_gaq.push(['_trackPageview']);
-(function() {
-  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
-</script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+    <script src="/js/tooltip.js"></script>
+    
+    <script type="text/javascript">
+    // Google Analytics
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-304677-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    </script>
   </body>
 </html>

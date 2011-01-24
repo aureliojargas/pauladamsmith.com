@@ -5,12 +5,14 @@
 {% block bodyattrs %} class="blog"{% endblock %}
 
 {% block side %}
-<p>Blog archive</p>
-<ul>
-  {% for year in years -%}
-    <li><a href="/blog/{{ year }}/">{{ year }}</a></li>
-  {% endfor -%}
-</ul>
+<section>
+  <p>Blog archive</p>
+  <ul>
+    {% for year in years -%}
+      <li><a href="/blog/{{ year }}/">{{ year }}</a></li>
+    {% endfor -%}
+  </ul>
+</section>
 {% endblock %}
 
 {% block content %}
