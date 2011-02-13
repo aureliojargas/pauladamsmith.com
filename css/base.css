@@ -172,6 +172,24 @@ th {
     font-weight: bold;
 }
 
+
+.tooltip {
+    width: 200px;
+    font-size: 75%;
+    color: #fff;
+    padding-bottom: 12px;
+    background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAMCAMAAABlXnzoAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAA3XAAAN1wFCKJt4AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAD9QTFRF////AAAAKysrOzs7NTVANjY8OTk9Ozs+ODg+ODhAOTk/OTk/Ojo/ODg/OTk/Ojo/OTk/OTk/OTk/OTk/OTk/bWvnjAAAABR0Uk5TAAEGDRgmNkpfYHWKn7XJ2efy+f7I3pXKAAAASklEQVQIHU3BiRaAEAAEwHWXq7D//63Jk8wgcZNgKpdqgMAlAFA3p1uhOzkdeInMIQsMtrFrFlNkF/HRhSwaiyc9fvK6JDbOYXgAEucGlHUcrLAAAAAASUVORK5CYII=') no-repeat 18px bottom;
+}
+
+.tooltip .wrap {
+    padding: 10px;
+    background: #39393f;
+}
+
+.tooltip a {
+    color: #fff;
+}
+
 /**
  * Layout
  */

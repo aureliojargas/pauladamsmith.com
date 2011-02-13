@@ -11,12 +11,12 @@
     return {top: top, left: left};
   }
 
-  function Tooltip(trigger, content) {
+  function Tooltip(trigger) {
     var self = this,
-        tooltip = $('<div class="tooltip"></div>'),
-        content = $(content, trigger).html();
+        tooltip = $('<div class="tooltip"><div class="wrap"></div></div>'),
+        content = $(trigger).attr('title');
 
-    tooltip.html(content);
+    tooltip.find('.wrap').html(content);
     $(document.body).append(tooltip);
 
     $.extend(this, {
@@ -53,4 +53,4 @@
   };
 })(jQuery);
 
-$('.team td').tooltip('.explanation');
+$('.team').tooltip();
