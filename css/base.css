@@ -174,6 +174,7 @@ th {
 
 
 .tooltip {
+    display: none;
     width: 200px;
     font-size: 75%;
     color: #fff;
@@ -188,6 +189,23 @@ th {
 
 .tooltip a {
     color: #fff;
+}
+
+#projects h2 {
+    overflow: auto;
+    width: 100%;
+}
+
+#projects figure img {
+    width: 288px;
+    float: right;
+    margin: 0em 0em 1em 1.5em;
+    padding: 1.123%;
+    background: white;
+    border: 1px solid #ccc;
+    -webkit-box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
 }
 
 /**
@@ -349,6 +367,10 @@ footer {
     footer {
         width: 1068px;
     }
+
+    #projects figure img {
+        width: 400px;
+    }
 }
 
 /*	5-column layout
@@ -421,6 +443,10 @@ footer {
         font-size: 0.80em;
         padding: 2px 5px;
         overflow: auto;
+    }
+
+    #projects figure img {
+        width: 37.45318%;
     }
 }
 
@@ -519,5 +545,9 @@ footer {
     .pub-list li a {
         display: inline;
         padding-left: 0px;
+    }
+
+    #projects figure img {
+        width: 37.45318%;
     }
 }
