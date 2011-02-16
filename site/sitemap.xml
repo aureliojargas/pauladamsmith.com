@@ -68,7 +68,7 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/projects.html</loc>
-      <lastmod>2010-12-17</lastmod>
+      <lastmod>2011-02-13</lastmod>
       </url>
   <url>
       <loc>http://pauladamsmith.com/robots.txt</loc>
@@ -76,7 +76,7 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/index.html</loc>
-      <lastmod>2011-01-15</lastmod>
+      <lastmod>2011-02-16</lastmod>
       </url>
   <url>
       <loc>http://pauladamsmith.com/resume.html</loc>
@@ -109,5 +109,157 @@
   <url>
       <loc>http://pauladamsmith.com/misc/top_50_baltimore_restaurants_2010.html</loc>
       <lastmod>2010-12-17</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/pip-delete-this-directory.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/pip-egg-info/Markdown.egg-info/SOURCES.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/pip-egg-info/Markdown.egg-info/top_level.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/pip-egg-info/Markdown.egg-info/dependency_links.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/writing_extensions.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/release-2.0.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/command_line.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/using_as_module.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/release-2.0.2.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/README.html</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/release-2.0.1.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/extra.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/Tables.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/HeaderId.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/RSS.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/footnotes.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/Meta-Data.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/HTML_Tidy.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/Tables_of_Contents.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/WikiLinks.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/CodeHilite.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/index.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/Abbreviations.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/ImageLinks.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/Fenced_Code_Blocks.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/Definition_Lists.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/Markdown.egg-info/SOURCES.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/Markdown.egg-info/top_level.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/build/Markdown/Markdown.egg-info/dependency_links.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/lib/python2.6/orig-prefix.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/lib/python2.6/site-packages/pip-0.8.1-py2.6.egg/EGG-INFO/SOURCES.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/lib/python2.6/site-packages/pip-0.8.1-py2.6.egg/EGG-INFO/top_level.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/lib/python2.6/site-packages/pip-0.8.1-py2.6.egg/EGG-INFO/dependency_links.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/lib/python2.6/site-packages/pip-0.8.1-py2.6.egg/EGG-INFO/entry_points.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/lib/python2.6/site-packages/Markdown-2.0.3-py2.6.egg-info/SOURCES.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/lib/python2.6/site-packages/Markdown-2.0.3-py2.6.egg-info/top_level.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/lib/python2.6/site-packages/Markdown-2.0.3-py2.6.egg-info/dependency_links.txt</loc>
+      <lastmod>2011-02-13</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/envosx/lib/python2.6/site-packages/Markdown-2.0.3-py2.6.egg-info/installed-files.txt</loc>
+      <lastmod>2011-02-13</lastmod>
       </url>
   </urlset>

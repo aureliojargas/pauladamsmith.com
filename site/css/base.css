@@ -199,7 +199,7 @@ th {
 #projects figure img {
     width: 288px;
     float: right;
-    margin: 0em 0em 1em 1em;
+    margin: 0em 0em 1em 1.5em;
     padding: 1.123%;
     background: white;
     border: 1px solid #ccc;
@@ -268,6 +268,11 @@ body > header {
 
 .pub-list li {
     clear: both;
+}
+
+.pub-list .where {
+    color: #999;
+    font-size: 90%;
 }
 
 article {

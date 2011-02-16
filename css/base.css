@@ -270,6 +270,11 @@ body > header {
     clear: both;
 }
 
+.pub-list .where {
+    color: #999;
+    font-size: 90%;
+}
+
 article {
     width: 480px;
     padding-left: 168px;
