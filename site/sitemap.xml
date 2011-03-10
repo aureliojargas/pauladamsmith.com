@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+      <loc>http://pauladamsmith.com/blog/2011/03/redis_get_set.html</loc>
+      <lastmod>2011-03-10</lastmod>
+      </url>
+  <url>
       <loc>http://pauladamsmith.com/blog/2011/01/bluecollarleague.html</loc>
       <lastmod>2011-01-24</lastmod>
       </url>
@@ -30,7 +34,12 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/</loc>
-      <lastmod>2011-01-24</lastmod>
+      <lastmod>2011-03-10</lastmod>
+      <changefreq>daily</changefreq>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/blog/2011/03/</loc>
+      <lastmod>2011-03-10</lastmod>
       <changefreq>daily</changefreq>
       </url>
   <url>
@@ -50,7 +59,7 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/2011/</loc>
-      <lastmod>2011-01-24</lastmod>
+      <lastmod>2011-03-10</lastmod>
       <changefreq>daily</changefreq>
       </url>
   <url>
@@ -76,7 +85,7 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/index.html</loc>
-      <lastmod>2011-02-16</lastmod>
+      <lastmod>2011-02-22</lastmod>
       </url>
   <url>
       <loc>http://pauladamsmith.com/resume.html</loc>

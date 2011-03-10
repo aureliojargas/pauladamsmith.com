@@ -5,11 +5,544 @@
   <link href="http://pauladamsmith.com/atom.xml" rel="self" />
   <link href="http://pauladamsmith.com/" />
   <id>pauladamsmith.com</id>
-  <updated>2011-01-24T00:22:00Z</updated>
+  <updated>2011-03-10T19:48:00Z</updated>
   <author>
     <name>Paul Smith</name>
     <email>paulsmith@pobox.com</email>
   </author>
+  <entry>
+    <title>More Redis internals: Tracing a GET & SET</title>
+    <link href="/blog/2011/03/redis_get_set.html" />
+    <id>http://pauladamsmith.com/blog/2011/03/redis_get_set.html</id>
+    <updated>2011-03-10T19:48:00Z</updated>
+    <content type="html">&lt;p&gt;In my &lt;a href=&#34;/articles/redis-under-the-hood.html&#34;&gt;previous article&lt;/a&gt;, I took a
+superficial look at how Redis starts up and prepares itself to process
+commands. In this article, I&#39;ll follow a &lt;code&gt;GET&lt;/code&gt; and a &lt;code&gt;SET&lt;/code&gt; command as
+they move from client through the server and back. The &lt;code&gt;GET&lt;/code&gt; will be for
+a key that doesn&#39;t exist, and the &lt;code&gt;SET&lt;/code&gt; will set that key.  Then I&#39;ll look
+quickly at a subsequent &lt;code&gt;GET&lt;/code&gt; and how it differs.&lt;/p&gt;
+&lt;p&gt;As before, I&#39;m exploring Redis with the source code open in my editor and
+indexed with a &lt;code&gt;tags&lt;/code&gt; file, and the Redis server running under &lt;code&gt;gdb&lt;/code&gt; in
+another terminal.&lt;/p&gt;
+&lt;p&gt;Caveat: this article was written against the codebase of Redis 2.2.1. With
+respect to my previous article, for a list of what has changed in Redis since
+I wrote it, see this &lt;a href=&#34;http://news.ycombinator.com/item?id=2301804&#34;&gt;comment on
+HN&lt;/a&gt;.&lt;/p&gt;
+&lt;h1&gt;GET&lt;/h1&gt;
+&lt;p&gt;Let&#39;s execute the command &lt;code&gt;get users:1234&lt;/code&gt; on Redis.&lt;/p&gt;
+&lt;h2&gt;Preparing&lt;/h2&gt;
+&lt;p&gt;If you inspect certain variables under &lt;code&gt;gdb&lt;/code&gt;, you might not get what you want.
+Instead you see a message like &#34;&lt;value temporarily unavailable, due to
+optimizations&gt;.&#34; This is because the compiler has optimized the machine code
+in such a fashion that the portion of memory you wanted to look at that was
+never used, at least for the variable under inspection. To make stepping
+through the code and inspecting a little easier, we make sure that Redis is
+not compiled with optimizations. I did this by replacing the line in
+&lt;code&gt;src/Makefile&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;n&#34;&gt;OPTIMIZATION&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;?&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;O2&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;with:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;n&#34;&gt;OPTIMIZATION&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;?&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;and then typing &lt;code&gt;make&lt;/code&gt; as normal.&lt;/p&gt;
+&lt;h2&gt;Sending the command from the client&lt;/h2&gt;
+&lt;p&gt;If we look at the &lt;code&gt;repl&lt;/code&gt; loop of redis-cli, we see that it uses the
+&lt;code&gt;linenoise&lt;/code&gt; library to split the arguments of the command. It dispatches on
+the first argument. The loop checks for client commands that aren&#39;t processed
+as a command by the Redis server, like &lt;code&gt;exit&lt;/code&gt;/&lt;code&gt;quit&lt;/code&gt;, &lt;code&gt;clear&lt;/code&gt; (to clear the screen),
+and &lt;code&gt;connect&lt;/code&gt; (which is a way to connect to a specified Redis server on host
+port, instead of the default host of 127.0.0.1 and port of 6379.&lt;/p&gt;
+&lt;p&gt;Any other argument is considered the name of a command to send to the server.
+The remaining arguments are the arugments for that command.&lt;/p&gt;
+&lt;p&gt;We&#39;re trying to get the on-the-wire representation of the &lt;code&gt;get users:1234&lt;/code&gt; command.
+redis-cli uses a &lt;code&gt;redisContext&lt;/code&gt; struct to encapsulate the state of the
+connection to the server, as well as the output buffer where the command in
+the form of the Redis protocol is written for sending to the server. We know
+from reading the source of hiredis (the Redis C client library that the redis-cli
+program is built on) that the &lt;code&gt;obuf&lt;/code&gt; field is where the raw command is stored:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;cp&#34;&gt;# hiredis.h:107&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;/* Context for a connection to Redis */&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;typedef&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;redisContext&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;fd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;flags&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;kt&#34;&gt;char&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;obuf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;cm&#34;&gt;/* Write buffer */&lt;/span&gt;
+    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;cm&#34;&gt;/* Error flags, 0 when there is no error */&lt;/span&gt;
+    &lt;span class=&#34;kt&#34;&gt;char&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;errstr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;cm&#34;&gt;/* String representation of error when applicable */&lt;/span&gt;
+
+    &lt;span class=&#34;cm&#34;&gt;/* Function set for reply buildup and reply reader */&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;redisReplyObjectFunctions&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fn&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;reader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;redisContext&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If we set a breakpoint on &lt;code&gt;cliReadReply&lt;/code&gt;, we can inspect the output buffer and
+see exactly how the command looks as a bytestring bound for the server.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;client $ gdb src/redis-cli
+(gdb) b cliReadReply
+(gdb) run
+Starting program: /home/paul/src/redis-2.2.0-RC2/src/redis-cli 
+Reading symbols for shared libraries +. done
+redis&amp;gt; get users:1234
+
+Breakpoint 1, cliReadReply (output_raw_strings=0) at redis-cli.c:421
+421         if (redisGetReply(context,&amp;amp;_reply) != REDIS_OK) {
+(gdb) p context-&amp;gt;obuf 
+$1 = 0x100102428 &amp;quot;*2\r\n$3\r\nget\r\n$10\r\nusers:1234\r\n&amp;quot;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We see that the Redis command &lt;code&gt;get users:1234&lt;/code&gt; as entered in our client is
+translated to &lt;code&gt;*2\r\n$3\r\nget\r\n$10\r\nusers:1234\r\n&lt;/code&gt;. Any Redis client is
+going to convert our command expressed in its respective syntax to the same
+on-the-wire format. So in Python:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&amp;gt;&amp;gt;&amp;gt; redis_client.get(&amp;#39;users:1234&amp;#39;)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;will send the same &lt;code&gt;*2\r\n$3\r\nget\r\n$10\r\nusers:1234\r\n&lt;/code&gt; bytestring to
+the server. &lt;/p&gt;
+&lt;p&gt;Let&#39;s print that bytestring to screen and render those `rn&#39;s as line feeds
+so we can see an expanded view and get a better look at the protocol.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;*2
+$3
+get
+$10
+users:1234
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The first bit is &lt;code&gt;*2&lt;/code&gt;, which tells us that the arity of the command,
+including the command name, is 2. That is, the server should expect two
+arguments to follow.&lt;/p&gt;
+&lt;p&gt;The next bit is &lt;code&gt;$3&lt;/code&gt;, which means that the length of the first argument in
+bytes is 3. The argument itself follows, our command name, &lt;code&gt;get&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The next bit after that is &lt;code&gt;$10&lt;/code&gt;, so the length in bytes of the second
+argument is 10. Our one and only argument to the command is next,
+&lt;code&gt;users:1234&lt;/code&gt;, the key we are trying to &lt;code&gt;get&lt;/code&gt;.&lt;/p&gt;
+&lt;h2&gt;Receiving the command on the server&lt;/h2&gt;
+&lt;p&gt;If you remember from the last article, &lt;code&gt;readQueryFromClient&lt;/code&gt; is a good place
+to set a breakpoint in your debugger on the server side for inspecting an
+inbound client command.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;server $ gdb src/redis-server
+(gdb) b readQueryFromClient
+Breakpoint 1 at 0x100011445: file networking.c, line 882.
+(gdb) run redis.conf
+Starting program: /home/paul/src/redis-2.2.0-RC2/src/redis-server redis.conf
+Reading symbols for shared libraries +. done
+[63700] 01 Mar 11:04:40 * Server started, Redis version 2.2.1
+[63700] 01 Mar 11:04:40 * The server is now ready to accept connections on port 6379
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now back in the terminal with the client running in the debugger, continue to
+send the command to the server, which will stop at the breakpoint we set.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;# client
+(gdb) c
+Continuing.
+
+# server
+Breakpoint 1, readQueryFromClient (el=0x100200000, fd=5, privdata=0x100804e00, mask=1) at networking.c:801
+801     void readQueryFromClient(aeEventLoop *el, int fd, void *privdata, int mask) {
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Let&#39;s step to the following line:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;cp&#34;&gt;# src/networking.c:808&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;nread&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;read&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;buf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;REDIS_IOBUF_LEN&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If we step to here in our debugger, we see that the server read 30 bytes. If
+you count the number of bytes in our Redis protocol-encoded command,
+&lt;code&gt;*2\r\n$3\r\nget\r\n$10\r\nusers:1234\r\n&lt;/code&gt;, you&#39;ll see it&#39;s 30. Just for good
+measure, let&#39;s look at the 30 bytes beginning at the memory location pointed
+to by &lt;code&gt;buf&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;(gdb) p nread
+30
+(gdb) x/30cb buf
+0x7fff5fbfeaf0: 42 &amp;#39;*&amp;#39;  50 &amp;#39;2&amp;#39;  13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39; 36 &amp;#39;$&amp;#39;  51 &amp;#39;3&amp;#39;  13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39;
+0x7fff5fbfeaf8: 71 &amp;#39;G&amp;#39;  69 &amp;#39;E&amp;#39;  84 &amp;#39;T&amp;#39;  13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39; 36 &amp;#39;$&amp;#39;  49 &amp;#39;1&amp;#39;  48 &amp;#39;0&amp;#39;
+0x7fff5fbfeb00: 13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39; 117 &amp;#39;u&amp;#39; 115 &amp;#39;s&amp;#39; 101 &amp;#39;e&amp;#39; 114 &amp;#39;r&amp;#39; 115 &amp;#39;s&amp;#39; 58 &amp;#39;:&amp;#39;
+0x7fff5fbfeb08: 49 &amp;#39;1&amp;#39;  50 &amp;#39;2&amp;#39;  51 &amp;#39;3&amp;#39;  52 &amp;#39;4&amp;#39;  13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And we can see our whole command bytestring is there, byte by byte.&lt;/p&gt;
+&lt;p&gt;The server has now read in the entirety of our command in one step.  (Because
+we had a relatively short command, one that fits inside a kernel buffer, and
+we are the only client on a loopback network device, this is the case, but it
+need not be. Since Redis is event-driven, this function,
+&lt;code&gt;readQueryFromClient&lt;/code&gt;, is called whenever there are bytes from buffers to be
+read. If our command was particularly long, or there was a lot of network
+contention, the command may take more than one I/O event before it is fully
+read. For this reason, Redis builds up a buffer per client and appends bytes
+to it on each call to this function. It only proceeds with processing the
+command when it has been fully read. But we don&#39;t need to consider this in our
+simple example, so we will proceed.)&lt;/p&gt;
+&lt;p&gt;We&#39;re going to elide the processing of the input buffer. This is the point
+where the server takes the Redis protocol-encoded bytestring of our request
+and unpacks it into arguments on the client struct object. If you are
+interested in the details of that parsing, examine the function
+&lt;code&gt;processMultibulkBuffer&lt;/code&gt; in &lt;code&gt;networking.c&lt;/code&gt;. All we are interested in at this
+point is that the &lt;code&gt;argc&lt;/code&gt; member of the client object is the number of command
+arguments (counting the command name itself) and &lt;code&gt;argv&lt;/code&gt; is a pointer to the
+list of arguments.&lt;/p&gt;
+&lt;p&gt;The bit of code we care at this point is &lt;code&gt;processCommand&lt;/code&gt;. The first thing the
+server does is look up the command in its command table (see &#34;Setting up
+command table&#34; in the previous article, but note that this lookup is now O(1),
+see the HN thread linked above). Assuming the command is found (which our
+&lt;code&gt;get&lt;/code&gt; will be), the server will double-check that the arity of the command as
+defined in the command table matches the number of arguments received from the
+client (&lt;code&gt;c-&amp;gt;argc&lt;/code&gt;).&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;cp&#34;&gt;# redis.c:998&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;cmd&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;lookupCommand&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;argv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ptr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cmd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;addReplyErrorFormat&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;unknown command &amp;#39;%s&amp;#39;&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;char&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;argv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ptr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;REDIS_OK&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cmd&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;arity&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cmd&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;arity&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;argc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;||&lt;/span&gt;
+           &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;argc&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cmd&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;arity&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;addReplyErrorFormat&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;wrong number of arguments for &amp;#39;%s&amp;#39; command&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;cmd&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;REDIS_OK&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Skip down to the end of &lt;code&gt;processCommand&lt;/code&gt;. Because our humble &lt;code&gt;get&lt;/code&gt; is not a
+&#34;multi&#34; command like &lt;code&gt;mget&lt;/code&gt;, &lt;code&gt;mset&lt;/code&gt;, etc., it doesn&#39;t require queue-like
+processing of the underlying multiple commands, so we go right to &lt;code&gt;call&lt;/code&gt;,
+which is where our command is dispatched.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;cp&#34;&gt;# redis.c:953&lt;/span&gt;
+&lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;call&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;redisClient&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;redisCommand&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cmd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;kt&#34;&gt;long&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;long&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;dirty&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+    &lt;span class=&#34;n&#34;&gt;dirty&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dirty&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;cmd&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;proc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;dirty&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dirty&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dirty&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;appendonly&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;dirty&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;feedAppendOnlyFile&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cmd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;db&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;argv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;argc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dirty&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;||&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cmd&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;flags&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;REDIS_CMD_FORCE_REPLICATION&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;listLength&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;slaves&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;replicationFeedSlaves&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;slaves&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;db&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;argv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;argc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;listLength&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;monitors&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;replicationFeedMonitors&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;monitors&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;db&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;argv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;argc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;stat_numcommands&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;++&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Let&#39;s focus on line 952, &lt;code&gt;cmd-&amp;gt;proc(c);&lt;/code&gt;. This is Redis&#39;s dynamic dispatching
+of command function calling. Redis makes this clean and simple by
+encapsulating commands and giving all the actual underlying command functions
+the same function signature, taking our client object, which carries the
+payload of our command&#39;s arguments. So we&#39;re interested in looking into the
+details of the Redis command object and the actual function that will handle
+our &lt;code&gt;get&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;cp&#34;&gt;# redis.h:504&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;redisCommand&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;kt&#34;&gt;char&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;redisCommandProc&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;proc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;arity&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;flags&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;cm&#34;&gt;/* Use a function to determine which keys need to be loaded&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;     * in the background prior to executing this command. Takes precedence&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;     * over vm_firstkey and others, ignored when NULL */&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;redisVmPreloadProc&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vm_preload_proc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;cm&#34;&gt;/* What keys should be loaded in background when calling this command? */&lt;/span&gt;
+    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;vm_firstkey&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;cm&#34;&gt;/* The first argument that&amp;#39;s a key (0 = no keys) */&lt;/span&gt;
+    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;vm_lastkey&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;  &lt;span class=&#34;cm&#34;&gt;/* THe last argument that&amp;#39;s a key */&lt;/span&gt;
+    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;vm_keystep&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;  &lt;span class=&#34;cm&#34;&gt;/* The step between first and last key */&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If we pop up to the top of &lt;code&gt;redis.c&lt;/code&gt;, we see the definition of the Redis command
+table, and our &lt;code&gt;get&lt;/code&gt; is the first entry.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;cp&#34;&gt;# redis.c:71&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;redisCommand&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;readonlyCommandTable&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;get&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;getCommand&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;getCommand&lt;/code&gt; is the function that does the actual work for our command.
+It&#39;s a thin wrapper for &lt;code&gt;getGenericCommand&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;cp&#34;&gt;# t_string.c:62&lt;/span&gt;
+&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;getGenericCommand&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;redisClient&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;robj&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;o&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;o&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;lookupKeyReadOrReply&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;argv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;shared&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;nullbulk&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;REDIS_OK&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;o&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;REDIS_STRING&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;addReply&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;shared&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;wrongtypeerr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;REDIS_ERR&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;addReplyBulk&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;o&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;REDIS_OK&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+&lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;getCommand&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;redisClient&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;getGenericCommand&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The arguments to &lt;code&gt;lookupKeyReadOrReply&lt;/code&gt; are the client object, the key
+&lt;code&gt;users:1234&lt;/code&gt; we&#39;re trying to look up, and an object, &lt;code&gt;shared.nullbulk&lt;/code&gt; that
+will be the default reply to the client if the key is not found.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;cp&#34;&gt;# db.c:58&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;robj&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;lookupKeyReadOrReply&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;redisClient&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;robj&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;key&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;robj&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;reply&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;robj&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;o&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;lookupKeyRead&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;db&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;key&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;o&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;addReply&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;reply&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;o&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;lookupKeyRead&lt;/code&gt; is a thin wrapper for &lt;code&gt;lookupKey&lt;/code&gt; that handles removing keys
+that have been set to expire.&lt;/p&gt;
+&lt;p&gt;Now we get to the heart of the &lt;code&gt;get&lt;/code&gt; command -- looking up the key in the
+database.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;cp&#34;&gt;# db.c:9&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;robj&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;lookupKey&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;redisDb&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;db&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;robj&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;key&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;dictEntry&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;de&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;dictFind&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;db&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;key&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ptr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;de&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;robj&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;val&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;dictGetEntryVal&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;de&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+        &lt;span class=&#34;cm&#34;&gt;/* Update the access time for the aging algorithm.&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;         * Don&amp;#39;t do it if we have a saving child, as this will trigger&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;         * a copy on write madness. */&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;bgsavechildpid&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;bgrewritechildpid&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;val&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;lru&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;lruclock&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+        &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vm_enabled&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+            &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;val&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;storage&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;REDIS_VM_MEMORY&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;||&lt;/span&gt;
+                &lt;span class=&#34;n&#34;&gt;val&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;storage&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;REDIS_VM_SWAPPING&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+            &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+                &lt;span class=&#34;cm&#34;&gt;/* If we were swapping the object out, cancel the operation */&lt;/span&gt;
+                &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;val&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;storage&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;REDIS_VM_SWAPPING&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+                    &lt;span class=&#34;n&#34;&gt;vmCancelThreadedIOJob&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;val&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+            &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+                &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;notify&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;val&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;storage&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;REDIS_VM_LOADING&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+                &lt;span class=&#34;cm&#34;&gt;/* Our value was swapped on disk. Bring it at home. */&lt;/span&gt;
+                &lt;span class=&#34;n&#34;&gt;redisAssert&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;val&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;REDIS_VMPOINTER&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+                &lt;span class=&#34;n&#34;&gt;val&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;vmLoadObject&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;val&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+                &lt;span class=&#34;n&#34;&gt;dictGetEntryVal&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;de&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;val&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+                &lt;span class=&#34;cm&#34;&gt;/* Clients blocked by the VM subsystem may be waiting for&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;                 * this key... */&lt;/span&gt;
+                &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;notify&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;handleClientsBlockedOnSwappedKey&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;db&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;key&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+            &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;stat_keyspace_hits&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;++&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;val&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;stat_keyspace_misses&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;++&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Redis uses its own hash table implementation to store keys and their values in
+memory. Inside the &lt;code&gt;db&lt;/code&gt; object, the field &lt;code&gt;dict&lt;/code&gt; is a pointer to the hash
+value for the current Redis database (remember there can be up to 16 separate
+databases in a single Redis server instance, indexed by number).&lt;/p&gt;
+&lt;p&gt;First, Redis calls &lt;code&gt;dictFind&lt;/code&gt; with the database&#39;s hash table and a pointer to
+the key&#39;s bytestring (the key is a Redis object of type &lt;code&gt;robj&lt;/code&gt; -- all keys and
+values in the Redis hash table is a Redis object). &lt;code&gt;dictFind&lt;/code&gt; looks up the
+hash of the key in the table, using a standard algorithm that should be
+familiar to anyone who&#39;s implemented a hash table (check out &lt;code&gt;dict.c&lt;/code&gt; starting
+at line 391 if you&#39;re interested, the table is an array with linked lists for
+colliding hashes).&lt;/p&gt;
+&lt;p&gt;If the key is found in the table, &lt;code&gt;dictFind&lt;/code&gt; returns a pointer to the entry in
+the table. Otherwise, it returns &lt;code&gt;NULL&lt;/code&gt;. Back in &lt;code&gt;lookupKey&lt;/code&gt;, if the entry is
+not null, Redis retrieves the value (i.e., the Redis object our key
+references) from the hash table via &lt;code&gt;dictGetEntryVal&lt;/code&gt; and takes care of a bit
+of bookkeeping for expiry and VM, if the key was found, and stats in either
+case (hits and misses). If the entry was &lt;code&gt;NULL&lt;/code&gt;, then &lt;code&gt;lookupKey&lt;/code&gt; also returns
+&lt;code&gt;NULL&lt;/code&gt;; we&#39;ll see how this is handled by Redis for a reply to the client when
+the key is not found, which is the case for us at this stage.&lt;/p&gt;
+&lt;p&gt;With the value of &lt;code&gt;lookupKey&lt;/code&gt;, we&#39;ll go back up the stack to our callers. Back
+to &lt;code&gt;lookupKeyReadOrReply&lt;/code&gt;, we look at line 60:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;cp&#34;&gt;# t_string.c:60&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;o&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;addReply&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;reply&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Since we got &lt;code&gt;NULL&lt;/code&gt; from &lt;code&gt;lookupKey&lt;/code&gt; this time, we call &lt;code&gt;addReply&lt;/code&gt;.  The value
+of &lt;code&gt;reply&lt;/code&gt; here comes from the call in &lt;code&gt;getGenericCommand&lt;/code&gt;, and it is
+&lt;code&gt;shared.nullbulk&lt;/code&gt;. This field in the global struct object &lt;code&gt;shared&lt;/code&gt; is
+initialize thusly:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;cp&#34;&gt;# redis.c:712&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;shared&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;nullbulk&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;createObject&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;REDIS_STRING&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sdsnew&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;$-1&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\r\n&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We can see that it is a Redis string object who&#39;s on-the-wire value is
+&lt;code&gt;$-1\r\n&lt;/code&gt;, meaning a length of -1, Redis&#39;s way of indicating null to a
+client, according to the protocol.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;addReply&lt;/code&gt; builds the reply to the client. It does this by first setting up a
+write event on the main event loop listener with &lt;code&gt;_installWriteEvent&lt;/code&gt;. This
+makes sure that the reply is written out to the client connection when there
+are bytes present in the buffer. Next, Redis adds the reply to the client&#39;s
+buffer. If the reply object were an non-string value like an integer, or a
+list, or a set, Redis would first decode it to a bytestring that can be
+serialized to, for example, on a socket. Redis string objects are encoded
+&#34;raw,&#34; or as-is. The &lt;code&gt;nullbulk&lt;/code&gt; object is technically a string object, so no
+decoding is necessary in our case. In any case, the reply bytestring is copied
+to the client&#39;s reply buffer with &lt;code&gt;_addReplyToBuffer&lt;/code&gt;, which for all intents
+and purposes completes the execution of our &lt;code&gt;get&lt;/code&gt; command on the server.&lt;/p&gt;
+&lt;p&gt;The client will read the on-the-wire reply of &lt;code&gt;$-1\r\n&lt;/code&gt; and know that it is a
+string reply of length -1, and therefore is the null (or &#34;nil,&#34; in the context
+of &lt;code&gt;redis-cli&lt;/code&gt;) object, and to convert that into the appropriate object for
+the language of the client. Back to our &lt;code&gt;redis-cli&lt;/code&gt; client patiently waiting
+for a reply from our breakpointed server, which we continue from, that looks
+like:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;(nil)
+redis&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;SET&lt;/h1&gt;
+&lt;p&gt;The &lt;code&gt;set&lt;/code&gt; command proceeds much the same way as the &lt;code&gt;get&lt;/code&gt;, up to the point of
+command dispatching on the server.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;# client
+redis&amp;gt; set users:1234 &amp;quot;Paul Smith&amp;quot;
+
+# server
+Breakpoint 1, readQueryFromClient (el=0x100400000, fd=6, privdata=0x100805e00, mask=1) at networking.c:801
+801     void readQueryFromClient(aeEventLoop *el, int fd, void *privdata, int mask) {
+(gdb) n
+802         redisClient *c = (redisClient*) privdata;
+(gdb) n
+808         nread = read(fd, buf, REDIS_IOBUF_LEN);
+(gdb) n
+809         if (nread == -1) {
+(gdb) print nread
+$1 = 47
+(gdb) x/47cb buf
+0x7fff5fbfeba0: 42 &amp;#39;*&amp;#39;  51 &amp;#39;3&amp;#39;  13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39; 36 &amp;#39;$&amp;#39;  51 &amp;#39;3&amp;#39;  13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39;
+0x7fff5fbfeba8: 115 &amp;#39;s&amp;#39; 101 &amp;#39;e&amp;#39; 116 &amp;#39;t&amp;#39; 13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39; 36 &amp;#39;$&amp;#39;  49 &amp;#39;1&amp;#39;  48 &amp;#39;0&amp;#39;
+0x7fff5fbfebb0: 13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39; 117 &amp;#39;u&amp;#39; 115 &amp;#39;s&amp;#39; 101 &amp;#39;e&amp;#39; 114 &amp;#39;r&amp;#39; 115 &amp;#39;s&amp;#39; 58 &amp;#39;:&amp;#39;
+0x7fff5fbfebb8: 49 &amp;#39;1&amp;#39;  50 &amp;#39;2&amp;#39;  51 &amp;#39;3&amp;#39;  52 &amp;#39;4&amp;#39;  13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39; 36 &amp;#39;$&amp;#39;  49 &amp;#39;1&amp;#39;
+0x7fff5fbfebc0: 48 &amp;#39;0&amp;#39;  13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39; 80 &amp;#39;P&amp;#39;  97 &amp;#39;a&amp;#39;  117 &amp;#39;u&amp;#39; 108 &amp;#39;l&amp;#39; 32 &amp;#39; &amp;#39;
+0x7fff5fbfebc8: 83 &amp;#39;S&amp;#39;  109 &amp;#39;m&amp;#39; 105 &amp;#39;i&amp;#39; 116 &amp;#39;t&amp;#39; 104 &amp;#39;h&amp;#39; 13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39;
+(gdb) print (char *)buf
+$2 = 0x7fff5fbfeba0 &amp;quot;*3\r\n$3\r\nset\r\n$10\r\nusers:1234\r\n$10\r\nPaul Smith\r\n&amp;quot;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This time, our protocol-encoded bytestring is 47 bytes long, owing to the
+extra argument &#34;Paul Smith&#34; and the length tag it requires. Also notice the
+leading &lt;code&gt;*3&lt;/code&gt; indicates there are three arguments: &lt;code&gt;set&lt;/code&gt;, &lt;code&gt;users:1234&lt;/code&gt;, &lt;code&gt;Paul Smith&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Let&#39;s skip ahead now to the point in &lt;code&gt;call&lt;/code&gt; in &lt;code&gt;redis.c&lt;/code&gt;, after the command has
+been looked-up in the command table and the server is about ready to call the
+underlying &lt;code&gt;proc&lt;/code&gt; function with the client object argument. The &lt;code&gt;set&lt;/code&gt; command,
+in the form of a &lt;code&gt;redisCommand&lt;/code&gt; struct, looks like this:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;cp&#34;&gt;# redis.c:73&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;set&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;setCommand&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;REDIS_CMD_DENYOOM&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Notice that the arity of the command is 3, which includes the leading command
+name, plus key and value, and matches what we expect from the client. The
+&lt;code&gt;set&lt;/code&gt; command has a flag that &lt;code&gt;get&lt;/code&gt; did not: the constant &lt;code&gt;REDIS_CMD_DENYOOM&lt;/code&gt;
+means that, in out-of-memory situations where Redis can&#39;t allocate any more
+memory, the execution of the command should be denied. (The absence of this
+flag means that Redis can continue to serve client &#34;read&#34; requests like &lt;code&gt;get&lt;/code&gt;
+even when the server can no longer write any new data.)&lt;/p&gt;
+&lt;p&gt;I set a breakpoint on &lt;code&gt;setCommand&lt;/code&gt; and let the server continue running until
+that point:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;# server
+(gdb) b setCommand
+Breakpoint 2 at 0x10001a6e2: file t_string.c, line 48.
+(gdb) c
+Continuing.
+Breakpoint 2, setCommand (c=0x100805e00) at t_string.c:48
+48          c-&amp;gt;argv[2] = tryObjectEncoding(c-&amp;gt;argv[2]);
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Incidentally, you can inspect the values of the client&#39;s command arguments at
+any time, with a simple &lt;code&gt;gdb&lt;/code&gt; invocation. The arguments are of type &lt;code&gt;robj&lt;/code&gt;,
+which has a field &lt;code&gt;ptr&lt;/code&gt; that is a pointer to the actual value in memory. Since
+in our &lt;code&gt;set&lt;/code&gt; case these are strings, we can inspect them by typecasting to
+&lt;code&gt;char *&lt;/code&gt; like so:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;(gdb) p (char *)c-&amp;gt;argv[0]-&amp;gt;ptr
+$10 = 0x10032ae78 &amp;quot;set&amp;quot;
+(gdb) p (char *)c-&amp;gt;argv[1]-&amp;gt;ptr
+$11 = 0x10032b068 &amp;quot;users:1234&amp;quot;
+(gdb) p (char *)c-&amp;gt;argv[2]-&amp;gt;ptr
+$12 = 0x10032b098 &amp;quot;Paul Smith&amp;quot;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The first thing the server does in &lt;code&gt;setCommand&lt;/code&gt; is encode the value being set
+with &lt;code&gt;tryObjectEncoding&lt;/code&gt;. It will try to create an efficient encoding if the
+bytestring can be interpreted as an integer, for example. This can save space
+especially in the case where many numbers are being stored.  Additionally,
+Redis will try to reuse shared integers as values instead of allocating
+resources for new ones -- see the previous article for more on the creation
+and use of shared integers.&lt;/p&gt;
+&lt;p&gt;Once the value being set has been encoded, &lt;code&gt;setGenericCommand&lt;/code&gt; is called
+(&lt;code&gt;set&lt;/code&gt; shares &lt;code&gt;setGenericCommand&lt;/code&gt; with the &lt;code&gt;setnx&lt;/code&gt; and &lt;code&gt;setex&lt;/code&gt; commands). From
+here, &lt;code&gt;dbAdd&lt;/code&gt; is called, with the client, key, and value as arguments. &lt;code&gt;dbAdd&lt;/code&gt;
+will only add the value to the database&#39;s hash table if the key does not
+already exist. In our case, since the key &lt;code&gt;users:1234&lt;/code&gt; does not exist, the
+value of &lt;code&gt;dictFind&lt;/code&gt; is null, and the function proceeds to add the value with
+&lt;code&gt;dictAdd&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;dictAdd&lt;/code&gt; takes the dictionary hash table, key, and value as arguments. It
+uses &lt;code&gt;_dictKeyIndex&lt;/code&gt; to find the index of a free slot in the hash table for
+our new entry. See the implementation in &lt;code&gt;dict.c&lt;/code&gt; and &lt;code&gt;dict.h&lt;/code&gt; for the details
+of key hashing, and the structure of the dictionary and its component hash
+tables (each Redis dictionary contains two hash tables in order to provide
+incremental rehashing as the dictionary grows). &lt;code&gt;dictAdd&lt;/code&gt; allocates memory for
+the new entry and stores it in the new index.&lt;/p&gt;
+&lt;p&gt;The server returns back up the stack from &lt;code&gt;dictAdd&lt;/code&gt; and &lt;code&gt;dbAdd&lt;/code&gt; to
+&lt;code&gt;setGenericCommand&lt;/code&gt;, where it increments the reference count on our new value.
+Redis uses reference counting in order to free memory used by values that have
+been deleted or have expired. It then &#34;touches&#34; the key so that if any clients
+are &lt;code&gt;watch&lt;/code&gt;ing the key, the next &lt;code&gt;exec&lt;/code&gt; command will fail. It also increments
+the server&#39;s &lt;code&gt;dirty&lt;/code&gt; flag, which it uses to determine when to write out the
+dump file to disk. Finally, it writes out the reply to the client, which is a
+shared object, &lt;code&gt;shared.ok&lt;/code&gt;. This is special Redis string object in the
+protocol that consists of the bytestring &#34;+OKrn&#34;. Clients will typically
+convert this into the equivalent &#34;true&#34; value for their language.&lt;/p&gt;
+&lt;h1&gt;GET redux&lt;/h1&gt;
+&lt;p&gt;Our key is now set, so we can try the &lt;code&gt;get users:1234&lt;/code&gt; command again and see
+how it differs for a found key.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;cp&#34;&gt;# db.c:9&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;robj&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;lookupKey&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;redisDb&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;db&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;robj&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;key&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;dictEntry&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;de&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;dictFind&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;db&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;key&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ptr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;de&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;robj&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;val&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;dictGetEntryVal&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;de&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+        &lt;span class=&#34;c1&#34;&gt;// ... skipping the lru &amp;amp; vm parts ...&lt;/span&gt;
+
+        &lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;stat_keyspace_hits&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;++&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;val&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The point where a &lt;code&gt;get&lt;/code&gt; on an existing key and a &lt;code&gt;get&lt;/code&gt; on a non-existent key
+differ is line 11, where the &lt;code&gt;de&lt;/code&gt; entry in the database&#39;s dictionary is found.
+&lt;code&gt;dictGetEntryVal&lt;/code&gt; is a simple macro for accessing the field in the &lt;code&gt;de&lt;/code&gt; struct
+that carries the value associated with the key. Redis updates its statistics
+to indicate a key hit and returns the value object.&lt;/p&gt;
+&lt;p&gt;Again, as with the key miss from above (remember the null value is a Redis
+object, too), the value is decoded into the Redis bytestring protocol. This is
+the response to the client, and we have concluded our &lt;code&gt;GET&lt;/code&gt;/&lt;code&gt;SET&lt;/code&gt;/&lt;code&gt;GET&lt;/code&gt; dance.&lt;/p&gt;</content>
+  </entry>
   <entry>
     <title>The All-Blue-Collar League</title>
     <link href="/blog/2011/01/bluecollarleague.html" />
