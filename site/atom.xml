@@ -28,6 +28,9 @@ another terminal.&lt;/p&gt;
 respect to my previous article, for a list of what has changed in Redis since
 I wrote it, see this &lt;a href=&#34;http://news.ycombinator.com/item?id=2301804&#34;&gt;comment on
 HN&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Edit:&lt;/strong&gt; I made two minor changes based on feedback—Redis keys are not Redis
+objects, they are &lt;code&gt;sds&lt;/code&gt; strings; and you don’t have to hack the Makefile to
+compile without optimizations.&lt;/p&gt;
 &lt;h1&gt;GET&lt;/h1&gt;
 &lt;p&gt;Let&#39;s execute the command &lt;code&gt;get users:1234&lt;/code&gt; on Redis.&lt;/p&gt;
 &lt;h2&gt;Preparing&lt;/h2&gt;
@@ -37,18 +40,17 @@ optimizations&gt;.&#34; This is because the compiler has optimized the machine c
 in such a fashion that the portion of memory you wanted to look at that was
 never used, at least for the variable under inspection. To make stepping
 through the code and inspecting a little easier, we make sure that Redis is
-not compiled with optimizations. I did this by replacing the line in
-&lt;code&gt;src/Makefile&lt;/code&gt;:&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;n&#34;&gt;OPTIMIZATION&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;?&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;O2&lt;/span&gt;
+not compiled with optimizations. You can do this by either building Redis with
+the following invocation:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;n&#34;&gt;make&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;noopt&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;with:&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;n&#34;&gt;OPTIMIZATION&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;?&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;
+&lt;p&gt;or by setting an environment variable:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;n&#34;&gt;OPTIMIZATION&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;make&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;and then typing &lt;code&gt;make&lt;/code&gt; as normal.&lt;/p&gt;
 &lt;h2&gt;Sending the command from the client&lt;/h2&gt;
 &lt;p&gt;If we look at the &lt;code&gt;repl&lt;/code&gt; loop of redis-cli, we see that it uses the
 &lt;code&gt;linenoise&lt;/code&gt; library to split the arguments of the command. It dispatches on
@@ -357,13 +359,11 @@ database.&lt;/p&gt;
 memory. Inside the &lt;code&gt;db&lt;/code&gt; object, the field &lt;code&gt;dict&lt;/code&gt; is a pointer to the hash
 value for the current Redis database (remember there can be up to 16 separate
 databases in a single Redis server instance, indexed by number).&lt;/p&gt;
-&lt;p&gt;First, Redis calls &lt;code&gt;dictFind&lt;/code&gt; with the database&#39;s hash table and a pointer to
-the key&#39;s bytestring (the key is a Redis object of type &lt;code&gt;robj&lt;/code&gt; -- all keys and
-values in the Redis hash table is a Redis object). &lt;code&gt;dictFind&lt;/code&gt; looks up the
-hash of the key in the table, using a standard algorithm that should be
-familiar to anyone who&#39;s implemented a hash table (check out &lt;code&gt;dict.c&lt;/code&gt; starting
-at line 391 if you&#39;re interested, the table is an array with linked lists for
-colliding hashes).&lt;/p&gt;
+&lt;p&gt;First, Redis calls &lt;code&gt;dictFind&lt;/code&gt; with the database&#39;s hash table and a pointer
+to the key&#39;s bytestring. &lt;code&gt;dictFind&lt;/code&gt; looks up the hash of the key in the
+table, using a standard algorithm that should be familiar to anyone who&#39;s
+implemented a hash table (check out &lt;code&gt;dict.c&lt;/code&gt; starting at line 391 if you&#39;re
+interested, the table is an array with linked lists for colliding hashes).&lt;/p&gt;
 &lt;p&gt;If the key is found in the table, &lt;code&gt;dictFind&lt;/code&gt; returns a pointer to the entry in
 the table. Otherwise, it returns &lt;code&gt;NULL&lt;/code&gt;. Back in &lt;code&gt;lookupKey&lt;/code&gt;, if the entry is
 not null, Redis retrieves the value (i.e., the Redis object our key

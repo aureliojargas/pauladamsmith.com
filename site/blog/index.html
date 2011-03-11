@@ -49,6 +49,9 @@ another terminal.</p>
 respect to my previous article, for a list of what has changed in Redis since
 I wrote it, see this <a href="http://news.ycombinator.com/item?id=2301804">comment on
 HN</a>.</p>
+<p><strong>Edit:</strong> I made two minor changes based on feedback—Redis keys are not Redis
+objects, they are <code>sds</code> strings; and you don’t have to hack the Makefile to
+compile without optimizations.</p>
 <h1>GET</h1>
 <p>Let's execute the command <code>get users:1234</code> on Redis.</p>
 <h2>Preparing</h2>
@@ -58,18 +61,17 @@ optimizations>." This is because the compiler has optimized the machine code
 in such a fashion that the portion of memory you wanted to look at that was
 never used, at least for the variable under inspection. To make stepping
 through the code and inspecting a little easier, we make sure that Redis is
-not compiled with optimizations. I did this by replacing the line in
-<code>src/Makefile</code>:</p>
-<div class="codehilite"><pre><span class="n">OPTIMIZATION</span><span class="p">?</span><span class="o">=-</span><span class="n">O2</span>
+not compiled with optimizations. You can do this by either building Redis with
+the following invocation:</p>
+<div class="codehilite"><pre><span class="n">make</span> <span class="n">noopt</span>
 </pre></div>
 
 
-<p>with:</p>
-<div class="codehilite"><pre><span class="n">OPTIMIZATION</span><span class="p">?</span><span class="o">=</span>
+<p>or by setting an environment variable:</p>
+<div class="codehilite"><pre><span class="n">OPTIMIZATION</span><span class="o">=</span> <span class="n">make</span>
 </pre></div>
 
 
-<p>and then typing <code>make</code> as normal.</p>
 <h2>Sending the command from the client</h2>
 <p>If we look at the <code>repl</code> loop of redis-cli, we see that it uses the
 <code>linenoise</code> library to split the arguments of the command. It dispatches on
@@ -378,13 +380,11 @@ database.</p>
 memory. Inside the <code>db</code> object, the field <code>dict</code> is a pointer to the hash
 value for the current Redis database (remember there can be up to 16 separate
 databases in a single Redis server instance, indexed by number).</p>
-<p>First, Redis calls <code>dictFind</code> with the database's hash table and a pointer to
-the key's bytestring (the key is a Redis object of type <code>robj</code> -- all keys and
-values in the Redis hash table is a Redis object). <code>dictFind</code> looks up the
-hash of the key in the table, using a standard algorithm that should be
-familiar to anyone who's implemented a hash table (check out <code>dict.c</code> starting
-at line 391 if you're interested, the table is an array with linked lists for
-colliding hashes).</p>
+<p>First, Redis calls <code>dictFind</code> with the database's hash table and a pointer
+to the key's bytestring. <code>dictFind</code> looks up the hash of the key in the
+table, using a standard algorithm that should be familiar to anyone who's
+implemented a hash table (check out <code>dict.c</code> starting at line 391 if you're
+interested, the table is an array with linked lists for colliding hashes).</p>
 <p>If the key is found in the table, <code>dictFind</code> returns a pointer to the entry in
 the table. Otherwise, it returns <code>NULL</code>. Back in <code>lookupKey</code>, if the entry is
 not null, Redis retrieves the value (i.e., the Redis object our key
