@@ -106,8 +106,12 @@ p, ul, ol {
     margin: 1em 0;
 }
 
+ul {
+    list-style-type: circle;
+}
+
 li {
-    margin-left: 1em;
+    margin-left: 0em;
 }
 
 ul ul {
@@ -131,6 +135,10 @@ header nav {
     text-transform: uppercase;
     font-size: 13px;
     line-height: 1;
+}
+
+nav ul {
+    list-style-type: none;
 }
 
 article h1 a {
@@ -312,6 +320,14 @@ article nav .next {
 aside p,
 aside li {
     float: left;
+}
+
+aside ul {
+    list-style-type: none;
+}
+
+aside li {
+    margin-left: 1em;
 }
 
 aside {

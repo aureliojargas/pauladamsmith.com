@@ -1,0 +1,34 @@
+title: A partial list of metaphors, visual and otherwise, anti-skeuomorphism zealots have to tackle to reach utopia
+slug: floppy
+pub_date: 2011-04-05 14:48
+---
+![icons](/images/icons.jpg)
+Motivated by irrational hatred and overstated claims of the continuing
+utility of a 3.5" floppy disk icon to mean “save”:
+
+* Handset icon, meaning “phone,” on every iPhone, Android
+* e**mail**
+* Web**site** (implies a physical place)
+* Wrench or cog icon, meaning “settings” or “preferences”
+* Shopping cart icon
+* Clock with analog hands, meaning “time” or time-centric application
+* Incandescent light bulb, several meanings, including energy settings
+* Bound, paper book, meaning “book”
+
+Of course there are many, many anachronistic interface elements and metaphors
+in the world, and [we get by okay](/blog/2010/10/old_things.html). Mainly,
+this is because new generations don’t suddenly appear next to us and
+start using our computers without any foreknowledge of the metaphorical
+items. They spend time learning with the old fogeys for whom information was
+sometimes stored inside square pieces of plastic and metal. This overlap is
+necessary in general because knowledge about tools is not encoded in our
+genetic material. All understanding of _use_ is part of a multi-layered
+strata of culture, experience, and relationships.
+
+The real problem anti-floppy-disk people have is explaining a harm,
+specifically, a harm that matters. Often when we think of user interface
+improvements that matter, we think of examples like improving medical devices
+to reduce user error, changes that literally save people’s lives. Or
+tweaks to software that improve user efficiency and productivity, saving
+money. It’s hard to conceive of what might be improved by finding a better
+metaphor for “save” other than some designers’ personal sensibilities.

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+      <loc>http://pauladamsmith.com/blog/2011/04/floppy.html</loc>
+      <lastmod>2011-04-05</lastmod>
+      </url>
+  <url>
       <loc>http://pauladamsmith.com/blog/2011/03/redis_get_set.html</loc>
       <lastmod>2011-03-10</lastmod>
       </url>
@@ -34,13 +38,18 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/</loc>
-      <lastmod>2011-03-10</lastmod>
+      <lastmod>2011-04-05</lastmod>
+      <changefreq>daily</changefreq>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/blog/2011/04/</loc>
+      <lastmod>2011-04-05</lastmod>
       <changefreq>daily</changefreq>
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/2011/03/</loc>
       <lastmod>2011-03-10</lastmod>
-      <changefreq>daily</changefreq>
+      <changefreq>never</changefreq>
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/2011/01/</loc>
@@ -59,13 +68,17 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/2011/</loc>
-      <lastmod>2011-03-10</lastmod>
+      <lastmod>2011-04-05</lastmod>
       <changefreq>daily</changefreq>
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/2010/</loc>
       <lastmod>2010-12-18</lastmod>
       <changefreq>never</changefreq>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/robots.txt</loc>
+      <lastmod>2010-10-27</lastmod>
       </url>
   <url>
       <loc>http://pauladamsmith.com/gpg-key.html</loc>
@@ -76,20 +89,16 @@
       <lastmod>2010-12-17</lastmod>
       </url>
   <url>
-      <loc>http://pauladamsmith.com/projects.html</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/robots.txt</loc>
-      <lastmod>2010-10-27</lastmod>
-      </url>
-  <url>
       <loc>http://pauladamsmith.com/index.html</loc>
       <lastmod>2011-02-22</lastmod>
       </url>
   <url>
       <loc>http://pauladamsmith.com/resume.html</loc>
       <lastmod>2010-10-27</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/projects.html</loc>
+      <lastmod>2011-02-13</lastmod>
       </url>
   <url>
       <loc>http://pauladamsmith.com/elections/il5thse.html</loc>
@@ -104,10 +113,6 @@
       <lastmod>2010-10-27</lastmod>
       </url>
   <url>
-      <loc>http://pauladamsmith.com/articles/redis-under-the-hood.html</loc>
-      <lastmod>2011-01-03</lastmod>
-      </url>
-  <url>
       <loc>http://pauladamsmith.com/articles/redis-get-set.txt</loc>
       <lastmod>2011-01-06</lastmod>
       </url>
@@ -116,159 +121,11 @@
       <lastmod>2011-01-15</lastmod>
       </url>
   <url>
+      <loc>http://pauladamsmith.com/articles/redis-under-the-hood.html</loc>
+      <lastmod>2011-03-15</lastmod>
+      </url>
+  <url>
       <loc>http://pauladamsmith.com/misc/top_50_baltimore_restaurants_2010.html</loc>
       <lastmod>2010-12-17</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/pip-delete-this-directory.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/pip-egg-info/Markdown.egg-info/SOURCES.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/pip-egg-info/Markdown.egg-info/top_level.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/pip-egg-info/Markdown.egg-info/dependency_links.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/writing_extensions.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/release-2.0.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/command_line.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/using_as_module.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/release-2.0.2.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/README.html</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/release-2.0.1.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/extra.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/Tables.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/HeaderId.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/RSS.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/footnotes.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/Meta-Data.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/HTML_Tidy.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/Tables_of_Contents.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/WikiLinks.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/CodeHilite.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/index.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/Abbreviations.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/ImageLinks.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/Fenced_Code_Blocks.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/docs/extensions/Definition_Lists.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/Markdown.egg-info/SOURCES.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/Markdown.egg-info/top_level.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/build/Markdown/Markdown.egg-info/dependency_links.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/lib/python2.6/orig-prefix.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/lib/python2.6/site-packages/pip-0.8.1-py2.6.egg/EGG-INFO/SOURCES.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/lib/python2.6/site-packages/pip-0.8.1-py2.6.egg/EGG-INFO/top_level.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/lib/python2.6/site-packages/pip-0.8.1-py2.6.egg/EGG-INFO/dependency_links.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/lib/python2.6/site-packages/pip-0.8.1-py2.6.egg/EGG-INFO/entry_points.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/lib/python2.6/site-packages/Markdown-2.0.3-py2.6.egg-info/SOURCES.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/lib/python2.6/site-packages/Markdown-2.0.3-py2.6.egg-info/top_level.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/lib/python2.6/site-packages/Markdown-2.0.3-py2.6.egg-info/dependency_links.txt</loc>
-      <lastmod>2011-02-13</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/envosx/lib/python2.6/site-packages/Markdown-2.0.3-py2.6.egg-info/installed-files.txt</loc>
-      <lastmod>2011-02-13</lastmod>
       </url>
   </urlset>

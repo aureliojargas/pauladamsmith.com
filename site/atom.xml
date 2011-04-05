@@ -5,11 +5,46 @@
   <link href="http://pauladamsmith.com/atom.xml" rel="self" />
   <link href="http://pauladamsmith.com/" />
   <id>pauladamsmith.com</id>
-  <updated>2011-03-10T19:48:00Z</updated>
+  <updated>2011-04-05T18:48:00Z</updated>
   <author>
     <name>Paul Smith</name>
     <email>paulsmith@pobox.com</email>
   </author>
+  <entry>
+    <title>A partial list of metaphors, visual and otherwise, anti-skeuomorphism zealots have to tackle to reach utopia</title>
+    <link href="/blog/2011/04/floppy.html" />
+    <id>http://pauladamsmith.com/blog/2011/04/floppy.html</id>
+    <updated>2011-04-05T18:48:00Z</updated>
+    <content type="html">&lt;p&gt;&lt;img alt=&#34;icons&#34; src=&#34;/images/icons.jpg&#34; /&gt;
+Motivated by irrational hatred and overstated claims of the continuing
+utility of a 3.5&#34; floppy disk icon to mean “save”:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Handset icon, meaning “phone,” on every iPhone, Android&lt;/li&gt;
+&lt;li&gt;e&lt;strong&gt;mail&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Web&lt;strong&gt;site&lt;/strong&gt; (implies a physical place)&lt;/li&gt;
+&lt;li&gt;Wrench or cog icon, meaning “settings” or “preferences”&lt;/li&gt;
+&lt;li&gt;Shopping cart icon&lt;/li&gt;
+&lt;li&gt;Clock with analog hands, meaning “time” or time-centric application&lt;/li&gt;
+&lt;li&gt;Incandescent light bulb, several meanings, including energy settings&lt;/li&gt;
+&lt;li&gt;Bound, paper book, meaning “book”&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Of course there are many, many anachronistic interface elements and metaphors
+in the world, and &lt;a href=&#34;/blog/2010/10/old_things.html&#34;&gt;we get by okay&lt;/a&gt;. Mainly,
+this is because new generations don’t suddenly appear next to us and
+start using our computers without any foreknowledge of the metaphorical
+items. They spend time learning with the old fogeys for whom information was
+sometimes stored inside square pieces of plastic and metal. This overlap is
+necessary in general because knowledge about tools is not encoded in our
+genetic material. All understanding of &lt;em&gt;use&lt;/em&gt; is part of a multi-layered
+strata of culture, experience, and relationships.&lt;/p&gt;
+&lt;p&gt;The real problem anti-floppy-disk people have is explaining a harm,
+specifically, a harm that matters. Often when we think of user interface
+improvements that matter, we think of examples like improving medical devices
+to reduce user error, changes that literally save people’s lives. Or
+tweaks to software that improve user efficiency and productivity, saving
+money. It’s hard to conceive of what might be improved by finding a better
+metaphor for “save” other than some designers’ personal sensibilities.&lt;/p&gt;</content>
+  </entry>
   <entry>
     <title>More Redis internals: Tracing a GET & SET</title>
     <link href="/blog/2011/03/redis_get_set.html" />

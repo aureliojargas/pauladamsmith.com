@@ -1,0 +1,568 @@
+title: More Redis internals: Tracing a GET & SET
+slug: redis_get_set
+pub_date: 2011-03-10 15:48
+---
+In my [previous article](/articles/redis-under-the-hood.html), I took a
+superficial look at how Redis starts up and prepares itself to process
+commands. In this article, I'll follow a `GET` and a `SET` command as
+they move from client through the server and back. The `GET` will be for
+a key that doesn't exist, and the `SET` will set that key.  Then I'll look
+quickly at a subsequent `GET` and how it differs.
+
+As before, I'm exploring Redis with the source code open in my editor and
+indexed with a `tags` file, and the Redis server running under `gdb` in
+another terminal.
+
+Caveat: this article was written against the codebase of Redis 2.2.1. With
+respect to my previous article, for a list of what has changed in Redis since
+I wrote it, see this [comment on
+HN](http://news.ycombinator.com/item?id=2301804).
+
+**Edit:** I made two minor changes based on feedback—Redis keys are not Redis
+objects, they are `sds` strings; and you don’t have to hack the Makefile to
+compile without optimizations.
+
+GET
+===
+
+Let's execute the command `get users:1234` on Redis.
+
+Preparing
+---------
+
+If you inspect certain variables under `gdb`, you might not get what you want.
+Instead you see a message like "<value temporarily unavailable, due to
+optimizations>." This is because the compiler has optimized the machine code
+in such a fashion that the portion of memory you wanted to look at that was
+never used, at least for the variable under inspection. To make stepping
+through the code and inspecting a little easier, we make sure that Redis is
+not compiled with optimizations. You can do this by either building Redis with
+the following invocation:
+
+    make noopt
+
+or by setting an environment variable:
+
+    OPTIMIZATION= make
+
+Sending the command from the client
+-----------------------------------
+
+If we look at the `repl` loop of redis-cli, we see that it uses the
+`linenoise` library to split the arguments of the command. It dispatches on
+the first argument. The loop checks for client commands that aren't processed
+as a command by the Redis server, like `exit`/`quit`, `clear` (to clear the screen),
+and `connect` (which is a way to connect to a specified Redis server on host
+port, instead of the default host of 127.0.0.1 and port of 6379.
+
+Any other argument is considered the name of a command to send to the server.
+The remaining arguments are the arugments for that command.
+
+We're trying to get the on-the-wire representation of the `get users:1234` command.
+redis-cli uses a `redisContext` struct to encapsulate the state of the
+connection to the server, as well as the output buffer where the command in
+the form of the Redis protocol is written for sending to the server. We know
+from reading the source of hiredis (the Redis C client library that the redis-cli
+program is built on) that the `obuf` field is where the raw command is stored:
+
+    :::c
+    # hiredis.h:107
+    /* Context for a connection to Redis */
+    typedef struct redisContext {
+        int fd;
+        int flags;
+        char *obuf; /* Write buffer */
+        int err; /* Error flags, 0 when there is no error */
+        char *errstr; /* String representation of error when applicable */
+
+        /* Function set for reply buildup and reply reader */
+        redisReplyObjectFunctions *fn;
+        void *reader;
+    } redisContext;
+
+If we set a breakpoint on `cliReadReply`, we can inspect the output buffer and
+see exactly how the command looks as a bytestring bound for the server.
+
+    :::text
+    client $ gdb src/redis-cli
+    (gdb) b cliReadReply
+    (gdb) run
+    Starting program: /home/paul/src/redis-2.2.0-RC2/src/redis-cli 
+    Reading symbols for shared libraries +. done
+    redis> get users:1234
+
+    Breakpoint 1, cliReadReply (output_raw_strings=0) at redis-cli.c:421
+    421         if (redisGetReply(context,&_reply) != REDIS_OK) {
+    (gdb) p context->obuf 
+    $1 = 0x100102428 "*2\r\n$3\r\nget\r\n$10\r\nusers:1234\r\n"
+
+We see that the Redis command `get users:1234` as entered in our client is
+translated to `*2\r\n$3\r\nget\r\n$10\r\nusers:1234\r\n`. Any Redis client is
+going to convert our command expressed in its respective syntax to the same
+on-the-wire format. So in Python:
+
+    :::text
+    >>> redis_client.get('users:1234')
+
+will send the same `*2\r\n$3\r\nget\r\n$10\r\nusers:1234\r\n` bytestring to
+the server. 
+
+Let's print that bytestring to screen and render those `\r\n's as line feeds
+so we can see an expanded view and get a better look at the protocol.
+
+    :::text
+    *2
+    $3
+    get
+    $10
+    users:1234
+
+The first bit is `*2`, which tells us that the arity of the command,
+including the command name, is 2. That is, the server should expect two
+arguments to follow.
+
+The next bit is `$3`, which means that the length of the first argument in
+bytes is 3. The argument itself follows, our command name, `get`.
+
+The next bit after that is `$10`, so the length in bytes of the second
+argument is 10. Our one and only argument to the command is next,
+`users:1234`, the key we are trying to `get`.
+
+Receiving the command on the server
+-----------------------------------
+
+If you remember from the last article, `readQueryFromClient` is a good place
+to set a breakpoint in your debugger on the server side for inspecting an
+inbound client command.
+
+    :::text
+    server $ gdb src/redis-server
+    (gdb) b readQueryFromClient
+    Breakpoint 1 at 0x100011445: file networking.c, line 882.
+    (gdb) run redis.conf
+    Starting program: /home/paul/src/redis-2.2.0-RC2/src/redis-server redis.conf
+    Reading symbols for shared libraries +. done
+    [63700] 01 Mar 11:04:40 * Server started, Redis version 2.2.1
+    [63700] 01 Mar 11:04:40 * The server is now ready to accept connections on port 6379
+
+Now back in the terminal with the client running in the debugger, continue to
+send the command to the server, which will stop at the breakpoint we set.
+
+    :::text
+    # client
+    (gdb) c
+    Continuing.
+
+    # server
+    Breakpoint 1, readQueryFromClient (el=0x100200000, fd=5, privdata=0x100804e00, mask=1) at networking.c:801
+    801     void readQueryFromClient(aeEventLoop *el, int fd, void *privdata, int mask) {
+
+Let's step to the following line:
+
+    :::c
+    # src/networking.c:808
+    nread = read(fd, buf, REDIS_IOBUF_LEN);
+
+If we step to here in our debugger, we see that the server read 30 bytes. If
+you count the number of bytes in our Redis protocol-encoded command,
+`*2\r\n$3\r\nget\r\n$10\r\nusers:1234\r\n`, you'll see it's 30. Just for good
+measure, let's look at the 30 bytes beginning at the memory location pointed
+to by `buf`:
+
+    :::text
+    (gdb) p nread
+    30
+    (gdb) x/30cb buf
+    0x7fff5fbfeaf0: 42 '*'  50 '2'  13 '\r' 10 '\n' 36 '$'  51 '3'  13 '\r' 10 '\n'
+    0x7fff5fbfeaf8: 71 'G'  69 'E'  84 'T'  13 '\r' 10 '\n' 36 '$'  49 '1'  48 '0'
+    0x7fff5fbfeb00: 13 '\r' 10 '\n' 117 'u' 115 's' 101 'e' 114 'r' 115 's' 58 ':'
+    0x7fff5fbfeb08: 49 '1'  50 '2'  51 '3'  52 '4'  13 '\r' 10 '\n'
+    
+And we can see our whole command bytestring is there, byte by byte.
+
+The server has now read in the entirety of our command in one step.  (Because
+we had a relatively short command, one that fits inside a kernel buffer, and
+we are the only client on a loopback network device, this is the case, but it
+need not be. Since Redis is event-driven, this function,
+`readQueryFromClient`, is called whenever there are bytes from buffers to be
+read. If our command was particularly long, or there was a lot of network
+contention, the command may take more than one I/O event before it is fully
+read. For this reason, Redis builds up a buffer per client and appends bytes
+to it on each call to this function. It only proceeds with processing the
+command when it has been fully read. But we don't need to consider this in our
+simple example, so we will proceed.)
+
+We're going to elide the processing of the input buffer. This is the point
+where the server takes the Redis protocol-encoded bytestring of our request
+and unpacks it into arguments on the client struct object. If you are
+interested in the details of that parsing, examine the function
+`processMultibulkBuffer` in `networking.c`. All we are interested in at this
+point is that the `argc` member of the client object is the number of command
+arguments (counting the command name itself) and `argv` is a pointer to the
+list of arguments.
+
+The bit of code we care at this point is `processCommand`. The first thing the
+server does is look up the command in its command table (see "Setting up
+command table" in the previous article, but note that this lookup is now O(1),
+see the HN thread linked above). Assuming the command is found (which our
+`get` will be), the server will double-check that the arity of the command as
+defined in the command table matches the number of arguments received from the
+client (`c->argc`).
+
+    :::c
+    # redis.c:998
+    cmd = lookupCommand(c->argv[0]->ptr);
+    if (!cmd) {
+        addReplyErrorFormat(c,"unknown command '%s'",
+            (char*)c->argv[0]->ptr);
+        return REDIS_OK;
+    } else if ((cmd->arity > 0 && cmd->arity != c->argc) ||
+               (c->argc < -cmd->arity)) {
+        addReplyErrorFormat(c,"wrong number of arguments for '%s' command",
+            cmd->name);
+        return REDIS_OK;
+    }
+
+Skip down to the end of `processCommand`. Because our humble `get` is not a
+"multi" command like `mget`, `mset`, etc., it doesn't require queue-like
+processing of the underlying multiple commands, so we go right to `call`,
+which is where our command is dispatched.
+
+    :::c
+    # redis.c:953
+    void call(redisClient *c, struct redisCommand *cmd) {
+        long long dirty;
+
+        dirty = server.dirty;
+        cmd->proc(c);
+        dirty = server.dirty-dirty;
+
+        if (server.appendonly && dirty)
+            feedAppendOnlyFile(cmd,c->db->id,c->argv,c->argc);
+        if ((dirty || cmd->flags & REDIS_CMD_FORCE_REPLICATION) &&
+            listLength(server.slaves))
+            replicationFeedSlaves(server.slaves,c->db->id,c->argv,c->argc);
+        if (listLength(server.monitors))
+            replicationFeedMonitors(server.monitors,c->db->id,c->argv,c->argc);
+        server.stat_numcommands++;
+    }
+
+Let's focus on line 952, `cmd->proc(c);`. This is Redis's dynamic dispatching
+of command function calling. Redis makes this clean and simple by
+encapsulating commands and giving all the actual underlying command functions
+the same function signature, taking our client object, which carries the
+payload of our command's arguments. So we're interested in looking into the
+details of the Redis command object and the actual function that will handle
+our `get`.
+
+    :::c
+    # redis.h:504
+    struct redisCommand {
+        char *name;
+        redisCommandProc *proc;
+        int arity;
+        int flags;
+        /* Use a function to determine which keys need to be loaded
+         * in the background prior to executing this command. Takes precedence
+         * over vm_firstkey and others, ignored when NULL */
+        redisVmPreloadProc *vm_preload_proc;
+        /* What keys should be loaded in background when calling this command? */
+        int vm_firstkey; /* The first argument that's a key (0 = no keys) */
+        int vm_lastkey;  /* THe last argument that's a key */
+        int vm_keystep;  /* The step between first and last key */
+    };
+
+If we pop up to the top of `redis.c`, we see the definition of the Redis command
+table, and our `get` is the first entry.
+
+    :::c
+    # redis.c:71
+    struct redisCommand readonlyCommandTable[] = {
+        {"get",getCommand,2,0,NULL,1,1,1},
+
+`getCommand` is the function that does the actual work for our command.
+It's a thin wrapper for `getGenericCommand`.
+
+    :::c
+    # t_string.c:62
+    int getGenericCommand(redisClient *c) {
+        robj *o;
+
+        if ((o = lookupKeyReadOrReply(c,c->argv[1],shared.nullbulk)) == NULL)
+            return REDIS_OK;
+
+        if (o->type != REDIS_STRING) {
+            addReply(c,shared.wrongtypeerr);
+            return REDIS_ERR;
+        } else {
+            addReplyBulk(c,o);
+            return REDIS_OK;
+        }
+    }
+
+    void getCommand(redisClient *c) {
+        getGenericCommand(c);
+    }
+
+The arguments to `lookupKeyReadOrReply` are the client object, the key
+`users:1234` we're trying to look up, and an object, `shared.nullbulk` that
+will be the default reply to the client if the key is not found.
+
+    :::c
+    # db.c:58
+    robj *lookupKeyReadOrReply(redisClient *c, robj *key, robj *reply) {
+        robj *o = lookupKeyRead(c->db, key);
+        if (!o) addReply(c,reply);
+        return o;
+    }
+
+`lookupKeyRead` is a thin wrapper for `lookupKey` that handles removing keys
+that have been set to expire.
+
+Now we get to the heart of the `get` command -- looking up the key in the
+database.
+
+    :::c
+    # db.c:9
+    robj *lookupKey(redisDb *db, robj *key) {
+        dictEntry *de = dictFind(db->dict,key->ptr);
+        if (de) {
+            robj *val = dictGetEntryVal(de);
+
+            /* Update the access time for the aging algorithm.
+             * Don't do it if we have a saving child, as this will trigger
+             * a copy on write madness. */
+            if (server.bgsavechildpid == -1 && server.bgrewritechildpid == -1)
+                val->lru = server.lruclock;
+
+            if (server.vm_enabled) {
+                if (val->storage == REDIS_VM_MEMORY ||
+                    val->storage == REDIS_VM_SWAPPING)
+                {
+                    /* If we were swapping the object out, cancel the operation */
+                    if (val->storage == REDIS_VM_SWAPPING)
+                        vmCancelThreadedIOJob(val);
+                } else {
+                    int notify = (val->storage == REDIS_VM_LOADING);
+
+                    /* Our value was swapped on disk. Bring it at home. */
+                    redisAssert(val->type == REDIS_VMPOINTER);
+                    val = vmLoadObject(val);
+                    dictGetEntryVal(de) = val;
+
+                    /* Clients blocked by the VM subsystem may be waiting for
+                     * this key... */
+                    if (notify) handleClientsBlockedOnSwappedKey(db,key);
+                }
+            }
+            server.stat_keyspace_hits++;
+            return val;
+        } else {
+            server.stat_keyspace_misses++;
+            return NULL;
+        }
+    }
+
+Redis uses its own hash table implementation to store keys and their values in
+memory. Inside the `db` object, the field `dict` is a pointer to the hash
+value for the current Redis database (remember there can be up to 16 separate
+databases in a single Redis server instance, indexed by number).
+
+First, Redis calls `dictFind` with the database's hash table and a pointer
+to the key's bytestring. `dictFind` looks up the hash of the key in the
+table, using a standard algorithm that should be familiar to anyone who's
+implemented a hash table (check out `dict.c` starting at line 391 if you're
+interested, the table is an array with linked lists for colliding hashes).
+
+If the key is found in the table, `dictFind` returns a pointer to the entry in
+the table. Otherwise, it returns `NULL`. Back in `lookupKey`, if the entry is
+not null, Redis retrieves the value (i.e., the Redis object our key
+references) from the hash table via `dictGetEntryVal` and takes care of a bit
+of bookkeeping for expiry and VM, if the key was found, and stats in either
+case (hits and misses). If the entry was `NULL`, then `lookupKey` also returns
+`NULL`; we'll see how this is handled by Redis for a reply to the client when
+the key is not found, which is the case for us at this stage.
+
+With the value of `lookupKey`, we'll go back up the stack to our callers. Back
+to `lookupKeyReadOrReply`, we look at line 60:
+
+    :::c
+    # t_string.c:60
+            if (!o) addReply(c,reply);
+
+Since we got `NULL` from `lookupKey` this time, we call `addReply`.  The value
+of `reply` here comes from the call in `getGenericCommand`, and it is
+`shared.nullbulk`. This field in the global struct object `shared` is
+initialize thusly:
+
+    :::c
+    # redis.c:712
+    shared.nullbulk = createObject(REDIS_STRING,sdsnew("$-1\r\n"));
+
+We can see that it is a Redis string object who's on-the-wire value is
+`$-1\r\n`, meaning a length of -1, Redis's way of indicating null to a
+client, according to the protocol.
+
+`addReply` builds the reply to the client. It does this by first setting up a
+write event on the main event loop listener with `_installWriteEvent`. This
+makes sure that the reply is written out to the client connection when there
+are bytes present in the buffer. Next, Redis adds the reply to the client's
+buffer. If the reply object were an non-string value like an integer, or a
+list, or a set, Redis would first decode it to a bytestring that can be
+serialized to, for example, on a socket. Redis string objects are encoded
+"raw," or as-is. The `nullbulk` object is technically a string object, so no
+decoding is necessary in our case. In any case, the reply bytestring is copied
+to the client's reply buffer with `_addReplyToBuffer`, which for all intents
+and purposes completes the execution of our `get` command on the server.
+
+The client will read the on-the-wire reply of `$-1\r\n` and know that it is a
+string reply of length -1, and therefore is the null (or "nil," in the context
+of `redis-cli`) object, and to convert that into the appropriate object for
+the language of the client. Back to our `redis-cli` client patiently waiting
+for a reply from our breakpointed server, which we continue from, that looks
+like:
+
+    :::text
+    (nil)
+    redis>
+
+SET
+===
+
+The `set` command proceeds much the same way as the `get`, up to the point of
+command dispatching on the server.
+
+    :::text
+    # client
+    redis> set users:1234 "Paul Smith"
+
+    # server
+    Breakpoint 1, readQueryFromClient (el=0x100400000, fd=6, privdata=0x100805e00, mask=1) at networking.c:801
+    801     void readQueryFromClient(aeEventLoop *el, int fd, void *privdata, int mask) {
+    (gdb) n
+    802         redisClient *c = (redisClient*) privdata;
+    (gdb) n
+    808         nread = read(fd, buf, REDIS_IOBUF_LEN);
+    (gdb) n
+    809         if (nread == -1) {
+    (gdb) print nread
+    $1 = 47
+    (gdb) x/47cb buf
+    0x7fff5fbfeba0: 42 '*'  51 '3'  13 '\r' 10 '\n' 36 '$'  51 '3'  13 '\r' 10 '\n'
+    0x7fff5fbfeba8: 115 's' 101 'e' 116 't' 13 '\r' 10 '\n' 36 '$'  49 '1'  48 '0'
+    0x7fff5fbfebb0: 13 '\r' 10 '\n' 117 'u' 115 's' 101 'e' 114 'r' 115 's' 58 ':'
+    0x7fff5fbfebb8: 49 '1'  50 '2'  51 '3'  52 '4'  13 '\r' 10 '\n' 36 '$'  49 '1'
+    0x7fff5fbfebc0: 48 '0'  13 '\r' 10 '\n' 80 'P'  97 'a'  117 'u' 108 'l' 32 ' '
+    0x7fff5fbfebc8: 83 'S'  109 'm' 105 'i' 116 't' 104 'h' 13 '\r' 10 '\n'
+    (gdb) print (char *)buf
+    $2 = 0x7fff5fbfeba0 "*3\r\n$3\r\nset\r\n$10\r\nusers:1234\r\n$10\r\nPaul Smith\r\n"
+
+This time, our protocol-encoded bytestring is 47 bytes long, owing to the
+extra argument "Paul Smith" and the length tag it requires. Also notice the
+leading `*3` indicates there are three arguments: `set`, `users:1234`, `Paul Smith`.
+
+Let's skip ahead now to the point in `call` in `redis.c`, after the command has
+been looked-up in the command table and the server is about ready to call the
+underlying `proc` function with the client object argument. The `set` command,
+in the form of a `redisCommand` struct, looks like this:
+
+    :::c
+    # redis.c:73
+    {"set",setCommand,3,REDIS_CMD_DENYOOM,NULL,0,0,0},
+
+Notice that the arity of the command is 3, which includes the leading command
+name, plus key and value, and matches what we expect from the client. The
+`set` command has a flag that `get` did not: the constant `REDIS_CMD_DENYOOM`
+means that, in out-of-memory situations where Redis can't allocate any more
+memory, the execution of the command should be denied. (The absence of this
+flag means that Redis can continue to serve client "read" requests like `get`
+even when the server can no longer write any new data.)
+
+I set a breakpoint on `setCommand` and let the server continue running until
+that point:
+
+    :::text
+    # server
+    (gdb) b setCommand
+    Breakpoint 2 at 0x10001a6e2: file t_string.c, line 48.
+    (gdb) c
+    Continuing.
+    Breakpoint 2, setCommand (c=0x100805e00) at t_string.c:48
+    48          c->argv[2] = tryObjectEncoding(c->argv[2]);
+
+Incidentally, you can inspect the values of the client's command arguments at
+any time, with a simple `gdb` invocation. The arguments are of type `robj`,
+which has a field `ptr` that is a pointer to the actual value in memory. Since
+in our `set` case these are strings, we can inspect them by typecasting to
+`char *` like so:
+
+    :::text
+    (gdb) p (char *)c->argv[0]->ptr
+    $10 = 0x10032ae78 "set"
+    (gdb) p (char *)c->argv[1]->ptr
+    $11 = 0x10032b068 "users:1234"
+    (gdb) p (char *)c->argv[2]->ptr
+    $12 = 0x10032b098 "Paul Smith"
+    
+The first thing the server does in `setCommand` is encode the value being set
+with `tryObjectEncoding`. It will try to create an efficient encoding if the
+bytestring can be interpreted as an integer, for example. This can save space
+especially in the case where many numbers are being stored.  Additionally,
+Redis will try to reuse shared integers as values instead of allocating
+resources for new ones -- see the previous article for more on the creation
+and use of shared integers.
+
+Once the value being set has been encoded, `setGenericCommand` is called
+(`set` shares `setGenericCommand` with the `setnx` and `setex` commands). From
+here, `dbAdd` is called, with the client, key, and value as arguments. `dbAdd`
+will only add the value to the database's hash table if the key does not
+already exist. In our case, since the key `users:1234` does not exist, the
+value of `dictFind` is null, and the function proceeds to add the value with
+`dictAdd`.
+
+`dictAdd` takes the dictionary hash table, key, and value as arguments. It
+uses `_dictKeyIndex` to find the index of a free slot in the hash table for
+our new entry. See the implementation in `dict.c` and `dict.h` for the details
+of key hashing, and the structure of the dictionary and its component hash
+tables (each Redis dictionary contains two hash tables in order to provide
+incremental rehashing as the dictionary grows). `dictAdd` allocates memory for
+the new entry and stores it in the new index.
+
+The server returns back up the stack from `dictAdd` and `dbAdd` to
+`setGenericCommand`, where it increments the reference count on our new value.
+Redis uses reference counting in order to free memory used by values that have
+been deleted or have expired. It then "touches" the key so that if any clients
+are `watch`ing the key, the next `exec` command will fail. It also increments
+the server's `dirty` flag, which it uses to determine when to write out the
+dump file to disk. Finally, it writes out the reply to the client, which is a
+shared object, `shared.ok`. This is special Redis string object in the
+protocol that consists of the bytestring "+OK\r\n". Clients will typically
+convert this into the equivalent "true" value for their language.
+
+GET redux
+=========
+
+Our key is now set, so we can try the `get users:1234` command again and see
+how it differs for a found key.
+
+    :::c
+    # db.c:9
+    robj *lookupKey(redisDb *db, robj *key) {
+        dictEntry *de = dictFind(db->dict,key->ptr);
+        if (de) {
+            robj *val = dictGetEntryVal(de);
+
+            // ... skipping the lru & vm parts ... 
+
+            server.stat_keyspace_hits++;
+            return val;
+
+The point where a `get` on an existing key and a `get` on a non-existent key
+differ is line 11, where the `de` entry in the database's dictionary is found.
+`dictGetEntryVal` is a simple macro for accessing the field in the `de` struct
+that carries the value associated with the key. Redis updates its statistics
+to indicate a key hit and returns the value object.
+
+Again, as with the key miss from above (remember the null value is a Redis
+object, too), the value is decoded into the Redis bytestring protocol. This is
+the response to the client, and we have concluded our `GET`/`SET`/`GET` dance.
