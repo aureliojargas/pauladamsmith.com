@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+      <loc>http://pauladamsmith.com/blog/2011/08/maxine.html</loc>
+      <lastmod>2011-08-27</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/blog/2011/05/go_time.html</loc>
+      <lastmod>2011-05-20</lastmod>
+      </url>
+  <url>
       <loc>http://pauladamsmith.com/blog/2011/04/floppy.html</loc>
       <lastmod>2011-04-05</lastmod>
       </url>
@@ -38,13 +46,23 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/</loc>
-      <lastmod>2011-04-05</lastmod>
+      <lastmod>2011-08-27</lastmod>
       <changefreq>daily</changefreq>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/blog/2011/08/</loc>
+      <lastmod>2011-08-27</lastmod>
+      <changefreq>daily</changefreq>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/blog/2011/05/</loc>
+      <lastmod>2011-05-20</lastmod>
+      <changefreq>never</changefreq>
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/2011/04/</loc>
       <lastmod>2011-04-05</lastmod>
-      <changefreq>daily</changefreq>
+      <changefreq>never</changefreq>
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/2011/03/</loc>
@@ -68,7 +86,7 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/2011/</loc>
-      <lastmod>2011-04-05</lastmod>
+      <lastmod>2011-08-27</lastmod>
       <changefreq>daily</changefreq>
       </url>
   <url>
@@ -82,7 +100,7 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/gpg-key.html</loc>
-      <lastmod>2010-10-27</lastmod>
+      <lastmod>2011-05-04</lastmod>
       </url>
   <url>
       <loc>http://pauladamsmith.com/about.html</loc>
@@ -106,10 +124,6 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/elections/2008-general/il-con-con/index.html</loc>
-      <lastmod>2010-10-27</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/elections/2008-general/il-con-con/con_con.html</loc>
       <lastmod>2010-10-27</lastmod>
       </url>
   <url>

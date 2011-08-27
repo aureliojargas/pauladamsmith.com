@@ -33,6 +33,114 @@
       
 <article class="post">
   <header>
+    <h1><a href="/blog/2011/08/maxine.html" title="Permalink to this post">Maxine</a></h1>
+    <time datetime="2011-08-27" pubdate>August 27, 2011</time>
+  </header>
+  <p><a href="http://www.flickr.com/photos/psmith/6076865981/" title="P1040879.jpg by pauladamsmith, on Flickr"><img src="http://farm7.static.flickr.com/6184/6076865981_a0c284c99a.jpg" width="500" height="334" alt="P1040879.jpg"></a></p>
+<p>One month ago today, Maxine Mills Smith arrived in this world. Her mom gave
+birth to her at Mercy Medical Center in Baltimore, Maryland, at six in the
+morning. She was, and continues to be, a long and strong gal. She enjoys
+being carried about and looking up at the changing scenery. Like her father,
+she zonks out to the motion of a vehicle ride, be it stroller or car. She
+has healthy lungs, likes to exercise them, and is a vocal chirper. She
+has been respecting her mom and dad with 5 and 6-hour stretches of sleep
+at night, but likes to mix it up from time to time and throw her mom some
+napless curveballs. When she is awake, she is bright and alert. Given the
+choice, she’d rather have some light assistance and try to stand and
+monster march (I said she was strong) than squirm around on her belly like
+a beetle.  Her binky is a frequent companion, and she is a champion eater
+of mom’s milk.  The doctors and nurses at the pediatrician’s office
+think she is doing fine, and give her an extra wink. We think she’s is
+doing fine, too. Family love Maxine. Welcome home, my daughter.</p>
+  </article>
+<article class="post">
+  <header>
+    <h1><a href="/blog/2011/05/go_time.html" title="Permalink to this post">Parsing and formatting date/time in Go</a></h1>
+    <time datetime="2011-05-20" pubdate>May 20, 2011</time>
+  </header>
+  <p>Go takes an interesting approach to <a href="http://golang.org/pkg/time/">parsing strings to time objects,
+and formatting time objects as strings</a>. Instead of using codes like
+most languages to represent component parts of a date/time string
+representation—like <code>%Y</code> for a 4-digit year like “2011” or <code>%b</code>
+for an abbreviated month name like “Feb”—Go uses a mnemonic device:
+there is a standard time, which is:</p>
+<div class="codehilite"><pre>Mon Jan 2 15:04:05 MST 2006  (MST is GMT-0700)
+</pre></div>
+
+
+<p>Or put another way:</p>
+<div class="codehilite"><pre>01/02 03:04:05PM &#39;06 -0700
+</pre></div>
+
+
+<p>Instead of having to remember or lookup the traditional formatting codes for
+functions like <code>strftime</code>, you just count one-two-three-four and each place
+in the standard time corresponds to a component of a date/time object (the
+<code>Time</code> type in Go): one for day of the month, two for the month, three for
+the hour (in 12-hour time), four for the minutes, etc.</p>
+<p>The way you put this into action is by putting together the parts of
+the standard time in a layout string that matches the format of either
+the string representation you want to parse into a <code>Time</code> object or the
+opposite direction, when you want to generate a string representation from
+an <code>Time</code> object.</p>
+<p>Parsing:</p>
+<div class="codehilite"><pre><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+    <span class="s">&quot;fmt&quot;</span>
+    <span class="s">&quot;time&quot;</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">value</span>  <span class="p">:=</span> <span class="s">&quot;Thu, 05/19/11, 10:47PM&quot;</span>
+    <span class="c1">// Writing down the way the standard time would look like formatted our way</span>
+    <span class="n">layout</span> <span class="p">:=</span> <span class="s">&quot;Mon, 01/02/06, 03:04PM&quot;</span>
+    <span class="n">t</span><span class="p">,</span> <span class="n">_</span> <span class="p">:=</span> <span class="n">time</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// =&gt; &quot;Thu May 19 22:47:00 +0000 2011&quot;</span>
+</pre></div>
+
+
+<p>Formatting:</p>
+<div class="codehilite"><pre><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+    <span class="s">&quot;fmt&quot;</span>
+    <span class="s">&quot;time&quot;</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">t</span> <span class="p">:=</span> <span class="n">time</span><span class="p">.</span><span class="n">SecondsToLocalTime</span><span class="p">(</span><span class="mi">1305861602</span><span class="p">)</span>
+    <span class="n">t</span><span class="p">.</span><span class="n">ZoneOffset</span> <span class="p">=</span> <span class="p">-</span><span class="mi">4</span><span class="p">*</span><span class="mi">60</span><span class="p">*</span><span class="mi">60</span>
+    <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;2006-01-02 15:04:05 -0700&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="c1">// =&gt; &quot;2011-05-20 03:20:02 -0400&quot;</span>
+</pre></div>
+
+
+<p>There are predefined constants in the <code>time</code> package for common formats
+such as RFCs 822 and 3339.</p>
+<p>The use of a mnemonic over obscure formatting codes I think reflects the
+pragmatism of Go’s developers and their focus on creating a language
+that makes its users more productive. While it is a break with tradition
+to abandon <code>strftime</code>-style formatting, they probably recognized that most
+developers, no matter how experienced, reach for <code>man strftime</code> or similar
+documentation more often than not (hell, I have a mug with the codes printed
+on it), and each time they do, it is an expensive context switch, in terms
+of lost focus. Writing the standard time down the way yours looks may be
+quirky, but it's easy to recall, and it also happens to match the shape of
+your time string, syntatically.</p>
+<p>It’s fascinating to see a language with the pedigree of Go—from the
+minds of long-time C and Unix developers—toss aside certain old and
+venerable ways of doing things. But it’s consistent with a language
+that’s relatively small (in the good way of being comprehensible and
+coherent), focused on efficiency, and careful in what it includes.</p>
+  </article>
+<article class="post">
+  <header>
     <h1><a href="/blog/2011/04/floppy.html" title="Permalink to this post">A partial list of metaphors, visual and otherwise, anti-skeuomorphism zealots have to tackle to reach utopia</a></h1>
     <time datetime="2011-04-05" pubdate>April 05, 2011</time>
   </header>
@@ -1127,26 +1235,6 @@ movies, and in part because of software and the Internet, we will
 remember, and especially we will remember technologies that overlap,
 in function or metaphor, and which are relevant to our contemporary
 technology stories.</p>
-  </article>
-<article class="post">
-  <header>
-    <h1><a href="/blog/2010/10/redis.html" title="Permalink to this post">I wrote an article about Redis</a></h1>
-    <time datetime="2010-10-18" pubdate>October 18, 2010</time>
-  </header>
-  <p>I’ve been using Redis more and more lately, and I started poking
-around in the source code trying to understand it better. I wrote <a
-href="/articles/redis-under-the-hood.html">an article</a> about how
-Redis starts up and processes the request/response cycle. I think this
-is just the beginning of my Redis explorations—we’re already using it
-quite a bit at work, and I have an idea for a new data type that could
-be really useful. I plan to write at least one more longish article
-like this about it, on following in close detail how a SET and a GET
-command make their way through the server.</p>
-<p>Redis is an extremely cool project. The main contributors are focused
-on making it fast, bug-free, and keeping it small (in the sense of
-features, code base, complexity). They're also working on a
-distributed version that could be very promising, taking it beyond
-what is already IMO a very successful single process model.</p>
   </article>
 
       <aside>

@@ -5,11 +5,119 @@
   <link href="http://pauladamsmith.com/atom.xml" rel="self" />
   <link href="http://pauladamsmith.com/" />
   <id>pauladamsmith.com</id>
-  <updated>2011-04-05T18:48:00Z</updated>
+  <updated>2011-08-27T20:10:00Z</updated>
   <author>
     <name>Paul Smith</name>
     <email>paulsmith@pobox.com</email>
   </author>
+  <entry>
+    <title>Maxine</title>
+    <link href="/blog/2011/08/maxine.html" />
+    <id>http://pauladamsmith.com/blog/2011/08/maxine.html</id>
+    <updated>2011-08-27T20:10:00Z</updated>
+    <content type="html">&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/psmith/6076865981/&#34; title=&#34;P1040879.jpg by pauladamsmith, on Flickr&#34;&gt;&lt;img src=&#34;http://farm7.static.flickr.com/6184/6076865981_a0c284c99a.jpg&#34; width=&#34;500&#34; height=&#34;334&#34; alt=&#34;P1040879.jpg&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;One month ago today, Maxine Mills Smith arrived in this world. Her mom gave
+birth to her at Mercy Medical Center in Baltimore, Maryland, at six in the
+morning. She was, and continues to be, a long and strong gal. She enjoys
+being carried about and looking up at the changing scenery. Like her father,
+she zonks out to the motion of a vehicle ride, be it stroller or car. She
+has healthy lungs, likes to exercise them, and is a vocal chirper. She
+has been respecting her mom and dad with 5 and 6-hour stretches of sleep
+at night, but likes to mix it up from time to time and throw her mom some
+napless curveballs. When she is awake, she is bright and alert. Given the
+choice, she’d rather have some light assistance and try to stand and
+monster march (I said she was strong) than squirm around on her belly like
+a beetle.  Her binky is a frequent companion, and she is a champion eater
+of mom’s milk.  The doctors and nurses at the pediatrician’s office
+think she is doing fine, and give her an extra wink. We think she’s is
+doing fine, too. Family love Maxine. Welcome home, my daughter.&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Parsing and formatting date/time in Go</title>
+    <link href="/blog/2011/05/go_time.html" />
+    <id>http://pauladamsmith.com/blog/2011/05/go_time.html</id>
+    <updated>2011-05-20T02:00:00Z</updated>
+    <content type="html">&lt;p&gt;Go takes an interesting approach to &lt;a href=&#34;http://golang.org/pkg/time/&#34;&gt;parsing strings to time objects,
+and formatting time objects as strings&lt;/a&gt;. Instead of using codes like
+most languages to represent component parts of a date/time string
+representation—like &lt;code&gt;%Y&lt;/code&gt; for a 4-digit year like “2011” or &lt;code&gt;%b&lt;/code&gt;
+for an abbreviated month name like “Feb”—Go uses a mnemonic device:
+there is a standard time, which is:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;Mon Jan 2 15:04:05 MST 2006  (MST is GMT-0700)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Or put another way:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;01/02 03:04:05PM &amp;#39;06 -0700
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Instead of having to remember or lookup the traditional formatting codes for
+functions like &lt;code&gt;strftime&lt;/code&gt;, you just count one-two-three-four and each place
+in the standard time corresponds to a component of a date/time object (the
+&lt;code&gt;Time&lt;/code&gt; type in Go): one for day of the month, two for the month, three for
+the hour (in 12-hour time), four for the minutes, etc.&lt;/p&gt;
+&lt;p&gt;The way you put this into action is by putting together the parts of
+the standard time in a layout string that matches the format of either
+the string representation you want to parse into a &lt;code&gt;Time&lt;/code&gt; object or the
+opposite direction, when you want to generate a string representation from
+an &lt;code&gt;Time&lt;/code&gt; object.&lt;/p&gt;
+&lt;p&gt;Parsing:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;k&#34;&gt;package&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;main&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;s&#34;&gt;&amp;quot;fmt&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;s&#34;&gt;&amp;quot;time&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;value&lt;/span&gt;  &lt;span class=&#34;p&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;quot;Thu, 05/19/11, 10:47PM&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;// Writing down the way the standard time would look like formatted our way&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;layout&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;quot;Mon, 01/02/06, 03:04PM&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;_&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Parse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;layout&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;value&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;fmt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Println&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;// =&amp;gt; &amp;quot;Thu May 19 22:47:00 +0000 2011&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Formatting:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span class=&#34;k&#34;&gt;package&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;main&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;s&#34;&gt;&amp;quot;fmt&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;s&#34;&gt;&amp;quot;time&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;t&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SecondsToLocalTime&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1305861602&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ZoneOffset&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;60&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;60&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;fmt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Println&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Format&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;2006-01-02 15:04:05 -0700&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;// =&amp;gt; &amp;quot;2011-05-20 03:20:02 -0400&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;There are predefined constants in the &lt;code&gt;time&lt;/code&gt; package for common formats
+such as RFCs 822 and 3339.&lt;/p&gt;
+&lt;p&gt;The use of a mnemonic over obscure formatting codes I think reflects the
+pragmatism of Go’s developers and their focus on creating a language
+that makes its users more productive. While it is a break with tradition
+to abandon &lt;code&gt;strftime&lt;/code&gt;-style formatting, they probably recognized that most
+developers, no matter how experienced, reach for &lt;code&gt;man strftime&lt;/code&gt; or similar
+documentation more often than not (hell, I have a mug with the codes printed
+on it), and each time they do, it is an expensive context switch, in terms
+of lost focus. Writing the standard time down the way yours looks may be
+quirky, but it&#39;s easy to recall, and it also happens to match the shape of
+your time string, syntatically.&lt;/p&gt;
+&lt;p&gt;It’s fascinating to see a language with the pedigree of Go—from the
+minds of long-time C and Unix developers—toss aside certain old and
+venerable ways of doing things. But it’s consistent with a language
+that’s relatively small (in the good way of being comprehensible and
+coherent), focused on efficiency, and careful in what it includes.&lt;/p&gt;</content>
+  </entry>
   <entry>
     <title>A partial list of metaphors, visual and otherwise, anti-skeuomorphism zealots have to tackle to reach utopia</title>
     <link href="/blog/2011/04/floppy.html" />
@@ -1106,25 +1214,5 @@ movies, and in part because of software and the Internet, we will
 remember, and especially we will remember technologies that overlap,
 in function or metaphor, and which are relevant to our contemporary
 technology stories.&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>I wrote an article about Redis</title>
-    <link href="/blog/2010/10/redis.html" />
-    <id>http://pauladamsmith.com/blog/2010/10/redis.html</id>
-    <updated>2010-10-18T16:00:00Z</updated>
-    <content type="html">&lt;p&gt;I’ve been using Redis more and more lately, and I started poking
-around in the source code trying to understand it better. I wrote &lt;a
-href=&#34;/articles/redis-under-the-hood.html&#34;&gt;an article&lt;/a&gt; about how
-Redis starts up and processes the request/response cycle. I think this
-is just the beginning of my Redis explorations—we’re already using it
-quite a bit at work, and I have an idea for a new data type that could
-be really useful. I plan to write at least one more longish article
-like this about it, on following in close detail how a SET and a GET
-command make their way through the server.&lt;/p&gt;
-&lt;p&gt;Redis is an extremely cool project. The main contributors are focused
-on making it fast, bug-free, and keeping it small (in the sense of
-features, code base, complexity). They&#39;re also working on a
-distributed version that could be very promising, taking it beyond
-what is already IMO a very successful single process model.&lt;/p&gt;</content>
   </entry>
   </feed>

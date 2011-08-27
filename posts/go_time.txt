@@ -1,0 +1,90 @@
+title: Parsing and formatting date/time in Go
+slug: go_time
+pub_date: 2011-05-19 22:00
+---
+Go takes an interesting approach to [parsing strings to time objects,
+and formatting time objects as strings][1]. Instead of using codes like
+most languages to represent component parts of a date/time string
+representation—like `%Y` for a 4-digit year like “2011” or `%b`
+for an abbreviated month name like “Feb”—Go uses a mnemonic device:
+there is a standard time, which is:
+
+    :::text
+    Mon Jan 2 15:04:05 MST 2006  (MST is GMT-0700)
+
+Or put another way:
+
+    :::text
+    01/02 03:04:05PM '06 -0700
+
+Instead of having to remember or lookup the traditional formatting codes for
+functions like `strftime`, you just count one-two-three-four and each place
+in the standard time corresponds to a component of a date/time object (the
+`Time` type in Go): one for day of the month, two for the month, three for
+the hour (in 12-hour time), four for the minutes, etc.
+
+The way you put this into action is by putting together the parts of
+the standard time in a layout string that matches the format of either
+the string representation you want to parse into a `Time` object or the
+opposite direction, when you want to generate a string representation from
+an `Time` object.
+
+Parsing:
+
+    :::go
+    package main
+
+    import (
+        "fmt"
+        "time"
+    )
+
+    func main() {
+        value  := "Thu, 05/19/11, 10:47PM"
+        // Writing down the way the standard time would look like formatted our way
+        layout := "Mon, 01/02/06, 03:04PM"
+        t, _ := time.Parse(layout, value)
+        fmt.Println(t)
+    }
+
+    // => "Thu May 19 22:47:00 +0000 2011"
+
+Formatting:
+
+    :::go
+    package main
+
+    import (
+        "fmt"
+        "time"
+    )
+
+    func main() {
+        t := time.SecondsToLocalTime(1305861602)
+        t.ZoneOffset = -4*60*60
+        fmt.Println(t.Format("2006-01-02 15:04:05 -0700"))
+    }
+
+    // => "2011-05-20 03:20:02 -0400"
+
+There are predefined constants in the `time` package for common formats
+such as RFCs 822 and 3339.
+
+The use of a mnemonic over obscure formatting codes I think reflects the
+pragmatism of Go’s developers and their focus on creating a language
+that makes its users more productive. While it is a break with tradition
+to abandon `strftime`-style formatting, they probably recognized that most
+developers, no matter how experienced, reach for `man strftime` or similar
+documentation more often than not (hell, I have a mug with the codes printed
+on it), and each time they do, it is an expensive context switch, in terms
+of lost focus. Writing the standard time down the way yours looks may be
+quirky, but it's easy to recall, and it also happens to match the shape of
+your time string, syntatically.
+
+It’s fascinating to see a language with the pedigree of Go—from the
+minds of long-time C and Unix developers—toss aside certain old and
+venerable ways of doing things. But it’s consistent with a language
+that’s relatively small (in the good way of being comprehensible and
+coherent), focused on efficiency, and careful in what it includes.
+
+[1]: http://golang.org/pkg/time/
