@@ -25,34 +25,36 @@ in different language might fork a new process or spawn a new thread to
 handle a new client connection, a goroutine was started and the details
 of the connection communicated with a channel.
 
-    :::go
-    package main
+```go
+package main
 
-    import (
-        "net"
-        "bufio"
-        "strconv"
-        "fmt"
-    )
+import (
+    "net"
+    "bufio"
+    "strconv"
+    "fmt"
+)
 
-    const PORT = 3540
+const PORT = 3540
+```
 
 All Go programs must have a `package main`. We declare a number of packages to
 be imported, `net` and `bufio` already mentioned, `strconv` for its conversion
 function `Itoa()` that converts an integer to a string, and `fmt` for printing
 strings to the console. Our echo server will listen on port 3540.
 
-    :::go
-    func main() {
-        server, err := net.Listen("tcp", ":" + strconv.Itoa(PORT))
-        if server == nil {
-            panic("couldn't start listening: " + err.String())
-        }
-        conns := clientConns(server)
-        for {
-            go handleConn(<-conns)
-        }
+```go
+func main() {
+    server, err := net.Listen("tcp", ":" + strconv.Itoa(PORT))
+    if server == nil {
+        panic("couldn't start listening: " + err.String())
     }
+    conns := clientConns(server)
+    for {
+        go handleConn(<-conns)
+    }
+}
+```
 
 Every Go program must have a function `main()` in its `package main`. We start
 by declaring and initializing a new listener for our echo server. We choose
@@ -84,25 +86,26 @@ The equivalent of a infinite loop like `while True:` or `for (;;)` in Go is
 channel. The unary receive operator `<-` blocks until a value is available on
 the channel, in our case, a new client having connected.
 
-    :::go
-    func clientConns(listener net.Listener) chan net.Conn {
-        ch := make(chan net.Conn)
-        i := 0
-        go func() {
-            for {
-                client, err := listener.Accept()
-                if client == nil {
-                    fmt.Printf("couldn't accept: " + err.String())
-                    continue
-                }
-                i++
-                fmt.Printf("%d: %v <-> %v\n", i, client.LocalAddr(),
-                    client.RemoteAddr())
-                ch <- client
+```go
+func clientConns(listener net.Listener) chan net.Conn {
+    ch := make(chan net.Conn)
+    i := 0
+    go func() {
+        for {
+            client, err := listener.Accept()
+            if client == nil {
+                fmt.Printf("couldn't accept: " + err.String())
+                continue
             }
-        }()
-        return ch
-    }
+            i++
+            fmt.Printf("%d: %v <-> %v\n", i, client.LocalAddr(),
+                client.RemoteAddr())
+            ch <- client
+        }
+    }()
+    return ch
+}
+```
 
 We create a new channel of type `net.Conn`, which corresponds to the type that
 we’ll get from calling `Accept()` on our listener connection object. We start
@@ -124,17 +127,18 @@ garbage-collected), so `ch` is available inside the anonymous goroutine and
 after our function returns (because the infinite `Accept()`ing for-loop keeps
 the goroutine alive).
 
-    :::go
-    func handleConn(client net.Conn) {
-        b := bufio.NewReader(client)
-        for {
-            line, err := b.ReadBytes('\n')
-            if err != nil { // EOF, or worse
-                break
-            }
-            client.Write(line)
+```go
+func handleConn(client net.Conn) {
+    b := bufio.NewReader(client)
+    for {
+        line, err := b.ReadBytes('\n')
+        if err != nil { // EOF, or worse
+            break
         }
+        client.Write(line)
     }
+}
+```
 
 As we saw back in `main()`, `handleConn()` is invoked as a goroutine with each
 new client connection (the connection being received from the other side of

@@ -570,7 +570,7 @@ $(function() {
   $('.review blockquote').each(function() {
     var review = $(this),
         reviewText = review.text(),
-        sentence = reviewText.substr(0, 75) + ' &hellip ',
+        sentence = reviewText.substr(0, 75) + ' &hellip; ',
         newText = sentence + ' <a href="http://www.baltimoresun.com/entertainment/bal-50best-restaurants-list,0,5507864,full.story">Click here to read the full synopsis.</a>';
     review.html(newText);
   });

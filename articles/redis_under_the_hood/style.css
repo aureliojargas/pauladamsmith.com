@@ -9,6 +9,15 @@ body {
 
 img { float: right; margin-left: 1em; border: none; }
 
+#byline {
+    color: #999;
+    font-size: 0.85em;
+}
+
+#byline a {
+    color: #999;
+}
+
 .sidebar {
     float: right;
     width: 180px;

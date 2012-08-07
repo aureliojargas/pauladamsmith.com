@@ -9,12 +9,10 @@ representation—like `%Y` for a 4-digit year like “2011” or `%b`
 for an abbreviated month name like “Feb”—Go uses a mnemonic device:
 there is a standard time, which is:
 
-    :::text
     Mon Jan 2 15:04:05 MST 2006  (MST is GMT-0700)
 
 Or put another way:
 
-    :::text
     01/02 03:04:05PM '06 -0700
 
 Instead of having to remember or lookup the traditional formatting codes for
@@ -31,7 +29,6 @@ an `Time` object.
 
 Parsing:
 
-    :::go
     package main
 
     import (
@@ -51,7 +48,6 @@ Parsing:
 
 Formatting:
 
-    :::go
     package main
 
     import (

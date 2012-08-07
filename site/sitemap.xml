@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+      <loc>http://pauladamsmith.com/blog/2012/08/the-election-day-advent-calendar.html</loc>
+      <lastmod>2012-08-07</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/blog/2012/03/migurski.html</loc>
+      <lastmod>2012-03-30</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/blog/2011/09/dnc.html</loc>
+      <lastmod>2011-09-04</lastmod>
+      </url>
+  <url>
       <loc>http://pauladamsmith.com/blog/2011/08/maxine.html</loc>
       <lastmod>2011-08-27</lastmod>
       </url>
@@ -46,13 +58,28 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/</loc>
-      <lastmod>2011-08-27</lastmod>
+      <lastmod>2012-08-07</lastmod>
       <changefreq>daily</changefreq>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/blog/2012/08/</loc>
+      <lastmod>2012-08-07</lastmod>
+      <changefreq>daily</changefreq>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/blog/2012/03/</loc>
+      <lastmod>2012-03-30</lastmod>
+      <changefreq>never</changefreq>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/blog/2011/09/</loc>
+      <lastmod>2011-09-04</lastmod>
+      <changefreq>never</changefreq>
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/2011/08/</loc>
       <lastmod>2011-08-27</lastmod>
-      <changefreq>daily</changefreq>
+      <changefreq>never</changefreq>
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/2011/05/</loc>
@@ -85,9 +112,14 @@
       <changefreq>never</changefreq>
       </url>
   <url>
-      <loc>http://pauladamsmith.com/blog/2011/</loc>
-      <lastmod>2011-08-27</lastmod>
+      <loc>http://pauladamsmith.com/blog/2012/</loc>
+      <lastmod>2012-08-07</lastmod>
       <changefreq>daily</changefreq>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/blog/2011/</loc>
+      <lastmod>2011-09-04</lastmod>
+      <changefreq>never</changefreq>
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/2010/</loc>
@@ -95,28 +127,40 @@
       <changefreq>never</changefreq>
       </url>
   <url>
-      <loc>http://pauladamsmith.com/robots.txt</loc>
-      <lastmod>2010-10-27</lastmod>
+      <loc>http://pauladamsmith.com/about.html</loc>
+      <lastmod>2012-03-29</lastmod>
       </url>
   <url>
       <loc>http://pauladamsmith.com/gpg-key.html</loc>
       <lastmod>2011-05-04</lastmod>
       </url>
   <url>
-      <loc>http://pauladamsmith.com/about.html</loc>
-      <lastmod>2010-12-17</lastmod>
+      <loc>http://pauladamsmith.com/index.html</loc>
+      <lastmod>2012-03-30</lastmod>
       </url>
   <url>
-      <loc>http://pauladamsmith.com/index.html</loc>
-      <lastmod>2011-02-22</lastmod>
+      <loc>http://pauladamsmith.com/projects.html</loc>
+      <lastmod>2011-02-13</lastmod>
       </url>
   <url>
       <loc>http://pauladamsmith.com/resume.html</loc>
       <lastmod>2010-10-27</lastmod>
       </url>
   <url>
-      <loc>http://pauladamsmith.com/projects.html</loc>
-      <lastmod>2011-02-13</lastmod>
+      <loc>http://pauladamsmith.com/robots.txt</loc>
+      <lastmod>2010-10-27</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/articles/index.html</loc>
+      <lastmod>2011-01-15</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/articles/redis-get-set.txt</loc>
+      <lastmod>2011-01-06</lastmod>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/articles/redis-under-the-hood.html</loc>
+      <lastmod>2012-03-31</lastmod>
       </url>
   <url>
       <loc>http://pauladamsmith.com/elections/il5thse.html</loc>
@@ -127,19 +171,7 @@
       <lastmod>2010-10-27</lastmod>
       </url>
   <url>
-      <loc>http://pauladamsmith.com/articles/redis-get-set.txt</loc>
-      <lastmod>2011-01-06</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/articles/index.html</loc>
-      <lastmod>2011-01-15</lastmod>
-      </url>
-  <url>
-      <loc>http://pauladamsmith.com/articles/redis-under-the-hood.html</loc>
-      <lastmod>2011-03-15</lastmod>
-      </url>
-  <url>
       <loc>http://pauladamsmith.com/misc/top_50_baltimore_restaurants_2010.html</loc>
-      <lastmod>2010-12-17</lastmod>
+      <lastmod>2012-03-30</lastmod>
       </url>
   </urlset>

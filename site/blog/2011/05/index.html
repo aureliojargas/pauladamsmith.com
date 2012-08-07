@@ -6,11 +6,10 @@
     <title>May 2011 blog archive - Paul Smith</title>
     <meta name="description" content="Paul Smith, programmer, EveryBlock co-founder">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold|Inconsolata|Droid+Serif:regular,bold">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold|Inconsolata|Droid+Serif:regular,bold,italic">
     <!--[if gte IE 7]><!-->
     <link rel="stylesheet" media="screen, projection" href="/css/base.css" type="text/css">
     <!-- <![endif]-->
-    <link rel="stylesheet" href="/css/syntax.css" type="text/css">
     <link rel="alternate" href="/atom.xml" type="application/atom+xml">
     <link rel="openid.server" href="http://www.myopenid.com/server/">
     <link rel="openid.delegate" href="http://pauladamsmith.myopenid.com/">
@@ -43,65 +42,68 @@ most languages to represent component parts of a date/time string
 representation—like <code>%Y</code> for a 4-digit year like “2011” or <code>%b</code>
 for an abbreviated month name like “Feb”—Go uses a mnemonic device:
 there is a standard time, which is:</p>
-<div class="codehilite"><pre>Mon Jan 2 15:04:05 MST 2006  (MST is GMT-0700)
-</pre></div>
 
+<pre><code>Mon Jan 2 15:04:05 MST 2006  (MST is GMT-0700)
+</code></pre>
 
 <p>Or put another way:</p>
-<div class="codehilite"><pre>01/02 03:04:05PM &#39;06 -0700
-</pre></div>
 
+<pre><code>01/02 03:04:05PM &#39;06 -0700
+</code></pre>
 
 <p>Instead of having to remember or lookup the traditional formatting codes for
 functions like <code>strftime</code>, you just count one-two-three-four and each place
 in the standard time corresponds to a component of a date/time object (the
 <code>Time</code> type in Go): one for day of the month, two for the month, three for
 the hour (in 12-hour time), four for the minutes, etc.</p>
+
 <p>The way you put this into action is by putting together the parts of
 the standard time in a layout string that matches the format of either
 the string representation you want to parse into a <code>Time</code> object or the
 opposite direction, when you want to generate a string representation from
 an <code>Time</code> object.</p>
+
 <p>Parsing:</p>
-<div class="codehilite"><pre><span class="k">package</span> <span class="n">main</span>
 
-<span class="k">import</span> <span class="p">(</span>
-    <span class="s">&quot;fmt&quot;</span>
-    <span class="s">&quot;time&quot;</span>
-<span class="p">)</span>
+<pre><code>package main
 
-<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">value</span>  <span class="p">:=</span> <span class="s">&quot;Thu, 05/19/11, 10:47PM&quot;</span>
-    <span class="c1">// Writing down the way the standard time would look like formatted our way</span>
-    <span class="n">layout</span> <span class="p">:=</span> <span class="s">&quot;Mon, 01/02/06, 03:04PM&quot;</span>
-    <span class="n">t</span><span class="p">,</span> <span class="n">_</span> <span class="p">:=</span> <span class="n">time</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-    <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-<span class="p">}</span>
+import (
+    &quot;fmt&quot;
+    &quot;time&quot;
+)
 
-<span class="c1">// =&gt; &quot;Thu May 19 22:47:00 +0000 2011&quot;</span>
-</pre></div>
+func main() {
+    value  := &quot;Thu, 05/19/11, 10:47PM&quot;
+    // Writing down the way the standard time would look like formatted our way
+    layout := &quot;Mon, 01/02/06, 03:04PM&quot;
+    t, _ := time.Parse(layout, value)
+    fmt.Println(t)
+}
 
+// =&gt; &quot;Thu May 19 22:47:00 +0000 2011&quot;
+</code></pre>
 
 <p>Formatting:</p>
-<div class="codehilite"><pre><span class="k">package</span> <span class="n">main</span>
 
-<span class="k">import</span> <span class="p">(</span>
-    <span class="s">&quot;fmt&quot;</span>
-    <span class="s">&quot;time&quot;</span>
-<span class="p">)</span>
+<pre><code>package main
 
-<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">t</span> <span class="p">:=</span> <span class="n">time</span><span class="p">.</span><span class="n">SecondsToLocalTime</span><span class="p">(</span><span class="mi">1305861602</span><span class="p">)</span>
-    <span class="n">t</span><span class="p">.</span><span class="n">ZoneOffset</span> <span class="p">=</span> <span class="p">-</span><span class="mi">4</span><span class="p">*</span><span class="mi">60</span><span class="p">*</span><span class="mi">60</span>
-    <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;2006-01-02 15:04:05 -0700&quot;</span><span class="p">))</span>
-<span class="p">}</span>
+import (
+    &quot;fmt&quot;
+    &quot;time&quot;
+)
 
-<span class="c1">// =&gt; &quot;2011-05-20 03:20:02 -0400&quot;</span>
-</pre></div>
+func main() {
+    t := time.SecondsToLocalTime(1305861602)
+    t.ZoneOffset = -4*60*60
+    fmt.Println(t.Format(&quot;2006-01-02 15:04:05 -0700&quot;))
+}
 
+// =&gt; &quot;2011-05-20 03:20:02 -0400&quot;
+</code></pre>
 
 <p>There are predefined constants in the <code>time</code> package for common formats
 such as RFCs 822 and 3339.</p>
+
 <p>The use of a mnemonic over obscure formatting codes I think reflects the
 pragmatism of Go’s developers and their focus on creating a language
 that makes its users more productive. While it is a break with tradition
@@ -110,13 +112,15 @@ developers, no matter how experienced, reach for <code>man strftime</code> or si
 documentation more often than not (hell, I have a mug with the codes printed
 on it), and each time they do, it is an expensive context switch, in terms
 of lost focus. Writing the standard time down the way yours looks may be
-quirky, but it's easy to recall, and it also happens to match the shape of
+quirky, but it&#39;s easy to recall, and it also happens to match the shape of
 your time string, syntatically.</p>
+
 <p>It’s fascinating to see a language with the pedigree of Go—from the
 minds of long-time C and Unix developers—toss aside certain old and
 venerable ways of doing things. But it’s consistent with a language
 that’s relatively small (in the good way of being comprehensible and
 coherent), focused on efficiency, and careful in what it includes.</p>
+
   </article>
 
       <aside>

@@ -1,0 +1,54 @@
+title: The Election Day Advent Calendar
+slug: the-election-day-advent-calendar
+pub_date: 2012-08-07 00:20
+x-og-image: http://pauladamsmith.com/images/edac2012.jpg
+---
+<p style="float: right; margin: 0 0 10px 10px"><a href="http://www.kickstarter.com/projects/electioncalendar/the-election-day-advent-calendar" title="The Kickstarter for the Election Day Advent Calendar"><img src="/images/edac2012.jpg" alt="The Election Day Advent Calendar"></a></p>
+
+My friend Ben Helphand and I started scheming in 2005 on a way to
+celebrate the right to vote. We believed that a great nation deserves
+great civic rituals, and the election season was the natural time for
+such a ritual. What we came up with was [the Election Day Advent
+Calendar for 2006][2006]. The idea was simple: inspired by the
+traditional Advent calendar for Christmas, our calendar let you open a
+door a day through Election Day, and reveal interesting facts and quotes
+about our democracy and the history of voting. It would be non-partisan
+but not scrubbed of parties, a reflection on the many events and people
+that comprise the story of the franchise.
+
+We wanted to make a real calendar that you could buy and hang up.
+Neither of us had any experience in the print production world, and we
+both had day jobs in different fields. We had to figure out all the
+steps of the process, from hiring an artist to forming an LLC to sales
+and shipping and marketing. We put up our own money to fund it, and
+hoped to sell enough just to break even.
+
+The response to that first Calendar was strong, and told us there was a
+desire for such products that let us all celebrate the shared history of
+American politics. People were delighted by the concept; when they saw
+it, they got it. We heard from teachers that it made a great part of
+their back-to-school civics lesson plans, and from many people who said
+they gave it out as a gift to a politics-nerd friend or colleague.
+
+After repeating the process in [2008][2008], we took a break in 2010 but
+didn’t give up on the core idea. What we needed, though, was a different
+approach to paying for production -- it was just too risky to put up our
+own money time and again. In meantime, along came Kickstarter.  It’s
+perfect for a project like ours.
+
+As I write, there are 6 days remaining in our campaign, and we’re a
+little more than half way to our goal. If you’re reading these words and
+like what I’ve described, **[please support our Kickstarter][ks]**.
+
+Our motto with Gerrymander, the small company Ben and I founded for the
+Calendar, is “Make Small Plans”. It’s gently mocking riff on Daniel
+Burnham’s famous and possibly apocryphal [quote][burnham]. Our republic,
+as great and large as it is, is still composed of the small democratic
+actions of all of us, and those things require care and feeding, and
+they ask to be done well. If the Election Day Advent Calendar provides
+civic nourishment in any way, then it will have been a success.
+
+[2006]: http://electioncalendar.net/2006/
+[2008]: http://electioncalendar.net/2008/
+[ks]: http://www.kickstarter.com/projects/electioncalendar/the-election-day-advent-calendar
+[burnham]: http://www.ontko.com/pub/rayo/burnham.html

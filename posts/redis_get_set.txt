@@ -65,7 +65,6 @@ the form of the Redis protocol is written for sending to the server. We know
 from reading the source of hiredis (the Redis C client library that the redis-cli
 program is built on) that the `obuf` field is where the raw command is stored:
 
-    :::c
     # hiredis.h:107
     /* Context for a connection to Redis */
     typedef struct redisContext {
@@ -83,7 +82,6 @@ program is built on) that the `obuf` field is where the raw command is stored:
 If we set a breakpoint on `cliReadReply`, we can inspect the output buffer and
 see exactly how the command looks as a bytestring bound for the server.
 
-    :::text
     client $ gdb src/redis-cli
     (gdb) b cliReadReply
     (gdb) run
@@ -101,7 +99,6 @@ translated to `*2\r\n$3\r\nget\r\n$10\r\nusers:1234\r\n`. Any Redis client is
 going to convert our command expressed in its respective syntax to the same
 on-the-wire format. So in Python:
 
-    :::text
     >>> redis_client.get('users:1234')
 
 will send the same `*2\r\n$3\r\nget\r\n$10\r\nusers:1234\r\n` bytestring to
@@ -110,7 +107,6 @@ the server.
 Let's print that bytestring to screen and render those `\r\n's as line feeds
 so we can see an expanded view and get a better look at the protocol.
 
-    :::text
     *2
     $3
     get
@@ -135,7 +131,6 @@ If you remember from the last article, `readQueryFromClient` is a good place
 to set a breakpoint in your debugger on the server side for inspecting an
 inbound client command.
 
-    :::text
     server $ gdb src/redis-server
     (gdb) b readQueryFromClient
     Breakpoint 1 at 0x100011445: file networking.c, line 882.
@@ -148,7 +143,6 @@ inbound client command.
 Now back in the terminal with the client running in the debugger, continue to
 send the command to the server, which will stop at the breakpoint we set.
 
-    :::text
     # client
     (gdb) c
     Continuing.
@@ -159,7 +153,6 @@ send the command to the server, which will stop at the breakpoint we set.
 
 Let's step to the following line:
 
-    :::c
     # src/networking.c:808
     nread = read(fd, buf, REDIS_IOBUF_LEN);
 
@@ -169,7 +162,6 @@ you count the number of bytes in our Redis protocol-encoded command,
 measure, let's look at the 30 bytes beginning at the memory location pointed
 to by `buf`:
 
-    :::text
     (gdb) p nread
     30
     (gdb) x/30cb buf
@@ -209,7 +201,6 @@ see the HN thread linked above). Assuming the command is found (which our
 defined in the command table matches the number of arguments received from the
 client (`c->argc`).
 
-    :::c
     # redis.c:998
     cmd = lookupCommand(c->argv[0]->ptr);
     if (!cmd) {
@@ -228,7 +219,6 @@ Skip down to the end of `processCommand`. Because our humble `get` is not a
 processing of the underlying multiple commands, so we go right to `call`,
 which is where our command is dispatched.
 
-    :::c
     # redis.c:953
     void call(redisClient *c, struct redisCommand *cmd) {
         long long dirty;
@@ -255,7 +245,6 @@ payload of our command's arguments. So we're interested in looking into the
 details of the Redis command object and the actual function that will handle
 our `get`.
 
-    :::c
     # redis.h:504
     struct redisCommand {
         char *name;
@@ -275,7 +264,6 @@ our `get`.
 If we pop up to the top of `redis.c`, we see the definition of the Redis command
 table, and our `get` is the first entry.
 
-    :::c
     # redis.c:71
     struct redisCommand readonlyCommandTable[] = {
         {"get",getCommand,2,0,NULL,1,1,1},
@@ -283,7 +271,6 @@ table, and our `get` is the first entry.
 `getCommand` is the function that does the actual work for our command.
 It's a thin wrapper for `getGenericCommand`.
 
-    :::c
     # t_string.c:62
     int getGenericCommand(redisClient *c) {
         robj *o;
@@ -308,7 +295,6 @@ The arguments to `lookupKeyReadOrReply` are the client object, the key
 `users:1234` we're trying to look up, and an object, `shared.nullbulk` that
 will be the default reply to the client if the key is not found.
 
-    :::c
     # db.c:58
     robj *lookupKeyReadOrReply(redisClient *c, robj *key, robj *reply) {
         robj *o = lookupKeyRead(c->db, key);
@@ -322,7 +308,6 @@ that have been set to expire.
 Now we get to the heart of the `get` command -- looking up the key in the
 database.
 
-    :::c
     # db.c:9
     robj *lookupKey(redisDb *db, robj *key) {
         dictEntry *de = dictFind(db->dict,key->ptr);
@@ -386,7 +371,6 @@ the key is not found, which is the case for us at this stage.
 With the value of `lookupKey`, we'll go back up the stack to our callers. Back
 to `lookupKeyReadOrReply`, we look at line 60:
 
-    :::c
     # t_string.c:60
             if (!o) addReply(c,reply);
 
@@ -395,7 +379,6 @@ of `reply` here comes from the call in `getGenericCommand`, and it is
 `shared.nullbulk`. This field in the global struct object `shared` is
 initialize thusly:
 
-    :::c
     # redis.c:712
     shared.nullbulk = createObject(REDIS_STRING,sdsnew("$-1\r\n"));
 
@@ -422,7 +405,6 @@ the language of the client. Back to our `redis-cli` client patiently waiting
 for a reply from our breakpointed server, which we continue from, that looks
 like:
 
-    :::text
     (nil)
     redis>
 
@@ -432,7 +414,6 @@ SET
 The `set` command proceeds much the same way as the `get`, up to the point of
 command dispatching on the server.
 
-    :::text
     # client
     redis> set users:1234 "Paul Smith"
 
@@ -466,7 +447,6 @@ been looked-up in the command table and the server is about ready to call the
 underlying `proc` function with the client object argument. The `set` command,
 in the form of a `redisCommand` struct, looks like this:
 
-    :::c
     # redis.c:73
     {"set",setCommand,3,REDIS_CMD_DENYOOM,NULL,0,0,0},
 
@@ -481,7 +461,6 @@ even when the server can no longer write any new data.)
 I set a breakpoint on `setCommand` and let the server continue running until
 that point:
 
-    :::text
     # server
     (gdb) b setCommand
     Breakpoint 2 at 0x10001a6e2: file t_string.c, line 48.
@@ -496,7 +475,6 @@ which has a field `ptr` that is a pointer to the actual value in memory. Since
 in our `set` case these are strings, we can inspect them by typecasting to
 `char *` like so:
 
-    :::text
     (gdb) p (char *)c->argv[0]->ptr
     $10 = 0x10032ae78 "set"
     (gdb) p (char *)c->argv[1]->ptr
@@ -545,7 +523,6 @@ GET redux
 Our key is now set, so we can try the `get users:1234` command again and see
 how it differs for a found key.
 
-    :::c
     # db.c:9
     robj *lookupKey(redisDb *db, robj *key) {
         dictEntry *de = dictFind(db->dict,key->ptr);

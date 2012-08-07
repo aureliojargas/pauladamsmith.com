@@ -6,16 +6,20 @@
     <title>Use Oplop for your web site passwords - Paul Smith</title>
     <meta name="description" content="Paul Smith, programmer, EveryBlock co-founder">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold|Inconsolata|Droid+Serif:regular,bold">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold|Inconsolata|Droid+Serif:regular,bold,italic">
     <!--[if gte IE 7]><!-->
     <link rel="stylesheet" media="screen, projection" href="/css/base.css" type="text/css">
     <!-- <![endif]-->
-    <link rel="stylesheet" href="/css/syntax.css" type="text/css">
     <link rel="alternate" href="/atom.xml" type="application/atom+xml">
     <link rel="openid.server" href="http://www.myopenid.com/server/">
     <link rel="openid.delegate" href="http://pauladamsmith.myopenid.com/">
     <meta name="verify-v1" content="JGWpUVGeSZp407VK35oscFKsTMIEalzD8cTIBcScWNQ=">
     
+<meta property="og:title" content="Use Oplop for your web site passwords">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://pauladamsmith.com/blog/2010/12/oplop.html">
+
+
   </head>
   <body>
     <header>
@@ -42,6 +46,7 @@
 while: we don’t use good passwords, and we use the same password over
 and over again on multiple sites, exposing us to a potential chain
 reaction of account intrusions if it is uncovered.</p>
+
 <p>One way to address this problem is to use a password generator—the
 idea is that all you have to remember is a single, good, strong
 password, and the password generator will spit out a random string of
@@ -54,8 +59,9 @@ is compromised, it may suck for you with respect to your sensitive
 information on that site, but because the generated password is unique
 to the site, you’re safe from having it used against you on other
 sites where you have accounts.</p>
-<img src="/images/oplop-screenshot.png" alt="Oplop screenshot"
-style="float: left; margin-right: 1em; padding: 5px">
+
+<p><img src="/images/oplop-screenshot.png" alt="Oplop screenshot"
+style="float: left; margin-right: 1em; padding: 5px"></p>
 
 <p>The password generator I use is called <a href="https://oplop.appspot.com/">Oplop</a>. It’s just a web
 site, so you visit it in your browser; there’s nothing to
@@ -68,6 +74,7 @@ button. Enter that password into the site that’s asking you for a
 password, and you’re all done. The next time you visit the site and
 need to enter your password, you repeat the process exactly to get the
 same unique password that’s just for that site.</p>
+
 <p>There are a few tips and tricks to using Oplop successfully. The
 nickname is just a label that you remember to refer to the site you
 need a password for, but if it is different by even one character, an
@@ -81,6 +88,7 @@ for the nickname. If I was visiting a site with the domain name
 “Cat-Pics-123.net”, I’d use “catpics123” for the nickname. Whatever
 your convention for nicknames, it should be simple and you should use
 it consistently.</p>
+
 <p>Your master password should be a good one—fairly long and hard to
 guess—since it is the key to the kingdom. Security researchers often
 praise the idea of “passphrase,” a sentence instead of a single
@@ -95,12 +103,14 @@ different generated password. You can optionally click on the checkbox
 “Validate master password?”, which adds an additional password field
 for you to re-enter your master password, providing a simple check
 that might catch a typo in the first field.</p>
+
 <p>The final tip is to cut-and-paste the generated password out of its
 field instead of copy-and-paste. It’s not so much a tip per se because
 Oplop recommends that you do this right on the page, but it’s
 important enough to reiterate. Doing it this way prevents someone from
 snooping over your shoulder, or if you are careless and leave the
 Oplop page open untentionally on a shared computer.</p>
+
 <p>You might have stopped short at the notion of a web-based password
 generator. Isn’t it insecure to trust a web site to generate a
 password for you? The answer is, you are only actually interacting
@@ -114,6 +124,7 @@ test it by visiting the site and bookmarking it on your iPhone or
 Android, deleting the browser window, putting the phone in airplane
 mode, then loading Oplop from the bookmark. It works just the same as
 if you were connected to the internet.</p>
+
 <p>The browser-centric nature of Oplop gets to another key concept about
 it—there’s nothing to install. In fact, it is essentially already
 installed on any internet-enabled device with a JavaScript-enabled
@@ -140,15 +151,17 @@ using a different master password at any time, which essentially would
 invalidate any extant passwords generated with the old one (you still
 would have to manually go in and update each password on each site,
 though).</p>
+
 <p>There are other approaches to securing your passwords, including
 <a href="http://www.schneier.com/blog/archives/2005/06/write_down_your.html">writing them down</a>. In fact, if you have trouble
 remembering strong passwords or passphrases of sufficient length, you
 might consider writing down your Oplop master password on a slip of
 paper you keep in your wallet.</p>
+
 <p>Oplop is not perfect—it outputs a fixed style of generated passwords
 that may not meet the password criteria for various sites and
 services, which require certain lengths, or a certain mix of
-characters. It also doesn't address the need of strong,
+characters. It also doesn&#39;t address the need of strong,
 crypotgraphically-secure storage of ad-hoc information such as credit
 card numbers and other sensitive account information, which are often
 stored alongside passwords and account names in more traditional
@@ -158,11 +171,13 @@ for this scenario, especially for protecting financial
 information. Also, there are certain <a href="http://code.google.com/p/oplop/wiki/ThreatModel">threats Oplop can’t protect
 against</a>, And it’s worth understanding what they are before
 you start using it.</p>
+
 <p>Oplop addresses the proliferation of passwords across multiple web
 site accounts, is simple to use, and works everywhere there’s a
 browser. So stop using “letmein” for all your web site accounts—you’d
 be much better off plugging that in to Oplop as your master
 password. But don’t. Use a better one.</p>
+
   <nav>
       <div class="previous"><b>«</b> Previous: <a href="/blog/2010/12/delicious.html">del.icio.us is dead, long live del.icio.us</a></div>
       <div class="next">Next: <a href="/blog/2011/01/go.html">Taking Go for a spin</a> <b>»</b></div>
