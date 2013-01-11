@@ -66,7 +66,7 @@ html {
 }
 
 body {
-    font-family: 'Droid Sans', sans-serif;
+    font-family: 'PT Serif', serif;
     font-size: 100%;
     background-color: #fff;
     color: #333;
@@ -74,14 +74,14 @@ body {
 }
 
 body > header h1 {
-    font-family: 'Droid Sans', sans-serif;
+    font-family: 'PT Sans', sans-serif;
     font-size: 150%;
     line-height: 1;
     margin-bottom: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Droid Serif', serif;
+    font-family: 'PT Sans', sans-serif;
     font-weight: normal;
 }
 
@@ -127,6 +127,7 @@ strong {
 }
 
 time {
+    font-family: 'PT Sans', sans-serif;
     color: hsla(30, 10%, 50%, 0.6);
     font-size: 12px;
 }
@@ -257,6 +258,7 @@ header nav li {
 }
 
 header nav a {
+    font-family: 'PT Sans', sans-serif;
     display: inline-block;
     width: 100%;
     padding: 20px 0;

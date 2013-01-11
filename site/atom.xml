@@ -5,11 +5,175 @@
   <link href="http://pauladamsmith.com/atom.xml" rel="self" />
   <link href="http://pauladamsmith.com/" />
   <id>pauladamsmith.com</id>
-  <updated>2012-08-07T04:20:00Z</updated>
+  <updated>2013-01-11T04:01:00Z</updated>
   <author>
     <name>Paul Smith</name>
     <email>paulsmith@pobox.com</email>
   </author>
+  <entry>
+    <title>Lexing Oscar</title>
+    <link href="/blog/2013/01/lexing-oscar.html" />
+    <id>http://pauladamsmith.com/blog/2013/01/lexing-oscar.html</id>
+    <updated>2013-01-11T04:01:00Z</updated>
+    <content type="html">&lt;p&gt;For the past &lt;em&gt;n&lt;/em&gt; years, I’ve built and hosted a web app that lets my film
+buff friends and me compete by guessing who will win the Academy Awards by
+voting for nominees in each category. I do a new one from scratch each time.
+It’s a fun diversion, but it’s also a playground for me to try out new
+skills picked up in the past year or new tools or techniques I’ve been wanting
+to fool around with.&lt;/p&gt;
+
+&lt;p&gt;The first thing I need to do each time is get a list of that year’s nominees
+in some machine-readable format. Being a lazy programmer, I’m not going to
+type in the 100+ nominees into a spreadsheet or text file, so I wind up
+writing a short throwaway script to coax some list I’ve found online into the
+form I need for importing. This sort of script is the meat-and-potatoes of the
+workaday programmer, the ones you whip up in a few minutes as an intermediate
+step in a larger task. Ordinarily, they’re hardly worth commenting on. They
+have a vanishingly short half-life, since there is rarely any generality to be
+derived from them: they only work on the exact input given.&lt;/p&gt;
+
+&lt;p&gt;This year, I wanted to try out a new way of getting the nominee list together.
+Sure, for a small task like this, there’s no compelling reason not to go with
+the same kind of quick throwaway script as before. But again, the point of the
+Oscars app is to exercise new or different muscles.&lt;/p&gt;
+
+&lt;p&gt;My goal was to generate a representation of the list of nominees in a format
+such as CSV suitable for importing into a database. I found a source list of
+nominees, formatted as follows: the name of the category is on the first line,
+then a list of nominees comes next, each requiring two lines, one being the
+name of the film and the other a name or list of names associated with the
+nomination, all followed by a blank line, then the subsequent category starts
+on the next line and we repeat. I wanted to read in and parse text formatted
+like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Directing
+Amour
+Michael Haneke
+Beasts Of The Southern Wild
+Benh Zeitlin
+Life Of Pi
+Ang Lee
+Lincoln
+Steven Spielberg
+Silver Linings Playbook
+David O. Russell
+
+Actor in a Leading Role
+Lincoln
+Daniel Day-Lewis
+…
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And convert it to this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Directing,Amour,Michael Haneke
+Directing,Beasts Of The Southern Wild,Benh Zeitlin
+Directing,Life Of Pi,Ang Lee
+Directing,Lincoln,Steven Spielberg
+Directing,Silver Linings Playbook,David O. Russell
+Actor in a Leading Role,Lincoln,Daniel Day-Lewis
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Normally, to scan and parse this type of input, I would write a program to
+loop over each line of the input, with a number of global state variables,
+keeping track of what tokens I was currently processing. In this case, I might
+have global state variables indicating whether I was currently processing a
+category and what the current film is, and I would have a set of if/elif/else
+statements for tests of various combinations of those variables, including for
+the contents of the current line (a blank line or EOF indicating the end of a
+category).&lt;/p&gt;
+
+&lt;p&gt;Each time through the loop, then, we get a line from the text and check to see
+what state we’re in. While this approach is easy to get started with, it leads
+to fragile code and requires a lot of mental bookkeeping. Worse, each time
+through the loop, the state of where we are and what we just did is forgotten.
+That accounts for the proliferation of state variables to be checked in order
+to restore the state of the processing.  Think about it, we are marching
+sequentially through this text, wouldn&amp;#39;t it be nice if we could just pick up
+where we left off with the last action?&lt;/p&gt;
+
+&lt;p&gt;My approach this time is inspired by &lt;a href=&#34;http://www.youtube.com/watch?v=HxaD_trXwRE&#34; title=&#34;Lexical Scanning in Go - Rob Pike&#34;&gt;Rob Pike’s talk on lexical scanning&lt;/a&gt;.
+Instead of a loop where we get the next bit of text to examine and restore the
+state of the processing by examing a number of state variables, we instead
+have a loop where a function is called that returns the next function to be
+called. In other words, a function is called which does a bit of processing of
+the text, advancing the pointer or consuming from a stream, maybe emitting
+some tokens, and then returns to the caller the function that should proceed
+from where the returning function just left off. For instance, we just scanned
+a category, which means we know we are ready to scan a film, so call the film
+scan function. That next function can just carry on its processing without any
+state-checking preliminaries. The loop of our system therefore is very
+concise, just calling functions and getting the next one to call the
+subsequent time around. Roughly:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;def run():
+    state = start_state
+    while state:
+        state = state()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When we are done processing input, say, EOF is reached, the state function
+currently executing can return &lt;code&gt;None&lt;/code&gt; to the caller, which will end the while
+loop and shut down the machine.&lt;/p&gt;
+
+&lt;p&gt;The advantage to the programmer is that instead of building up a complicated
+switch of control to determine what state our machine is in, we simply write
+functions that proceed naturally from the last state, and then hand off
+control to the subsequent function. It’s clean and helps keep the complexity
+of the system manageable. Any time you can reduce the number of control flow
+statements and replace them with simple functions is a win in my book.&lt;/p&gt;
+
+&lt;p&gt;So back to the Oscars. This year, I opened the &lt;a href=&#34;http://cdn.media.oscar.abc.com/media/2013/pdf/2013/nominees.pdf&#34;&gt;official nominee list&lt;/a&gt; from
+the Academy’s site, a PDF. I selected the text, copied and pasted it into a
+text document. The only manual editing I did was to add a blank line between
+each group of nominees by category, and I also joined lines in categories like
+Music (Original Song) where the title of the song and the name of the composer
+is split across multiple lines—these were quick changes that simplified the
+scanning logic.&lt;/p&gt;
+
+&lt;p&gt;There are three state functions in my program, one for each of category, film,
+and name (or list of names):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;def lex_category(lexer):
+    lexer.emit(CATEGORY, title(getline()))
+    return lex_film
+
+def lex_film(lexer):
+    line = getline()
+    if line == &amp;#39;&amp;#39;:
+        lexer.emit(BLANK, &amp;#39;&amp;#39;)
+        return lex_category
+    elif line is None: # EOF, shut down lex machine
+        return None
+    lexer.emit(FILM, title(line))
+    return lex_names
+
+def lex_names(lexer):
+    lexer.emit(NAMES, title(getline()))
+    return lex_film
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(&lt;code&gt;title()&lt;/code&gt; handles some odd case formatting in the source text by converting
+strings to title case.)&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;lex_film&lt;/code&gt; is the most complex, having to handle the possibilities of a blank
+line, meaning we’re moving on to the next category, EOF, which shuts down
+scanning, and the film itself. But in all cases we merely return the next
+state function to called (or &lt;code&gt;None&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;Admittedly, this is more sophistication than normally appears in my yearly
+nominee list parsing. But I have to say that I was able to write the program
+in about the same amount of time, found it ran correctly the first time, and
+was actually kind of fun to do. And while this was a silly example, you can
+start to see the power you can get from this approach when lexing different
+kinds of input with more and more complex tokens. When you lift the flow of
+control up a level and let your functions focus on the task at hand, the
+result I think is a more elegant and more obviously correct program.&lt;/p&gt;
+
+&lt;p&gt;The script and input text are &lt;a href=&#34;https://gist.github.com/4507999&#34;&gt;here&lt;/a&gt;, and the output list of nominees is
+&lt;a href=&#34;https://docs.google.com/spreadsheet/ccc?key=0AviXLd8uXec3dHRtenJGcUs5aTBXUEY4cWs2WHNpS3c#gid=0&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>The Election Day Advent Calendar</title>
     <link href="/blog/2012/08/the-election-day-advent-calendar.html" />
@@ -1567,161 +1731,6 @@ market of exchange in this little political economy is for ideas about
 reprioritizing our institutions. Which is a legitimate topic of national
 debate. But reverting to the gold standard, as a practical economic matter,
 would be bonkers.&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>Taking Go for a spin</title>
-    <link href="/blog/2011/01/go.html" />
-    <id>http://pauladamsmith.com/blog/2011/01/go.html</id>
-    <updated>2011-01-12T12:00:00Z</updated>
-    <content type="html">&lt;p&gt;I was struck by the high-level abstractions &lt;a href=&#34;http://golang.org/&#34;&gt;Go&lt;/a&gt;
-provides for writing networked clients and servers, even by the standards of
-conventionally high-level languages like Python. Given Go’s identification
-as a systems programming language, this is initially surprising, because
-such languages tend to be low-level for performance reasons (Go does
-expose a lot of low-level interfaces through various packages like &lt;code&gt;os&lt;/code&gt;
-and &lt;code&gt;syscall&lt;/code&gt;), but of course there would be good support for these
-things because Go is a modern language designed by folks with many years
-of experience writing networked servers.&lt;/p&gt;
-
-&lt;p&gt;Specifically, the &lt;code&gt;net&lt;/code&gt; package provides the &lt;code&gt;Listener&lt;/code&gt; and &lt;code&gt;Conn&lt;/code&gt; types
-that hide many of the details of setting up socket connections. A simple
-&lt;code&gt;net.Listen(&amp;quot;tcp&amp;quot;, &amp;quot;:1234&amp;quot;)&lt;/code&gt; is enough to get the equivalent of a listener,
-or server, socket. The &lt;code&gt;bufio&lt;/code&gt; package provides buffered read methods,
-simplifying common tasks like reading lines from a socket.&lt;/p&gt;
-
-&lt;p&gt;Let’s dive in and take a look at one way to implement a classic echo
-server. I tried to use Go’s language features for concurrent communication,
-goroutines and channels, at crucial points. Where a different implementation
-in different language might fork a new process or spawn a new thread to
-handle a new client connection, a goroutine was started and the details
-of the connection communicated with a channel.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;go&#34;&gt;package main
-
-import (
-    &amp;quot;net&amp;quot;
-    &amp;quot;bufio&amp;quot;
-    &amp;quot;strconv&amp;quot;
-    &amp;quot;fmt&amp;quot;
-)
-
-const PORT = 3540
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;All Go programs must have a &lt;code&gt;package main&lt;/code&gt;. We declare a number of packages to
-be imported, &lt;code&gt;net&lt;/code&gt; and &lt;code&gt;bufio&lt;/code&gt; already mentioned, &lt;code&gt;strconv&lt;/code&gt; for its conversion
-function &lt;code&gt;Itoa()&lt;/code&gt; that converts an integer to a string, and &lt;code&gt;fmt&lt;/code&gt; for printing
-strings to the console. Our echo server will listen on port 3540.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;go&#34;&gt;func main() {
-    server, err := net.Listen(&amp;quot;tcp&amp;quot;, &amp;quot;:&amp;quot; + strconv.Itoa(PORT))
-    if server == nil {
-        panic(&amp;quot;couldn&amp;#39;t start listening: &amp;quot; + err.String())
-    }
-    conns := clientConns(server)
-    for {
-        go handleConn(&amp;lt;-conns)
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Every Go program must have a function &lt;code&gt;main()&lt;/code&gt; in its &lt;code&gt;package main&lt;/code&gt;. We start
-by declaring and initializing a new listener for our echo server. We choose
-the more generic &lt;code&gt;net.Listen()&lt;/code&gt; over &lt;code&gt;net.TCPListen()&lt;/code&gt;, because we can
-conveniently parameterize the type of the listener with a string to the first
-argument of &lt;code&gt;Listen&lt;/code&gt;. (It is generally preferred in Go to deal with the most
-generic type, or interface, especially when writing function and method
-signatures, and either allow a specific type to be inferred by the compiler or
-specify it when declaring/initializing a variable.) &lt;code&gt;&amp;quot;:&amp;quot; + strconv.Itoa(PORT)&lt;/code&gt;
-is a string concentation expression, and the port constant we defined earlier
-is converted to a string. (Strictly, a numeric constant is not an integer of a
-particular type, but the string conversion function works here because the
-compiler converts the constant into the concrete type to match the function
-signature.)&lt;/p&gt;
-
-&lt;p&gt;The idiom for Go when handling multiple return values where the last has an
-error type is to check the main object for nil, and then &lt;code&gt;panic()&lt;/code&gt; with the
-stringified error object. This is generally preferred over printing to stderr
-and using &lt;code&gt;os.Exit()&lt;/code&gt;, because it gives callers higher up the stack the chance
-to &lt;code&gt;recover()&lt;/code&gt;, sort of a raise/catch exception flow.&lt;/p&gt;
-
-&lt;p&gt;Using Go’s compact syntax for simultaneous declaration and initialization, we
-set &lt;code&gt;conns&lt;/code&gt; to the value of the function call &lt;code&gt;clientConns(server)&lt;/code&gt;. This is
-the channel we’ll use for getting new client connections.&lt;/p&gt;
-
-&lt;p&gt;The equivalent of a infinite loop like &lt;code&gt;while True:&lt;/code&gt; or &lt;code&gt;for (;;)&lt;/code&gt; in Go is
-&lt;code&gt;for { ... }&lt;/code&gt;. Each time through the loop, we start a goroutine, calling
-&lt;code&gt;handleConn()&lt;/code&gt; with the value of the receive operation on our client connections
-channel. The unary receive operator &lt;code&gt;&amp;lt;-&lt;/code&gt; blocks until a value is available on
-the channel, in our case, a new client having connected.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;go&#34;&gt;func clientConns(listener net.Listener) chan net.Conn {
-    ch := make(chan net.Conn)
-    i := 0
-    go func() {
-        for {
-            client, err := listener.Accept()
-            if client == nil {
-                fmt.Printf(&amp;quot;couldn&amp;#39;t accept: &amp;quot; + err.String())
-                continue
-            }
-            i++
-            fmt.Printf(&amp;quot;%d: %v &amp;lt;-&amp;gt; %v\n&amp;quot;, i, client.LocalAddr(),
-                client.RemoteAddr())
-            ch &amp;lt;- client
-        }
-    }()
-    return ch
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We create a new channel of type &lt;code&gt;net.Conn&lt;/code&gt;, which corresponds to the type that
-we’ll get from calling &lt;code&gt;Accept()&lt;/code&gt; on our listener connection object. We start
-off a new, anonymous goroutine which runs in an infinite loop, constantly
-accepting new connections. &lt;code&gt;listener.Accept()&lt;/code&gt; blocks as long as there are no
-new clients to deal with, but since we’re running inside a goroutine and
-&amp;quot;detached&amp;quot; from the main program flow, other already-connected clients can
-continue to be handled without interruption (this is where a &lt;code&gt;fork()&lt;/code&gt; or a new
-thread would happen in a typical server). Instead of &lt;code&gt;panic()&lt;/code&gt;ing here if
-there is an error connecting with the client, we simply note it on the console
-of the server and move on. We also keep track of the number of clients we’ve
-seen with the counter &lt;code&gt;i&lt;/code&gt;. &lt;code&gt;fmt.Printf()&lt;/code&gt; works like you’d expect, though the
-&lt;code&gt;%v&lt;/code&gt; format is not like anything in C’s &lt;code&gt;printf()&lt;/code&gt; — it prints a value in a
-default format and works for any type, somewhat like &lt;code&gt;repr()&lt;/code&gt; in Python.&lt;/p&gt;
-
-&lt;p&gt;The binary &lt;code&gt;&amp;lt;-&lt;/code&gt; communication operator is used to send the client, of type
-&lt;code&gt;net.Conn&lt;/code&gt; to the channel we created at the top. Go has lexical scope (and is
-garbage-collected), so &lt;code&gt;ch&lt;/code&gt; is available inside the anonymous goroutine and
-after our function returns (because the infinite &lt;code&gt;Accept()&lt;/code&gt;ing for-loop keeps
-the goroutine alive).&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;go&#34;&gt;func handleConn(client net.Conn) {
-    b := bufio.NewReader(client)
-    for {
-        line, err := b.ReadBytes(&amp;#39;\n&amp;#39;)
-        if err != nil { // EOF, or worse
-            break
-        }
-        client.Write(line)
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;As we saw back in &lt;code&gt;main()&lt;/code&gt;, &lt;code&gt;handleConn()&lt;/code&gt; is invoked as a goroutine with each
-new client connection (the connection being received from the other side of
-the channel we just created). &lt;code&gt;bufio.NewReader()&lt;/code&gt; wraps the client object with
-a nicer interface for reading lines of bytes from. If we decided to use the
-&lt;code&gt;Read()&lt;/code&gt; method of the &lt;code&gt;net.Conn&lt;/code&gt; object, our code would be more complex,
-having to check for the substring &lt;code&gt;&amp;quot;\n&amp;quot;&lt;/code&gt; and testing for EOF. Instead, we can
-treat this as a line-oriented protocol, and simply get a line and write it
-back to the client, as long as there are lines to be read.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://gist.github.com/775764&#34;&gt;Here’s the whole thing&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;The pattern of getting new connections from a channel and starting a goroutine
-to handle them is conceptually clean, and also happens to be a straightforward
-way to write a multiplexing, concurrent server.&lt;/p&gt;
 </content>
   </entry>
   </feed>
