@@ -5,11 +5,68 @@
   <link href="http://pauladamsmith.com/atom.xml" rel="self" />
   <link href="http://pauladamsmith.com/" />
   <id>pauladamsmith.com</id>
-  <updated>2013-01-11T04:01:00Z</updated>
+  <updated>2013-01-28T21:30:00Z</updated>
   <author>
     <name>Paul Smith</name>
     <email>paulsmith@pobox.com</email>
   </author>
+  <entry>
+    <title>Democratic Party’s voter registration app is now free and open-source software</title>
+    <link href="/blog/2013/01/dnc_voter_reg_foss.html" />
+    <id>http://pauladamsmith.com/blog/2013/01/dnc_voter_reg_foss.html</id>
+    <updated>2013-01-28T21:30:00Z</updated>
+    <content type="html">&lt;p&gt;We (the &lt;a href=&#34;http://democrats.org/&#34;&gt;DNC&lt;/a&gt;) have &lt;a href=&#34;https://github.com/democrats/voter-registration/issues/12#issuecomment-12804999&#34;&gt;relicensed the Democratic Party’s voter registration
+application&lt;/a&gt; under a standard MIT license, and accompanied the source
+code with an advisory notice regarding the use of the software. I wanted to
+explain why we did this.&lt;/p&gt;
+
+&lt;p&gt;The Democratic Party initially released &lt;a href=&#34;https://github.com/democrats/voter-registration&#34;&gt;the source code to its online voter
+registration app&lt;/a&gt; late last summer, with the intent of making it
+available for all the standard reasons people and organizations choose when
+they open-source code: so that it can be improved, so that bugs can be fixed,
+so others can take it and build further new applications on top of it.&lt;/p&gt;
+
+&lt;p&gt;However, it was quickly apparent we had a problem with the open source
+community. &lt;a href=&#34;https://github.com/democrats/voter-registration/issues/12&#34;&gt;The issue was with the license&lt;/a&gt;. It contained a clause that
+placed restrictions on its use. The reason this clause was included was to
+address our concerns regarding the highly regulated and closely monitored
+nature of voting and voter registration. We wanted to avoid a scenario where,
+either inadvertently or through malice, someone set up a site based on the
+code, and without following state and federal guidelines and rules, defrauded
+or disenfranchised a voter. Now, regardless of our good intentions on this
+matter, the fact that we had taken a standard open source license and amended
+it with this restrictive clause meant that we did not pass “free and open
+source” muster, with emphasis on the “free” as in “speech”.&lt;/p&gt;
+
+&lt;p&gt;We needed a solution that addressed both the problematic license and our
+concerns regarding the good-faith use of the software that protected voters. A
+member of the open source community, &lt;a href=&#34;http://www.red-bean.com/kfogel/&#34;&gt;Karl Fogel&lt;/a&gt;, stepped forward
+with a proposal: change the license to an unmodified standard
+&lt;a href=&#34;http://opensource.org/licenses/index.html&#34;&gt;OSI&lt;/a&gt;-approved license, and include along with the source code an
+advisory document that outline these legal concerns. The notice would not be
+binding or otherwise modify the license and therefore terms of use; however,
+like any piece of open source software, people are “free” to use it illegally,
+and free to suffer the consequences if they do. The important thing is to
+remind users of their responsibility to act in accordance with the law,
+especially when it comes to something as precious and beseiged as our
+franchise. We feel the combination of a standard FOSS license and a
+non-binding advisory document expressing the intent of the copyright holder is
+a way forward for political organizations to release potentially sensitive
+soure code while at the same time communicating the vital issues animating and
+conditioning that release.&lt;/p&gt;
+
+&lt;p&gt;Now, some observers may not see this as remarkable. There was a bad license,
+it’s been changed, what’s the fuss? I want to acknowledge the hard work across
+the organization, from software engineers to lawyers, to find a way to give
+back to the open source community and satisfy the concerns of both. There are
+many reasons why organizations don’t release their software as open source. We
+want to set an example, however small, that there are non-license ways to
+state any reservations or guiding principles your organization that ordinarily
+would have prevented a release. Key among these are engaging with the
+community. As we have learned time and again, good solutions often originate
+through trust and dialogue.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>Lexing Oscar</title>
     <link href="/blog/2013/01/lexing-oscar.html" />
@@ -1666,71 +1723,6 @@ named after local unions, industry.&lt;/p&gt;
 .rangers td span { background-position: -350px 0px; }
 .steelers td span { background-position: -400px 0px; }
 &lt;/style&gt;
-</content>
-  </entry>
-  <entry>
-    <title>Gold is the same as paper</title>
-    <link href="/blog/2011/01/gold.html" />
-    <id>http://pauladamsmith.com/blog/2011/01/gold.html</id>
-    <updated>2011-01-14T19:38:00Z</updated>
-    <content type="html">&lt;div style=&#34;float: right; margin-left: 1em; padding: 5px&#34;&gt;&lt;a
-href=&#34;http://www.flickr.com/photos/7159212@N05/442965594/&#34; title=&#34;photo by tao_zhyn on Flickr&#34;&gt;&lt;img
-src=&#34;/images/gold.jpg&#34; width=&#34;240&#34; height=&#34;128&#34; alt=&#34;gold coins&#34;
-class=&#34;facebook-image&#34;&gt;&lt;/a&gt;&lt;/div&gt;
-
-&lt;p&gt;We won’t return to a gold standard because changing to a fiat currency was
-one of the great innovations of modern economics. You aren’t literally
-and figuratively weighed down by gold, and that allows central banks and
-governments to set policy that allows them to rebound from crises, spur
-growth, and lift people out of poverty and short lifespans. As &lt;a href=&#34;http://www.thenation.com/audio/157757/breakdown-should-us-return-gold-standard&#34; title=&#34;Episode of The Breakdown with Chris Hayes podcast by The Nation&#34;&gt;Liaquat
-Ahamed points out&lt;/a&gt;, the gold standard is also a sure way to get yourself
-in a deflationary cycle.&lt;/p&gt;
-
-&lt;p&gt;But, wait! gold bugs will say. That paper isn’t worth the paper it’s
-printed on. Gold has &lt;em&gt;real&lt;/em&gt; value, that’s why it was the world’s
-currency for many years. The problem with this is that money is a
-&lt;a href=&#34;http://en.wikipedia.org/wiki/Turtles_all_the_way_down&#34;&gt;turtles-all-the-way-down&lt;/a&gt; concept. Gold is just as much a pointer
-to value as paper is, except it has many more downsides: it’s heavier,
-more cumbersome to exchange, and has a fixed supply.&lt;/p&gt;
-
-&lt;p&gt;Gold isn’t valuable in and of itself. You can’t live in gold. You can’t eat
-gold. You can’t clothe yourself in gold. A gold coin can’t paint your house,
-or build you a website. You could (hypothetically) use it to put your kids
-through college, so it that sense it’s valuable to you, but &lt;em&gt;only in its
-exchange&lt;/em&gt;, because on the other end, the trustees and professors and janitors
-at the college need to live somewhere, eat something, wear something,
-and have websites built. And again they exchange it for those goods and
-services. So really the only thing that’s intrinsic to this little economy
-I’ve just described is the fact that you, the college trustees, the service
-providers, et al., all agree on the value or rate of exchange. It’s like
-an algebraic equation where constants cancel out — gold is the constant,
-so we can abstract it away. It may as well be “neighborhood fun bucks,”
-so long as everyone agrees on the rate of exchange for goods and services.&lt;/p&gt;
-
-&lt;p&gt;And there you have it. Economies have nothing to do with the particulars of
-their currencies, and everything to do with people and institutions trusting
-that, in exchange for some amount, I will receive something of perceived
-equal value. Trust, and perception. Currencies are just a convenient
-means by which we mitigate that exchange, an abstraction, a stand-in
-for a hypothetical exchange, ultimately, an exchange built on trust.&lt;/p&gt;
-
-&lt;p&gt;Interestingly, the only inherent value gold has is in its use as
-jewelry. Which, aside from any aesthetic concerns, couldn’t be more
-appropriate for our discussion, because people wear gold jewelry &lt;em&gt;as a
-signifier of wealth&lt;/em&gt;. A pointer, a marker, an abstraction for the wealth
-itself, which, again, is just the potential for exchange.&lt;/p&gt;
-
-&lt;p&gt;It is this essential trust network at the core of economics that explains
-why there is so much noise about gold. It reflects a lack of trust on the
-part of gold advocates in our central banking and governmental institutions,
-which they feel pursue policies that aren’t in their interest, or are in
-the interest of undeserving populations. The switch to a gold standard,
-therefore, has nothing to do with inflation or any other “economic”
-concern, and everything to do with pursuing a political objective. The
-market of exchange in this little political economy is for ideas about
-reprioritizing our institutions. Which is a legitimate topic of national
-debate. But reverting to the gold standard, as a practical economic matter,
-would be bonkers.&lt;/p&gt;
 </content>
   </entry>
   </feed>
