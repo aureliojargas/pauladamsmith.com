@@ -1,6 +1,6 @@
 render:
 	lessc css/base.less css/base.css
-	static.py
+	harp.py
 
 publish:
 	chmod 755 site
