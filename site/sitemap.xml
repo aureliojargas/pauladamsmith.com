@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+      <loc>http://pauladamsmith.com/blog/2013/06/gogeos.html</loc>
+      <lastmod>2013-06-12</lastmod>
+      </url>
+  <url>
       <loc>http://pauladamsmith.com/blog/2013/01/dnc_voter_reg_foss.html</loc>
       <lastmod>2013-01-28</lastmod>
       </url>
@@ -66,7 +70,12 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/</loc>
-      <lastmod>2013-01-28</lastmod>
+      <lastmod>2013-06-12</lastmod>
+      <changefreq>daily</changefreq>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/blog/2013/06/</loc>
+      <lastmod>2013-06-12</lastmod>
       <changefreq>daily</changefreq>
       </url>
   <url>
@@ -126,7 +135,7 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/2013/</loc>
-      <lastmod>2013-01-28</lastmod>
+      <lastmod>2013-06-12</lastmod>
       <changefreq>daily</changefreq>
       </url>
   <url>
@@ -154,7 +163,7 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/index.html</loc>
-      <lastmod>2012-03-30</lastmod>
+      <lastmod>2013-06-12</lastmod>
       </url>
   <url>
       <loc>http://pauladamsmith.com/projects.html</loc>

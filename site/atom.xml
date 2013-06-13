@@ -5,11 +5,60 @@
   <link href="http://pauladamsmith.com/atom.xml" rel="self" />
   <link href="http://pauladamsmith.com/" />
   <id>pauladamsmith.com</id>
-  <updated>2013-01-28T21:30:00Z</updated>
+  <updated>2013-06-12T16:00:00Z</updated>
   <author>
     <name>Paul Smith</name>
     <email>paulsmith@pobox.com</email>
   </author>
+  <entry>
+    <title>Announcing gogeos, a spatial data library for Go</title>
+    <link href="/blog/2013/06/gogeos.html" />
+    <id>http://pauladamsmith.com/blog/2013/06/gogeos.html</id>
+    <updated>2013-06-12T16:00:00Z</updated>
+    <content type="html">&lt;p&gt;&lt;a href=&#34;http://paulsmith.github.io/gogeos/&#34; title=&#34;gogeos&#34;&gt;
+&lt;img src=&#34;/images/gogeos.png&#34; style=&#34;display: block; float: right; margin-left: 15px&#34; alt=&#34;Example of geometry processed by gogeos&#34;&gt;
+&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I am announcing the initial release of &lt;a href=&#34;http://paulsmith.github.io/gogeos/&#34;&gt;gogeos&lt;/a&gt;, a library for the Go
+programming language. gogeos provides spatial data operations and geometric
+algorithms. While it is a Go library, the hard work is done by the
+&lt;a href=&#34;http://geos.osgeo.org/&#34;&gt;GEOS&lt;/a&gt; C library.&lt;/p&gt;
+
+&lt;p&gt;The kinds of things you can do with gogeos include:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;set-theoretic operations&lt;/strong&gt;, such as computing the intersection, union, or
+difference of two geometries,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;topological operations&lt;/strong&gt;, such as computing buffers and convex hulls,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;binary predicates&lt;/strong&gt;, such as whether two geometries intersect or are disjoint,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;validity checking&lt;/strong&gt;, and&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href=&#34;http://paulsmith.github.io/gogeos/#overview&#34;&gt;much more&lt;/a&gt;&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It also provides interoperability with other spatial data processing systems
+like &lt;a href=&#34;http://postgis.org/&#34;&gt;PostGIS&lt;/a&gt; by decoding and encoding geometries as Well-Known Text
+(WKT) and Well-Known Binary (WKB).&lt;/p&gt;
+
+&lt;p&gt;I started working on gogeos because I looked at the landscape of GIS and
+spatial data libraries for Go, and found it lacking. Binding to the GEOS
+library with &lt;a href=&#34;http://golang.org/cmd/cgo/&#34;&gt;cgo&lt;/a&gt; was a way to get started quickly. Relying on GEOS has
+its drawbacks, for instance, it creates a large binary dependency, and cgo
+doesn’t allow for cross-platform compiles.&lt;/p&gt;
+
+&lt;p&gt;In the long term, I would like to create a pure Go library that implements
+functionality such as GEOS and the &lt;a href=&#34;http://www.vividsolutions.com/jts/main.htm&#34;&gt;JTS&lt;/a&gt; provide. That would allow for use
+on platforms that don’t or can’t support C shared libraries, such as Google
+App Engine, and make it easier for developers to get started working with it.&lt;/p&gt;
+
+&lt;p&gt;In the meantime, I hope that gogeos enables more developers who are working
+with spatial data or GIS to get involved in the Go ecosystem.&lt;/p&gt;
+
+&lt;p&gt;gogeos is a &lt;a href=&#34;https://github.com/paulsmith/gogeos&#34;&gt;fully open-source project&lt;/a&gt;, and I welcome contributors
+and feedback.&lt;/p&gt;
+
+&lt;p&gt;—&lt;a href=&#34;https://twitter.com/paulsmith&#34;&gt;@paulsmith&lt;/a&gt;&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>Democratic Party’s voter registration app is now free and open-source software</title>
     <link href="/blog/2013/01/dnc_voter_reg_foss.html" />
@@ -1613,116 +1662,6 @@ to indicate a key hit and returns the value object.&lt;/p&gt;
 &lt;p&gt;Again, as with the key miss from above (remember the null value is a Redis
 object, too), the value is decoded into the Redis bytestring protocol. This is
 the response to the client, and we have concluded our &lt;code&gt;GET&lt;/code&gt;/&lt;code&gt;SET&lt;/code&gt;/&lt;code&gt;GET&lt;/code&gt; dance.&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>The All-Blue-Collar League</title>
-    <link href="/blog/2011/01/bluecollarleague.html" />
-    <id>http://pauladamsmith.com/blog/2011/01/bluecollarleague.html</id>
-    <updated>2011-01-24T00:22:00Z</updated>
-    <content type="html">&lt;p&gt;In honor of the &lt;a href=&#34;http://sportsillustrated.cnn.com/football/nfl/gameflash/2011/01/23/4353_recap.html?&amp;amp;eref=sihp&#34;&gt;all&lt;/a&gt;-&lt;a href=&#34;http://sportsillustrated.cnn.com/football/nfl/gameflash/2011/01/23/4354_recap.html?eref=sihp&#34;&gt;union&lt;/a&gt; Super Bowl, I present the
-All-Blue-Collar League, a collection of U.S. professional sports franchises
-named after local unions, industry.&lt;/p&gt;
-
-&lt;p&gt;In solidarity:&lt;/p&gt;
-
-&lt;table id=&#34;teams&#34;&gt;
-    &lt;tr&gt;
-        &lt;th&gt;NFL&lt;/th&gt;
-    &lt;/tr&gt;
-    &lt;tr class=&#34;team packers&#34; title=&#34;Named after the Indian Packing Company&#34;&gt;
-        &lt;td&gt;&lt;span&gt;&lt;/span&gt;Green Bay &lt;b&gt;Packers&lt;/b&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr class=&#34;team steelers&#34; title=&#34;Pittsburgh’s economy centered around the steel industry for many years.&#34;&gt;
-        &lt;td&gt;&lt;span&gt;&lt;/span&gt;Pittsburgh &lt;b&gt;Steelers&lt;/b&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr class=&#34;team cowboys&#34; title=&#34;Texas cowboys were freelance livestock herders and handlers.&#34;&gt;
-        &lt;td&gt;&lt;span&gt;&lt;/span&gt;Dallas &lt;b&gt;Cowboys&lt;/b&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-
-    &lt;tr&gt;
-        &lt;th&gt;MLB&lt;/th&gt;
-    &lt;/tr&gt;
-    &lt;tr class=&#34;team astros&#34; title=&#34;NASA’s Johnson Space Center and the greater space industry is a huge employer in the Houston region.&#34;&gt;
-        &lt;td&gt;&lt;span&gt;&lt;/span&gt;Houston &lt;b&gt;Astros&lt;/b&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr class=&#34;team brewers&#34; title=&#34;Named for the city’s association with the beer brewing industry.&#34;&gt;
-        &lt;td&gt;&lt;span&gt;&lt;/span&gt;Milwaukee &lt;b&gt;Brewers&lt;/b&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr class=&#34;team mariners&#34; title=&#34;The city’s location makes it a natural for many maritime industries, including fishmongering, and fishwivery.&#34;&gt;
-        &lt;td&gt;&lt;span&gt;&lt;/span&gt;Seattle &lt;b&gt;Mariners&lt;/b&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr class=&#34;team rangers&#34; title=&#34;The Texas Rangers have been a statewide law enforcement agency since 1823, the oldest such agency in the U.S.&#34;&gt;
-        &lt;td&gt;&lt;span&gt;&lt;/span&gt;Texas &lt;b&gt;Rangers&lt;/b&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-
-    &lt;tr&gt;
-        &lt;th&gt;NBA&lt;/th&gt;
-    &lt;/tr&gt;
-    &lt;tr class=&#34;team pistons&#34; title=&#34;Detroit is synonymous with the American auto industry, a source of high-quality middle-class jobs for most of the 20th century.&#34;&gt;
-        &lt;td&gt;&lt;span&gt;&lt;/span&gt;Detroit &lt;b&gt;Pistons&lt;/b&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-
-    &lt;tr&gt;
-        &lt;th&gt;NHL&lt;/th&gt;
-    &lt;/tr&gt;
-    &lt;tr class=&#34;team oilers&#34; title=&#34;Edmonton is one of Canada’s major oil refinery centers.&#34;&gt;
-        &lt;td&gt;&lt;span&gt;&lt;/span&gt;Edmonton &lt;b&gt;Oilers&lt;/b&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Thanks to &lt;a href=&#34;http://twitter.com/kostuch&#34;&gt;@kostuch&lt;/a&gt;, &lt;a href=&#34;http://twitter.com/ikesmith&#34;&gt;@ikesmith&lt;/a&gt;, &lt;a href=&#34;http://twitter.com/joshandrews&#34;&gt;@joshandrews&lt;/a&gt;, &lt;a href=&#34;http://twitter.com/tcarmody&#34;&gt;@tcarmody&lt;/a&gt;,
-&lt;a href=&#34;http://twitter.com/lmsahistory&#34;&gt;@lmsahistory&lt;/a&gt;, and &lt;a href=&#34;http://twitter.com/janieporche&#34;&gt;@janieporche&lt;/a&gt; for suggestions.&lt;/p&gt;
-
-&lt;style&gt;
-#teams {
-    width: 100%;
-    margin-bottom: 1em;
-}
-
-#teams tr {
-    clear: both;
-}
-
-#teams th {
-    padding: 5px 6px;
-}
-
-#teams th {
-    background: hsla(215, 35%, 35%, 1.0);
-    color: white;
-}
-
-#teams td {
-    height: 50px;
-    line-height: 50px;
-    padding: 5px 0;
-    border-bottom: 1px solid hsla(215, 35%, 35%, 0.5);
-}
-
-#teams td span {
-    display: block;
-    float: left;
-    height: 50px;
-    width: 50px;
-    margin-right: 10px;
-    background-image: url(/images/blue_collar_sprite.png);
-    background-repeat: no-repeat;
-}
-
-#teams .explanation {
-    display: none;
-}
-
-.brewers td span { background-position: -50px 0px; }
-.cowboys td span { background-position: -100px 0px; }
-.mariners td span { background-position: -150px 0px; }
-.oilers td span { background-position: -200px 0px; }
-.packers td span { background-position: -250px 0px; }
-.pistons td span { background-position: -300px 0px; }
-.rangers td span { background-position: -350px 0px; }
-.steelers td span { background-position: -400px 0px; }
-&lt;/style&gt;
 </content>
   </entry>
   </feed>
