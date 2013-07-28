@@ -1,0 +1,162 @@
+title: Lexing Oscar
+slug: lexing-oscar
+pub_date: 2013-01-11 00:01
+---
+For the past _n_ years, I’ve built and hosted a web app that lets my film
+buff friends and me compete by guessing who will win the Academy Awards by
+voting for nominees in each category. I do a new one from scratch each time.
+It’s a fun diversion, but it’s also a playground for me to try out new
+skills picked up in the past year or new tools or techniques I’ve been wanting
+to fool around with.
+
+The first thing I need to do each time is get a list of that year’s nominees
+in some machine-readable format. Being a lazy programmer, I’m not going to
+type in the 100+ nominees into a spreadsheet or text file, so I wind up
+writing a short throwaway script to coax some list I’ve found online into the
+form I need for importing. This sort of script is the meat-and-potatoes of the
+workaday programmer, the ones you whip up in a few minutes as an intermediate
+step in a larger task. Ordinarily, they’re hardly worth commenting on. They
+have a vanishingly short half-life, since there is rarely any generality to be
+derived from them: they only work on the exact input given.
+
+This year, I wanted to try out a new way of getting the nominee list together.
+Sure, for a small task like this, there’s no compelling reason not to go with
+the same kind of quick throwaway script as before. But again, the point of the
+Oscars app is to exercise new or different muscles.
+
+My goal was to generate a representation of the list of nominees in a format
+such as CSV suitable for importing into a database. I found a source list of
+nominees, formatted as follows: the name of the category is on the first line,
+then a list of nominees comes next, each requiring two lines, one being the
+name of the film and the other a name or list of names associated with the
+nomination, all followed by a blank line, then the subsequent category starts
+on the next line and we repeat. I wanted to read in and parse text formatted
+like this:
+
+    Directing
+    Amour
+    Michael Haneke
+    Beasts Of The Southern Wild
+    Benh Zeitlin
+    Life Of Pi
+    Ang Lee
+    Lincoln
+    Steven Spielberg
+    Silver Linings Playbook
+    David O. Russell
+
+    Actor in a Leading Role
+    Lincoln
+    Daniel Day-Lewis
+    …
+
+And convert it to this:
+
+    Directing,Amour,Michael Haneke
+    Directing,Beasts Of The Southern Wild,Benh Zeitlin
+    Directing,Life Of Pi,Ang Lee
+    Directing,Lincoln,Steven Spielberg
+    Directing,Silver Linings Playbook,David O. Russell
+    Actor in a Leading Role,Lincoln,Daniel Day-Lewis
+
+Normally, to scan and parse this type of input, I would write a program to
+loop over each line of the input, with a number of global state variables,
+keeping track of what tokens I was currently processing. In this case, I might
+have global state variables indicating whether I was currently processing a
+category and what the current film is, and I would have a set of if/elif/else
+statements for tests of various combinations of those variables, including for
+the contents of the current line (a blank line or EOF indicating the end of a
+category).
+
+Each time through the loop, then, we get a line from the text and check to see
+what state we’re in. While this approach is easy to get started with, it leads
+to fragile code and requires a lot of mental bookkeeping. Worse, each time
+through the loop, the state of where we are and what we just did is forgotten.
+That accounts for the proliferation of state variables to be checked in order
+to restore the state of the processing.  Think about it, we are marching
+sequentially through this text, wouldn't it be nice if we could just pick up
+where we left off with the last action?
+
+My approach this time is inspired by [Rob Pike’s talk on lexical scanning][1].
+Instead of a loop where we get the next bit of text to examine and restore the
+state of the processing by examing a number of state variables, we instead
+have a loop where a function is called that returns the next function to be
+called. In other words, a function is called which does a bit of processing of
+the text, advancing the pointer or consuming from a stream, maybe emitting
+some tokens, and then returns to the caller the function that should proceed
+from where the returning function just left off. For instance, we just scanned
+a category, which means we know we are ready to scan a film, so call the film
+scan function. That next function can just carry on its processing without any
+state-checking preliminaries. The loop of our system therefore is very
+concise, just calling functions and getting the next one to call the
+subsequent time around. Roughly:
+
+    def run():
+        state = start_state
+        while state:
+            state = state()
+
+When we are done processing input, say, EOF is reached, the state function
+currently executing can return `None` to the caller, which will end the while
+loop and shut down the machine.
+
+The advantage to the programmer is that instead of building up a complicated
+switch of control to determine what state our machine is in, we simply write
+functions that proceed naturally from the last state, and then hand off
+control to the subsequent function. It’s clean and helps keep the complexity
+of the system manageable. Any time you can reduce the number of control flow
+statements and replace them with simple functions is a win in my book.
+
+So back to the Oscars. This year, I opened the [official nominee list][2] from
+the Academy’s site, a PDF. I selected the text, copied and pasted it into a
+text document. The only manual editing I did was to add a blank line between
+each group of nominees by category, and I also joined lines in categories like
+Music (Original Song) where the title of the song and the name of the composer
+is split across multiple lines—these were quick changes that simplified the
+scanning logic.
+
+There are three state functions in my program, one for each of category, film,
+and name (or list of names):
+
+    def lex_category(lexer):
+        lexer.emit(CATEGORY, title(getline()))
+        return lex_film
+
+    def lex_film(lexer):
+        line = getline()
+        if line == '':
+            lexer.emit(BLANK, '')
+            return lex_category
+        elif line is None: # EOF, shut down lex machine
+            return None
+        lexer.emit(FILM, title(line))
+        return lex_names
+
+    def lex_names(lexer):
+        lexer.emit(NAMES, title(getline()))
+        return lex_film
+
+(`title()` handles some odd case formatting in the source text by converting
+strings to title case.)
+
+`lex_film` is the most complex, having to handle the possibilities of a blank
+line, meaning we’re moving on to the next category, EOF, which shuts down
+scanning, and the film itself. But in all cases we merely return the next
+state function to called (or `None`).
+
+Admittedly, this is more sophistication than normally appears in my yearly
+nominee list parsing. But I have to say that I was able to write the program
+in about the same amount of time, found it ran correctly the first time, and
+was actually kind of fun to do. And while this was a silly example, you can
+start to see the power you can get from this approach when lexing different
+kinds of input with more and more complex tokens. When you lift the flow of
+control up a level and let your functions focus on the task at hand, the
+result I think is a more elegant and more obviously correct program.
+
+The script and input text are [here][3], and the output list of nominees is
+[here][4].
+
+[1]: http://www.youtube.com/watch?v=HxaD_trXwRE "Lexical Scanning in Go - Rob Pike"
+[2]: http://cdn.media.oscar.abc.com/media/2013/pdf/2013/nominees.pdf
+[3]: https://gist.github.com/4507999
+[4]: https://docs.google.com/spreadsheet/ccc?key=0AviXLd8uXec3dHRtenJGcUs5aTBXUEY4cWs2WHNpS3c#gid=0

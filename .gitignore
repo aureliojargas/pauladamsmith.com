@@ -6,3 +6,6 @@ env
 *~
 .dropbox
 _support
+/site/
+/Icon*
+/drafts/
