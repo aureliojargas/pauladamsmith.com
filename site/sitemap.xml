@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+      <loc>http://pauladamsmith.com/blog/2013/07/pgs.html</loc>
+      <lastmod>2013-07-23</lastmod>
+      </url>
+  <url>
       <loc>http://pauladamsmith.com/blog/2013/06/gogeos.html</loc>
       <lastmod>2013-06-12</lastmod>
       </url>
@@ -70,13 +74,18 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/</loc>
-      <lastmod>2013-06-12</lastmod>
+      <lastmod>2013-07-23</lastmod>
+      <changefreq>daily</changefreq>
+      </url>
+  <url>
+      <loc>http://pauladamsmith.com/blog/2013/07/</loc>
+      <lastmod>2013-07-23</lastmod>
       <changefreq>daily</changefreq>
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/2013/06/</loc>
       <lastmod>2013-06-12</lastmod>
-      <changefreq>daily</changefreq>
+      <changefreq>never</changefreq>
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/2013/01/</loc>
@@ -135,7 +144,7 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/blog/2013/</loc>
-      <lastmod>2013-06-12</lastmod>
+      <lastmod>2013-07-23</lastmod>
       <changefreq>daily</changefreq>
       </url>
   <url>
@@ -155,7 +164,7 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/about.html</loc>
-      <lastmod>2013-03-09</lastmod>
+      <lastmod>2013-07-23</lastmod>
       </url>
   <url>
       <loc>http://pauladamsmith.com/gpg-key.html</loc>
@@ -163,7 +172,7 @@
       </url>
   <url>
       <loc>http://pauladamsmith.com/index.html</loc>
-      <lastmod>2013-06-12</lastmod>
+      <lastmod>2013-07-23</lastmod>
       </url>
   <url>
       <loc>http://pauladamsmith.com/projects.html</loc>

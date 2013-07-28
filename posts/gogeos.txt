@@ -1,0 +1,51 @@
+title: Announcing gogeos, a spatial data library for Go
+slug: gogeos
+pub_date: 2013-06-12 12:00:00
+---
+<a href="http://paulsmith.github.io/gogeos/" title="gogeos">
+<img src="/images/gogeos.png" style="display: block; float: right; margin-left: 15px" alt="Example of geometry processed by gogeos">
+</a>
+
+I am announcing the initial release of [gogeos][gogeos], a library for the Go
+programming language. gogeos provides spatial data operations and geometric
+algorithms. While it is a Go library, the hard work is done by the
+[GEOS][geos] C library.
+
+The kinds of things you can do with gogeos include:
+
+* **set-theoretic operations**, such as computing the intersection, union, or
+  difference of two geometries,
+* **topological operations**, such as computing buffers and convex hulls,
+* **binary predicates**, such as whether two geometries intersect or are disjoint,
+* **validity checking**, and
+* **[much more](http://paulsmith.github.io/gogeos/#overview)**.
+
+It also provides interoperability with other spatial data processing systems
+like [PostGIS][pgis] by decoding and encoding geometries as Well-Known Text
+(WKT) and Well-Known Binary (WKB).
+
+I started working on gogeos because I looked at the landscape of GIS and
+spatial data libraries for Go, and found it lacking. Binding to the GEOS
+library with [cgo][cgo] was a way to get started quickly. Relying on GEOS has
+its drawbacks, for instance, it creates a large binary dependency, and cgo
+doesn’t allow for cross-platform compiles.
+
+In the long term, I would like to create a pure Go library that implements
+functionality such as GEOS and the [JTS][jts] provide. That would allow for use
+on platforms that don’t or can’t support C shared libraries, such as Google
+App Engine, and make it easier for developers to get started working with it.
+
+In the meantime, I hope that gogeos enables more developers who are working
+with spatial data or GIS to get involved in the Go ecosystem.
+
+gogeos is a [fully open-source project][github], and I welcome contributors
+and feedback.
+
+—[@paulsmith](https://twitter.com/paulsmith)
+
+[gogeos]: http://paulsmith.github.io/gogeos/
+[geos]: http://geos.osgeo.org/
+[pgis]: http://postgis.org/
+[cgo]: http://golang.org/cmd/cgo/
+[jts]: http://www.vividsolutions.com/jts/main.htm
+[github]: https://github.com/paulsmith/gogeos

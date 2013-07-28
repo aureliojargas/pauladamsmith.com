@@ -1,0 +1,122 @@
+title: Public Good Software and me
+slug: pgs
+pub_date: 2013-07-23 15:00:00
+x-og-image: http://pauladamsmith.com/images/pgs.png
+---
+<a href="https://publicgoodsoftware.com" title="Public Good Software">
+	<img src="/images/pgs.png" style="display: block; float: right; margin-left: 15px" alt="PGS logo">
+</a>
+
+Software that helps civil society organizations—non-profits, NGOs,
+charities—do their work should be better. It can be better. I want to help
+make it better. That’s why [I’ve started, along with two colleagues from the
+2012 election][st], a new company, called [Public Good Software][pgs].
+
+If you survey the kind of technology that <abbr title="civil society
+organizations">CSOs</abbr> use to support their missions, it’s a sorry sight.
+It’s full of complex interfaces and complicated experiences, thin layers over
+old systems, aging and poorly-supported applications, and disconnected data.
+Worse, the companies that develop and sell this software seem to have
+stagnated—their websites often feel frozen in time from 10 years ago. There
+isn’t a lot of innovation happening here.
+
+This is frustrating. These organizations are increasingly counted on to
+confront our most serious challenges, like hunger, climate change,
+conservation, joblessness, homelessness, affordable housing, poverty, public
+health, literacy and education, and yet the technology tools they need are not
+keeping up with them. Why shouldn’t people who work at CSOs expect software
+every bit as good and as powerful as what they use on their smartphones
+everyday?
+
+The situation is not much better if you are a supporter of these
+organizations. Let’s say you give $100 a year to your local public radio
+station, volunteer regularly at a community garden, and write your
+congressperson on behalf of an animal rights advocacy campaign. You should be
+able to keep track of all you do, and if you choose, share it with your
+community. You should be able to find new opportunities that you might not
+have been aware of, based on the kinds of organizations you support.  You have
+a civic profile, based on how you help others, that you should be able to
+claim and control.
+
+The first problem to tackle, and the first product that PGS will be developing
+to help solve, is the problem of disconnected data. It’s a fundamental problem
+that impacts CSOs and their supporters. Information about donors is in one
+database, volunteers in another, email subscribers in a third, then there's
+Facebook likers and Twitter followers and you don’t know if they’re in the
+other databases … Think of Mint.com, the way that service in its early days
+brought sanity to your financial life. We want to connect these disparate
+databases in much the same way and provide CSOs with a new, high-level view of
+their data, with more complete pictures of their supporters. We’ll do this
+through the use of statistical models, summaries, and visualizations that let
+CSOs track how they are doing on the goals they set for themselves. This will
+become a platform on which, over time, we’ll create and add new products.
+
+We aren’t setting out to reinvent the wheel. We’re not building YACRM (yet
+another CRM). We’re not even aiming to replace the technology CSOs currently
+use. We want to provide new tools and experiences that reflect the new needs
+of these organizations and their supporters. And it will be great, modern
+software: fast, a pleasure to use, designed and built for mobile devices, with
+maps and geo data throughout, and ready for international users. This is what
+CSOs and their supporters deserve.
+
+We decided early on that we wanted to be aligned with our customers in a way
+that was sustainable, that built trust, and held us as a company accountable
+to ensure that a double-bottom-line isn’t just a convenience to be discarded
+when the “real” pressure (i.e., financial) builds up. At the same time, we
+knew that the best way to grow the company the way we believed it should was
+through traditional capital investment. That led us to become a [benefit
+corporation][bc]. <a href="#fn" id="fnr">*</a> This is new legislation,
+found in a dozen or so states, and we think we’re one of the first software
+startups to go that route. Essentially what this means is that we are in all
+other respects like a normal for-profit company (we are a C corp under the
+hood), but that we have a social mission, stated right in our corporate
+by-laws (ours is roughly “to return more capital to organizations that provide
+a benefit to the public”), and there are two mechanisms ensuring that the
+social mission is not discarded if it becomes inconvenient. One is that there
+is a board-level position called the social benefit director, whose job is to
+ensure that the company is sticking to the social mission. The other is that
+our fiduciary responsibility to our shareholders does not override that social
+mission. This is where the rubber meets the road—you won’t see PGS suddenly
+pivot to sell software to the NRA to return a few more percentage points to
+our investors.
+
+All this comes at an interesting time for the public sector.  Executive
+directors and supporters alike are demanding more accountability and better
+ways of measuring success or failure. At the same time, demand for CSO
+services is up, while capital—in the form of dollars and volunteer time—is
+flat, or even declining slightly. There is a small but increasingly vocal
+minority of development directors saying CSOs need to be less obsessed with
+converting every dollar to program, and to find new ways to expand and be more
+effective. All this leads to an increasing need for better data and analysis,
+and better tools—for fundraising, communications, volunteer mobilization—that
+build on it. We think there is an enormous opportunity here.
+
+So it will be fun. I’m the CTO. My co-founders [Jason][jdk] and [Dan][dan]
+were director of UX and director of development, respectively, in the OFA 2012
+technology department. We’ve also got two more OFA tech alums,
+[Chris][cgansen] and [Aaron][aaron], as part of the founding team. Our current
+status is, talking with potential investors, meeting with a handful of CSOs
+who’ve agreed to pilot the software as we build it, and making prototypes and
+getting our basic infrastructure running. We’re using [Go][go] for our server
+software, which is a fun language. Incidentally, it should go without saying
+that we’re big believers in open source, but most of what we develop will be
+available under an open source license, and I’ll write more about that in
+another later post.  But I’ve already released some open source software that
+was developed on PGS time, [gogeos][gogeos], a small Go library for working
+with geospatial data.  We’ll be hiring software engineers soon, so if any of
+this sounds interesting to you, [drop me a line][paulatpgs].
+
+<p class="fn"><a id="fn">*</a> Not to be confused with the <a
+href="http://www.bcorporation.net/">B Corp certification</a>, which is related
+but is not a corporate structure. <a href="#fnr">↩</a></p>
+
+[st]: http://www.chicagogrid.com/reviews/tech/obamas-tech-team-citys-geeks-in-residence/
+[pgs]: https://publicgoodsoftware.com/
+[bc]: http://www.ilga.gov/legislation/BillStatus.asp?DocNum=2897&GAID=11&DocTypeID=SB&LegId=63455&SessionID=84
+[gogeos]: http://paulsmith.github.io/gogeos/
+[go]: http://golang.org/
+[aaron]: http://www.aaronsalmon.com/
+[cgansen]: http://www.chrisgansen.com/
+[jdk]: http://jdkunesh.com/
+[dan]: http://www.danratner.com/
+[paulatpgs]: mailto:paul@publicgoodsoftware.com

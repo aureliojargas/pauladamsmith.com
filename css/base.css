@@ -357,6 +357,10 @@ footer {
     border-top: 1px solid hsla(210, 10%, 50%, 0.2);
 }
 
+.fn {
+	font-size: smaller;
+}
+
 /*	13-column layout
 	60 px columns, 24 px gutters, 72 px margins, 1212 px total (extra space for scrollbars)
 	-----------------------------------------------------------------------------------------

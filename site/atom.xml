@@ -5,11 +5,124 @@
   <link href="http://pauladamsmith.com/atom.xml" rel="self" />
   <link href="http://pauladamsmith.com/" />
   <id>pauladamsmith.com</id>
-  <updated>2013-06-12T16:00:00Z</updated>
+  <updated>2013-07-23T19:00:00Z</updated>
   <author>
     <name>Paul Smith</name>
     <email>paulsmith@pobox.com</email>
   </author>
+  <entry>
+    <title>Public Good Software and me</title>
+    <link href="/blog/2013/07/pgs.html" />
+    <id>http://pauladamsmith.com/blog/2013/07/pgs.html</id>
+    <updated>2013-07-23T19:00:00Z</updated>
+    <content type="html">&lt;p&gt;&lt;a href=&#34;https://publicgoodsoftware.com&#34; title=&#34;Public Good Software&#34;&gt;
+    &lt;img src=&#34;/images/pgs.png&#34; style=&#34;display: block; float: right; margin-left: 15px&#34; alt=&#34;PGS logo&#34;&gt;
+&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Software that helps civil society organizations—non-profits, NGOs,
+charities—do their work should be better. It can be better. I want to help
+make it better. That’s why &lt;a href=&#34;http://www.chicagogrid.com/reviews/tech/obamas-tech-team-citys-geeks-in-residence/&#34;&gt;I’ve started, along with two colleagues from the
+2012 election&lt;/a&gt;, a new company, called &lt;a href=&#34;https://publicgoodsoftware.com/&#34;&gt;Public Good Software&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you survey the kind of technology that &lt;abbr title=&#34;civil society
+organizations&#34;&gt;CSOs&lt;/abbr&gt; use to support their missions, it’s a sorry sight.
+It’s full of complex interfaces and complicated experiences, thin layers over
+old systems, aging and poorly-supported applications, and disconnected data.
+Worse, the companies that develop and sell this software seem to have
+stagnated—their websites often feel frozen in time from 10 years ago. There
+isn’t a lot of innovation happening here.&lt;/p&gt;
+
+&lt;p&gt;This is frustrating. These organizations are increasingly counted on to
+confront our most serious challenges, like hunger, climate change,
+conservation, joblessness, homelessness, affordable housing, poverty, public
+health, literacy and education, and yet the technology tools they need are not
+keeping up with them. Why shouldn’t people who work at CSOs expect software
+every bit as good and as powerful as what they use on their smartphones
+everyday?&lt;/p&gt;
+
+&lt;p&gt;The situation is not much better if you are a supporter of these
+organizations. Let’s say you give $100 a year to your local public radio
+station, volunteer regularly at a community garden, and write your
+congressperson on behalf of an animal rights advocacy campaign. You should be
+able to keep track of all you do, and if you choose, share it with your
+community. You should be able to find new opportunities that you might not
+have been aware of, based on the kinds of organizations you support.  You have
+a civic profile, based on how you help others, that you should be able to
+claim and control.&lt;/p&gt;
+
+&lt;p&gt;The first problem to tackle, and the first product that PGS will be developing
+to help solve, is the problem of disconnected data. It’s a fundamental problem
+that impacts CSOs and their supporters. Information about donors is in one
+database, volunteers in another, email subscribers in a third, then there&amp;#39;s
+Facebook likers and Twitter followers and you don’t know if they’re in the
+other databases … Think of Mint.com, the way that service in its early days
+brought sanity to your financial life. We want to connect these disparate
+databases in much the same way and provide CSOs with a new, high-level view of
+their data, with more complete pictures of their supporters. We’ll do this
+through the use of statistical models, summaries, and visualizations that let
+CSOs track how they are doing on the goals they set for themselves. This will
+become a platform on which, over time, we’ll create and add new products.&lt;/p&gt;
+
+&lt;p&gt;We aren’t setting out to reinvent the wheel. We’re not building YACRM (yet
+another CRM). We’re not even aiming to replace the technology CSOs currently
+use. We want to provide new tools and experiences that reflect the new needs
+of these organizations and their supporters. And it will be great, modern
+software: fast, a pleasure to use, designed and built for mobile devices, with
+maps and geo data throughout, and ready for international users. This is what
+CSOs and their supporters deserve.&lt;/p&gt;
+
+&lt;p&gt;We decided early on that we wanted to be aligned with our customers in a way
+that was sustainable, that built trust, and held us as a company accountable
+to ensure that a double-bottom-line isn’t just a convenience to be discarded
+when the “real” pressure (i.e., financial) builds up. At the same time, we
+knew that the best way to grow the company the way we believed it should was
+through traditional capital investment. That led us to become a &lt;a href=&#34;http://www.ilga.gov/legislation/BillStatus.asp?DocNum=2897&amp;amp;GAID=11&amp;amp;DocTypeID=SB&amp;amp;LegId=63455&amp;amp;SessionID=84&#34;&gt;benefit
+corporation&lt;/a&gt;. &lt;a href=&#34;#fn&#34; id=&#34;fnr&#34;&gt;*&lt;/a&gt; This is new legislation,
+found in a dozen or so states, and we think we’re one of the first software
+startups to go that route. Essentially what this means is that we are in all
+other respects like a normal for-profit company (we are a C corp under the
+hood), but that we have a social mission, stated right in our corporate
+by-laws (ours is roughly “to return more capital to organizations that provide
+a benefit to the public”), and there are two mechanisms ensuring that the
+social mission is not discarded if it becomes inconvenient. One is that there
+is a board-level position called the social benefit director, whose job is to
+ensure that the company is sticking to the social mission. The other is that
+our fiduciary responsibility to our shareholders does not override that social
+mission. This is where the rubber meets the road—you won’t see PGS suddenly
+pivot to sell software to the NRA to return a few more percentage points to
+our investors.&lt;/p&gt;
+
+&lt;p&gt;All this comes at an interesting time for the public sector.  Executive
+directors and supporters alike are demanding more accountability and better
+ways of measuring success or failure. At the same time, demand for CSO
+services is up, while capital—in the form of dollars and volunteer time—is
+flat, or even declining slightly. There is a small but increasingly vocal
+minority of development directors saying CSOs need to be less obsessed with
+converting every dollar to program, and to find new ways to expand and be more
+effective. All this leads to an increasing need for better data and analysis,
+and better tools—for fundraising, communications, volunteer mobilization—that
+build on it. We think there is an enormous opportunity here.&lt;/p&gt;
+
+&lt;p&gt;So it will be fun. I’m the CTO. My co-founders &lt;a href=&#34;http://jdkunesh.com/&#34;&gt;Jason&lt;/a&gt; and &lt;a href=&#34;http://www.danratner.com/&#34;&gt;Dan&lt;/a&gt;
+were director of UX and director of development, respectively, in the OFA 2012
+technology department. We’ve also got two more OFA tech alums,
+&lt;a href=&#34;http://www.chrisgansen.com/&#34;&gt;Chris&lt;/a&gt; and &lt;a href=&#34;http://www.aaronsalmon.com/&#34;&gt;Aaron&lt;/a&gt;, as part of the founding team. Our current
+status is, talking with potential investors, meeting with a handful of CSOs
+who’ve agreed to pilot the software as we build it, and making prototypes and
+getting our basic infrastructure running. We’re using &lt;a href=&#34;http://golang.org/&#34;&gt;Go&lt;/a&gt; for our server
+software, which is a fun language. Incidentally, it should go without saying
+that we’re big believers in open source, but most of what we develop will be
+available under an open source license, and I’ll write more about that in
+another later post.  But I’ve already released some open source software that
+was developed on PGS time, &lt;a href=&#34;http://paulsmith.github.io/gogeos/&#34;&gt;gogeos&lt;/a&gt;, a small Go library for working
+with geospatial data.  We’ll be hiring software engineers soon, so if any of
+this sounds interesting to you, &lt;a href=&#34;mailto:paul@publicgoodsoftware.com&#34;&gt;drop me a line&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p class=&#34;fn&#34;&gt;&lt;a id=&#34;fn&#34;&gt;*&lt;/a&gt; Not to be confused with the &lt;a
+href=&#34;http://www.bcorporation.net/&#34;&gt;B Corp certification&lt;/a&gt;, which is related
+but is not a corporate structure. &lt;a href=&#34;#fnr&#34;&gt;↩&lt;/a&gt;&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>Announcing gogeos, a spatial data library for Go</title>
     <link href="/blog/2013/06/gogeos.html" />
@@ -1095,573 +1208,6 @@ to reduce user error, changes that literally save people’s lives. Or
 tweaks to software that improve user efficiency and productivity, saving
 money. It’s hard to conceive of what might be improved by finding a better
 metaphor for “save” other than some designers’ personal sensibilities.&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>More Redis internals: Tracing a GET & SET</title>
-    <link href="/blog/2011/03/redis_get_set.html" />
-    <id>http://pauladamsmith.com/blog/2011/03/redis_get_set.html</id>
-    <updated>2011-03-10T19:48:00Z</updated>
-    <content type="html">&lt;p&gt;In my &lt;a href=&#34;/articles/redis-under-the-hood.html&#34;&gt;previous article&lt;/a&gt;, I took a
-superficial look at how Redis starts up and prepares itself to process
-commands. In this article, I&amp;#39;ll follow a &lt;code&gt;GET&lt;/code&gt; and a &lt;code&gt;SET&lt;/code&gt; command as
-they move from client through the server and back. The &lt;code&gt;GET&lt;/code&gt; will be for
-a key that doesn&amp;#39;t exist, and the &lt;code&gt;SET&lt;/code&gt; will set that key.  Then I&amp;#39;ll look
-quickly at a subsequent &lt;code&gt;GET&lt;/code&gt; and how it differs.&lt;/p&gt;
-
-&lt;p&gt;As before, I&amp;#39;m exploring Redis with the source code open in my editor and
-indexed with a &lt;code&gt;tags&lt;/code&gt; file, and the Redis server running under &lt;code&gt;gdb&lt;/code&gt; in
-another terminal.&lt;/p&gt;
-
-&lt;p&gt;Caveat: this article was written against the codebase of Redis 2.2.1. With
-respect to my previous article, for a list of what has changed in Redis since
-I wrote it, see this &lt;a href=&#34;http://news.ycombinator.com/item?id=2301804&#34;&gt;comment on
-HN&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Edit:&lt;/strong&gt; I made two minor changes based on feedback—Redis keys are not Redis
-objects, they are &lt;code&gt;sds&lt;/code&gt; strings; and you don’t have to hack the Makefile to
-compile without optimizations.&lt;/p&gt;
-
-&lt;h1&gt;GET&lt;/h1&gt;
-
-&lt;p&gt;Let&amp;#39;s execute the command &lt;code&gt;get users:1234&lt;/code&gt; on Redis.&lt;/p&gt;
-
-&lt;h2&gt;Preparing&lt;/h2&gt;
-
-&lt;p&gt;If you inspect certain variables under &lt;code&gt;gdb&lt;/code&gt;, you might not get what you want.
-Instead you see a message like &amp;quot;&lt;value temporarily unavailable, due to
-optimizations&gt;.&amp;quot; This is because the compiler has optimized the machine code
-in such a fashion that the portion of memory you wanted to look at that was
-never used, at least for the variable under inspection. To make stepping
-through the code and inspecting a little easier, we make sure that Redis is
-not compiled with optimizations. You can do this by either building Redis with
-the following invocation:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;make noopt
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;or by setting an environment variable:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;OPTIMIZATION= make
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2&gt;Sending the command from the client&lt;/h2&gt;
-
-&lt;p&gt;If we look at the &lt;code&gt;repl&lt;/code&gt; loop of redis-cli, we see that it uses the
-&lt;code&gt;linenoise&lt;/code&gt; library to split the arguments of the command. It dispatches on
-the first argument. The loop checks for client commands that aren&amp;#39;t processed
-as a command by the Redis server, like &lt;code&gt;exit&lt;/code&gt;/&lt;code&gt;quit&lt;/code&gt;, &lt;code&gt;clear&lt;/code&gt; (to clear the screen),
-and &lt;code&gt;connect&lt;/code&gt; (which is a way to connect to a specified Redis server on host
-port, instead of the default host of 127.0.0.1 and port of 6379.&lt;/p&gt;
-
-&lt;p&gt;Any other argument is considered the name of a command to send to the server.
-The remaining arguments are the arugments for that command.&lt;/p&gt;
-
-&lt;p&gt;We&amp;#39;re trying to get the on-the-wire representation of the &lt;code&gt;get users:1234&lt;/code&gt; command.
-redis-cli uses a &lt;code&gt;redisContext&lt;/code&gt; struct to encapsulate the state of the
-connection to the server, as well as the output buffer where the command in
-the form of the Redis protocol is written for sending to the server. We know
-from reading the source of hiredis (the Redis C client library that the redis-cli
-program is built on) that the &lt;code&gt;obuf&lt;/code&gt; field is where the raw command is stored:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# hiredis.h:107
-/* Context for a connection to Redis */
-typedef struct redisContext {
-    int fd;
-    int flags;
-    char *obuf; /* Write buffer */
-    int err; /* Error flags, 0 when there is no error */
-    char *errstr; /* String representation of error when applicable */
-
-    /* Function set for reply buildup and reply reader */
-    redisReplyObjectFunctions *fn;
-    void *reader;
-} redisContext;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If we set a breakpoint on &lt;code&gt;cliReadReply&lt;/code&gt;, we can inspect the output buffer and
-see exactly how the command looks as a bytestring bound for the server.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;client $ gdb src/redis-cli
-(gdb) b cliReadReply
-(gdb) run
-Starting program: /home/paul/src/redis-2.2.0-RC2/src/redis-cli 
-Reading symbols for shared libraries +. done
-redis&amp;gt; get users:1234
-
-Breakpoint 1, cliReadReply (output_raw_strings=0) at redis-cli.c:421
-421         if (redisGetReply(context,&amp;amp;_reply) != REDIS_OK) {
-(gdb) p context-&amp;gt;obuf 
-$1 = 0x100102428 &amp;quot;*2\r\n$3\r\nget\r\n$10\r\nusers:1234\r\n&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We see that the Redis command &lt;code&gt;get users:1234&lt;/code&gt; as entered in our client is
-translated to &lt;code&gt;*2\r\n$3\r\nget\r\n$10\r\nusers:1234\r\n&lt;/code&gt;. Any Redis client is
-going to convert our command expressed in its respective syntax to the same
-on-the-wire format. So in Python:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; redis_client.get(&amp;#39;users:1234&amp;#39;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;will send the same &lt;code&gt;*2\r\n$3\r\nget\r\n$10\r\nusers:1234\r\n&lt;/code&gt; bytestring to
-the server. &lt;/p&gt;
-
-&lt;p&gt;Let&amp;#39;s print that bytestring to screen and render those `\r\n&amp;#39;s as line feeds
-so we can see an expanded view and get a better look at the protocol.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;*2
-$3
-get
-$10
-users:1234
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The first bit is &lt;code&gt;*2&lt;/code&gt;, which tells us that the arity of the command,
-including the command name, is 2. That is, the server should expect two
-arguments to follow.&lt;/p&gt;
-
-&lt;p&gt;The next bit is &lt;code&gt;$3&lt;/code&gt;, which means that the length of the first argument in
-bytes is 3. The argument itself follows, our command name, &lt;code&gt;get&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;The next bit after that is &lt;code&gt;$10&lt;/code&gt;, so the length in bytes of the second
-argument is 10. Our one and only argument to the command is next,
-&lt;code&gt;users:1234&lt;/code&gt;, the key we are trying to &lt;code&gt;get&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2&gt;Receiving the command on the server&lt;/h2&gt;
-
-&lt;p&gt;If you remember from the last article, &lt;code&gt;readQueryFromClient&lt;/code&gt; is a good place
-to set a breakpoint in your debugger on the server side for inspecting an
-inbound client command.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;server $ gdb src/redis-server
-(gdb) b readQueryFromClient
-Breakpoint 1 at 0x100011445: file networking.c, line 882.
-(gdb) run redis.conf
-Starting program: /home/paul/src/redis-2.2.0-RC2/src/redis-server redis.conf
-Reading symbols for shared libraries +. done
-[63700] 01 Mar 11:04:40 * Server started, Redis version 2.2.1
-[63700] 01 Mar 11:04:40 * The server is now ready to accept connections on port 6379
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Now back in the terminal with the client running in the debugger, continue to
-send the command to the server, which will stop at the breakpoint we set.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# client
-(gdb) c
-Continuing.
-
-# server
-Breakpoint 1, readQueryFromClient (el=0x100200000, fd=5, privdata=0x100804e00, mask=1) at networking.c:801
-801     void readQueryFromClient(aeEventLoop *el, int fd, void *privdata, int mask) {
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Let&amp;#39;s step to the following line:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# src/networking.c:808
-nread = read(fd, buf, REDIS_IOBUF_LEN);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If we step to here in our debugger, we see that the server read 30 bytes. If
-you count the number of bytes in our Redis protocol-encoded command,
-&lt;code&gt;*2\r\n$3\r\nget\r\n$10\r\nusers:1234\r\n&lt;/code&gt;, you&amp;#39;ll see it&amp;#39;s 30. Just for good
-measure, let&amp;#39;s look at the 30 bytes beginning at the memory location pointed
-to by &lt;code&gt;buf&lt;/code&gt;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;(gdb) p nread
-30
-(gdb) x/30cb buf
-0x7fff5fbfeaf0: 42 &amp;#39;*&amp;#39;  50 &amp;#39;2&amp;#39;  13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39; 36 &amp;#39;$&amp;#39;  51 &amp;#39;3&amp;#39;  13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39;
-0x7fff5fbfeaf8: 71 &amp;#39;G&amp;#39;  69 &amp;#39;E&amp;#39;  84 &amp;#39;T&amp;#39;  13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39; 36 &amp;#39;$&amp;#39;  49 &amp;#39;1&amp;#39;  48 &amp;#39;0&amp;#39;
-0x7fff5fbfeb00: 13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39; 117 &amp;#39;u&amp;#39; 115 &amp;#39;s&amp;#39; 101 &amp;#39;e&amp;#39; 114 &amp;#39;r&amp;#39; 115 &amp;#39;s&amp;#39; 58 &amp;#39;:&amp;#39;
-0x7fff5fbfeb08: 49 &amp;#39;1&amp;#39;  50 &amp;#39;2&amp;#39;  51 &amp;#39;3&amp;#39;  52 &amp;#39;4&amp;#39;  13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And we can see our whole command bytestring is there, byte by byte.&lt;/p&gt;
-
-&lt;p&gt;The server has now read in the entirety of our command in one step.  (Because
-we had a relatively short command, one that fits inside a kernel buffer, and
-we are the only client on a loopback network device, this is the case, but it
-need not be. Since Redis is event-driven, this function,
-&lt;code&gt;readQueryFromClient&lt;/code&gt;, is called whenever there are bytes from buffers to be
-read. If our command was particularly long, or there was a lot of network
-contention, the command may take more than one I/O event before it is fully
-read. For this reason, Redis builds up a buffer per client and appends bytes
-to it on each call to this function. It only proceeds with processing the
-command when it has been fully read. But we don&amp;#39;t need to consider this in our
-simple example, so we will proceed.)&lt;/p&gt;
-
-&lt;p&gt;We&amp;#39;re going to elide the processing of the input buffer. This is the point
-where the server takes the Redis protocol-encoded bytestring of our request
-and unpacks it into arguments on the client struct object. If you are
-interested in the details of that parsing, examine the function
-&lt;code&gt;processMultibulkBuffer&lt;/code&gt; in &lt;code&gt;networking.c&lt;/code&gt;. All we are interested in at this
-point is that the &lt;code&gt;argc&lt;/code&gt; member of the client object is the number of command
-arguments (counting the command name itself) and &lt;code&gt;argv&lt;/code&gt; is a pointer to the
-list of arguments.&lt;/p&gt;
-
-&lt;p&gt;The bit of code we care at this point is &lt;code&gt;processCommand&lt;/code&gt;. The first thing the
-server does is look up the command in its command table (see &amp;quot;Setting up
-command table&amp;quot; in the previous article, but note that this lookup is now O(1),
-see the HN thread linked above). Assuming the command is found (which our
-&lt;code&gt;get&lt;/code&gt; will be), the server will double-check that the arity of the command as
-defined in the command table matches the number of arguments received from the
-client (&lt;code&gt;c-&amp;gt;argc&lt;/code&gt;).&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# redis.c:998
-cmd = lookupCommand(c-&amp;gt;argv[0]-&amp;gt;ptr);
-if (!cmd) {
-    addReplyErrorFormat(c,&amp;quot;unknown command &amp;#39;%s&amp;#39;&amp;quot;,
-        (char*)c-&amp;gt;argv[0]-&amp;gt;ptr);
-    return REDIS_OK;
-} else if ((cmd-&amp;gt;arity &amp;gt; 0 &amp;amp;&amp;amp; cmd-&amp;gt;arity != c-&amp;gt;argc) ||
-           (c-&amp;gt;argc &amp;lt; -cmd-&amp;gt;arity)) {
-    addReplyErrorFormat(c,&amp;quot;wrong number of arguments for &amp;#39;%s&amp;#39; command&amp;quot;,
-        cmd-&amp;gt;name);
-    return REDIS_OK;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Skip down to the end of &lt;code&gt;processCommand&lt;/code&gt;. Because our humble &lt;code&gt;get&lt;/code&gt; is not a
-&amp;quot;multi&amp;quot; command like &lt;code&gt;mget&lt;/code&gt;, &lt;code&gt;mset&lt;/code&gt;, etc., it doesn&amp;#39;t require queue-like
-processing of the underlying multiple commands, so we go right to &lt;code&gt;call&lt;/code&gt;,
-which is where our command is dispatched.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# redis.c:953
-void call(redisClient *c, struct redisCommand *cmd) {
-    long long dirty;
-
-    dirty = server.dirty;
-    cmd-&amp;gt;proc(c);
-    dirty = server.dirty-dirty;
-
-    if (server.appendonly &amp;amp;&amp;amp; dirty)
-        feedAppendOnlyFile(cmd,c-&amp;gt;db-&amp;gt;id,c-&amp;gt;argv,c-&amp;gt;argc);
-    if ((dirty || cmd-&amp;gt;flags &amp;amp; REDIS_CMD_FORCE_REPLICATION) &amp;amp;&amp;amp;
-        listLength(server.slaves))
-        replicationFeedSlaves(server.slaves,c-&amp;gt;db-&amp;gt;id,c-&amp;gt;argv,c-&amp;gt;argc);
-    if (listLength(server.monitors))
-        replicationFeedMonitors(server.monitors,c-&amp;gt;db-&amp;gt;id,c-&amp;gt;argv,c-&amp;gt;argc);
-    server.stat_numcommands++;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Let&amp;#39;s focus on line 952, &lt;code&gt;cmd-&amp;gt;proc(c);&lt;/code&gt;. This is Redis&amp;#39;s dynamic dispatching
-of command function calling. Redis makes this clean and simple by
-encapsulating commands and giving all the actual underlying command functions
-the same function signature, taking our client object, which carries the
-payload of our command&amp;#39;s arguments. So we&amp;#39;re interested in looking into the
-details of the Redis command object and the actual function that will handle
-our &lt;code&gt;get&lt;/code&gt;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# redis.h:504
-struct redisCommand {
-    char *name;
-    redisCommandProc *proc;
-    int arity;
-    int flags;
-    /* Use a function to determine which keys need to be loaded
-     * in the background prior to executing this command. Takes precedence
-     * over vm_firstkey and others, ignored when NULL */
-    redisVmPreloadProc *vm_preload_proc;
-    /* What keys should be loaded in background when calling this command? */
-    int vm_firstkey; /* The first argument that&amp;#39;s a key (0 = no keys) */
-    int vm_lastkey;  /* THe last argument that&amp;#39;s a key */
-    int vm_keystep;  /* The step between first and last key */
-};
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If we pop up to the top of &lt;code&gt;redis.c&lt;/code&gt;, we see the definition of the Redis command
-table, and our &lt;code&gt;get&lt;/code&gt; is the first entry.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# redis.c:71
-struct redisCommand readonlyCommandTable[] = {
-    {&amp;quot;get&amp;quot;,getCommand,2,0,NULL,1,1,1},
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;getCommand&lt;/code&gt; is the function that does the actual work for our command.
-It&amp;#39;s a thin wrapper for &lt;code&gt;getGenericCommand&lt;/code&gt;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# t_string.c:62
-int getGenericCommand(redisClient *c) {
-    robj *o;
-
-    if ((o = lookupKeyReadOrReply(c,c-&amp;gt;argv[1],shared.nullbulk)) == NULL)
-        return REDIS_OK;
-
-    if (o-&amp;gt;type != REDIS_STRING) {
-        addReply(c,shared.wrongtypeerr);
-        return REDIS_ERR;
-    } else {
-        addReplyBulk(c,o);
-        return REDIS_OK;
-    }
-}
-
-void getCommand(redisClient *c) {
-    getGenericCommand(c);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The arguments to &lt;code&gt;lookupKeyReadOrReply&lt;/code&gt; are the client object, the key
-&lt;code&gt;users:1234&lt;/code&gt; we&amp;#39;re trying to look up, and an object, &lt;code&gt;shared.nullbulk&lt;/code&gt; that
-will be the default reply to the client if the key is not found.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# db.c:58
-robj *lookupKeyReadOrReply(redisClient *c, robj *key, robj *reply) {
-    robj *o = lookupKeyRead(c-&amp;gt;db, key);
-    if (!o) addReply(c,reply);
-    return o;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;lookupKeyRead&lt;/code&gt; is a thin wrapper for &lt;code&gt;lookupKey&lt;/code&gt; that handles removing keys
-that have been set to expire.&lt;/p&gt;
-
-&lt;p&gt;Now we get to the heart of the &lt;code&gt;get&lt;/code&gt; command -- looking up the key in the
-database.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# db.c:9
-robj *lookupKey(redisDb *db, robj *key) {
-    dictEntry *de = dictFind(db-&amp;gt;dict,key-&amp;gt;ptr);
-    if (de) {
-        robj *val = dictGetEntryVal(de);
-
-        /* Update the access time for the aging algorithm.
-         * Don&amp;#39;t do it if we have a saving child, as this will trigger
-         * a copy on write madness. */
-        if (server.bgsavechildpid == -1 &amp;amp;&amp;amp; server.bgrewritechildpid == -1)
-            val-&amp;gt;lru = server.lruclock;
-
-        if (server.vm_enabled) {
-            if (val-&amp;gt;storage == REDIS_VM_MEMORY ||
-                val-&amp;gt;storage == REDIS_VM_SWAPPING)
-            {
-                /* If we were swapping the object out, cancel the operation */
-                if (val-&amp;gt;storage == REDIS_VM_SWAPPING)
-                    vmCancelThreadedIOJob(val);
-            } else {
-                int notify = (val-&amp;gt;storage == REDIS_VM_LOADING);
-
-                /* Our value was swapped on disk. Bring it at home. */
-                redisAssert(val-&amp;gt;type == REDIS_VMPOINTER);
-                val = vmLoadObject(val);
-                dictGetEntryVal(de) = val;
-
-                /* Clients blocked by the VM subsystem may be waiting for
-                 * this key... */
-                if (notify) handleClientsBlockedOnSwappedKey(db,key);
-            }
-        }
-        server.stat_keyspace_hits++;
-        return val;
-    } else {
-        server.stat_keyspace_misses++;
-        return NULL;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Redis uses its own hash table implementation to store keys and their values in
-memory. Inside the &lt;code&gt;db&lt;/code&gt; object, the field &lt;code&gt;dict&lt;/code&gt; is a pointer to the hash
-value for the current Redis database (remember there can be up to 16 separate
-databases in a single Redis server instance, indexed by number).&lt;/p&gt;
-
-&lt;p&gt;First, Redis calls &lt;code&gt;dictFind&lt;/code&gt; with the database&amp;#39;s hash table and a pointer
-to the key&amp;#39;s bytestring. &lt;code&gt;dictFind&lt;/code&gt; looks up the hash of the key in the
-table, using a standard algorithm that should be familiar to anyone who&amp;#39;s
-implemented a hash table (check out &lt;code&gt;dict.c&lt;/code&gt; starting at line 391 if you&amp;#39;re
-interested, the table is an array with linked lists for colliding hashes).&lt;/p&gt;
-
-&lt;p&gt;If the key is found in the table, &lt;code&gt;dictFind&lt;/code&gt; returns a pointer to the entry in
-the table. Otherwise, it returns &lt;code&gt;NULL&lt;/code&gt;. Back in &lt;code&gt;lookupKey&lt;/code&gt;, if the entry is
-not null, Redis retrieves the value (i.e., the Redis object our key
-references) from the hash table via &lt;code&gt;dictGetEntryVal&lt;/code&gt; and takes care of a bit
-of bookkeeping for expiry and VM, if the key was found, and stats in either
-case (hits and misses). If the entry was &lt;code&gt;NULL&lt;/code&gt;, then &lt;code&gt;lookupKey&lt;/code&gt; also returns
-&lt;code&gt;NULL&lt;/code&gt;; we&amp;#39;ll see how this is handled by Redis for a reply to the client when
-the key is not found, which is the case for us at this stage.&lt;/p&gt;
-
-&lt;p&gt;With the value of &lt;code&gt;lookupKey&lt;/code&gt;, we&amp;#39;ll go back up the stack to our callers. Back
-to &lt;code&gt;lookupKeyReadOrReply&lt;/code&gt;, we look at line 60:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# t_string.c:60
-        if (!o) addReply(c,reply);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Since we got &lt;code&gt;NULL&lt;/code&gt; from &lt;code&gt;lookupKey&lt;/code&gt; this time, we call &lt;code&gt;addReply&lt;/code&gt;.  The value
-of &lt;code&gt;reply&lt;/code&gt; here comes from the call in &lt;code&gt;getGenericCommand&lt;/code&gt;, and it is
-&lt;code&gt;shared.nullbulk&lt;/code&gt;. This field in the global struct object &lt;code&gt;shared&lt;/code&gt; is
-initialize thusly:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# redis.c:712
-shared.nullbulk = createObject(REDIS_STRING,sdsnew(&amp;quot;$-1\r\n&amp;quot;));
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We can see that it is a Redis string object who&amp;#39;s on-the-wire value is
-&lt;code&gt;$-1\r\n&lt;/code&gt;, meaning a length of -1, Redis&amp;#39;s way of indicating null to a
-client, according to the protocol.&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;addReply&lt;/code&gt; builds the reply to the client. It does this by first setting up a
-write event on the main event loop listener with &lt;code&gt;_installWriteEvent&lt;/code&gt;. This
-makes sure that the reply is written out to the client connection when there
-are bytes present in the buffer. Next, Redis adds the reply to the client&amp;#39;s
-buffer. If the reply object were an non-string value like an integer, or a
-list, or a set, Redis would first decode it to a bytestring that can be
-serialized to, for example, on a socket. Redis string objects are encoded
-&amp;quot;raw,&amp;quot; or as-is. The &lt;code&gt;nullbulk&lt;/code&gt; object is technically a string object, so no
-decoding is necessary in our case. In any case, the reply bytestring is copied
-to the client&amp;#39;s reply buffer with &lt;code&gt;_addReplyToBuffer&lt;/code&gt;, which for all intents
-and purposes completes the execution of our &lt;code&gt;get&lt;/code&gt; command on the server.&lt;/p&gt;
-
-&lt;p&gt;The client will read the on-the-wire reply of &lt;code&gt;$-1\r\n&lt;/code&gt; and know that it is a
-string reply of length -1, and therefore is the null (or &amp;quot;nil,&amp;quot; in the context
-of &lt;code&gt;redis-cli&lt;/code&gt;) object, and to convert that into the appropriate object for
-the language of the client. Back to our &lt;code&gt;redis-cli&lt;/code&gt; client patiently waiting
-for a reply from our breakpointed server, which we continue from, that looks
-like:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;(nil)
-redis&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1&gt;SET&lt;/h1&gt;
-
-&lt;p&gt;The &lt;code&gt;set&lt;/code&gt; command proceeds much the same way as the &lt;code&gt;get&lt;/code&gt;, up to the point of
-command dispatching on the server.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# client
-redis&amp;gt; set users:1234 &amp;quot;Paul Smith&amp;quot;
-
-# server
-Breakpoint 1, readQueryFromClient (el=0x100400000, fd=6, privdata=0x100805e00, mask=1) at networking.c:801
-801     void readQueryFromClient(aeEventLoop *el, int fd, void *privdata, int mask) {
-(gdb) n
-802         redisClient *c = (redisClient*) privdata;
-(gdb) n
-808         nread = read(fd, buf, REDIS_IOBUF_LEN);
-(gdb) n
-809         if (nread == -1) {
-(gdb) print nread
-$1 = 47
-(gdb) x/47cb buf
-0x7fff5fbfeba0: 42 &amp;#39;*&amp;#39;  51 &amp;#39;3&amp;#39;  13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39; 36 &amp;#39;$&amp;#39;  51 &amp;#39;3&amp;#39;  13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39;
-0x7fff5fbfeba8: 115 &amp;#39;s&amp;#39; 101 &amp;#39;e&amp;#39; 116 &amp;#39;t&amp;#39; 13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39; 36 &amp;#39;$&amp;#39;  49 &amp;#39;1&amp;#39;  48 &amp;#39;0&amp;#39;
-0x7fff5fbfebb0: 13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39; 117 &amp;#39;u&amp;#39; 115 &amp;#39;s&amp;#39; 101 &amp;#39;e&amp;#39; 114 &amp;#39;r&amp;#39; 115 &amp;#39;s&amp;#39; 58 &amp;#39;:&amp;#39;
-0x7fff5fbfebb8: 49 &amp;#39;1&amp;#39;  50 &amp;#39;2&amp;#39;  51 &amp;#39;3&amp;#39;  52 &amp;#39;4&amp;#39;  13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39; 36 &amp;#39;$&amp;#39;  49 &amp;#39;1&amp;#39;
-0x7fff5fbfebc0: 48 &amp;#39;0&amp;#39;  13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39; 80 &amp;#39;P&amp;#39;  97 &amp;#39;a&amp;#39;  117 &amp;#39;u&amp;#39; 108 &amp;#39;l&amp;#39; 32 &amp;#39; &amp;#39;
-0x7fff5fbfebc8: 83 &amp;#39;S&amp;#39;  109 &amp;#39;m&amp;#39; 105 &amp;#39;i&amp;#39; 116 &amp;#39;t&amp;#39; 104 &amp;#39;h&amp;#39; 13 &amp;#39;\r&amp;#39; 10 &amp;#39;\n&amp;#39;
-(gdb) print (char *)buf
-$2 = 0x7fff5fbfeba0 &amp;quot;*3\r\n$3\r\nset\r\n$10\r\nusers:1234\r\n$10\r\nPaul Smith\r\n&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This time, our protocol-encoded bytestring is 47 bytes long, owing to the
-extra argument &amp;quot;Paul Smith&amp;quot; and the length tag it requires. Also notice the
-leading &lt;code&gt;*3&lt;/code&gt; indicates there are three arguments: &lt;code&gt;set&lt;/code&gt;, &lt;code&gt;users:1234&lt;/code&gt;, &lt;code&gt;Paul Smith&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Let&amp;#39;s skip ahead now to the point in &lt;code&gt;call&lt;/code&gt; in &lt;code&gt;redis.c&lt;/code&gt;, after the command has
-been looked-up in the command table and the server is about ready to call the
-underlying &lt;code&gt;proc&lt;/code&gt; function with the client object argument. The &lt;code&gt;set&lt;/code&gt; command,
-in the form of a &lt;code&gt;redisCommand&lt;/code&gt; struct, looks like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# redis.c:73
-{&amp;quot;set&amp;quot;,setCommand,3,REDIS_CMD_DENYOOM,NULL,0,0,0},
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Notice that the arity of the command is 3, which includes the leading command
-name, plus key and value, and matches what we expect from the client. The
-&lt;code&gt;set&lt;/code&gt; command has a flag that &lt;code&gt;get&lt;/code&gt; did not: the constant &lt;code&gt;REDIS_CMD_DENYOOM&lt;/code&gt;
-means that, in out-of-memory situations where Redis can&amp;#39;t allocate any more
-memory, the execution of the command should be denied. (The absence of this
-flag means that Redis can continue to serve client &amp;quot;read&amp;quot; requests like &lt;code&gt;get&lt;/code&gt;
-even when the server can no longer write any new data.)&lt;/p&gt;
-
-&lt;p&gt;I set a breakpoint on &lt;code&gt;setCommand&lt;/code&gt; and let the server continue running until
-that point:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# server
-(gdb) b setCommand
-Breakpoint 2 at 0x10001a6e2: file t_string.c, line 48.
-(gdb) c
-Continuing.
-Breakpoint 2, setCommand (c=0x100805e00) at t_string.c:48
-48          c-&amp;gt;argv[2] = tryObjectEncoding(c-&amp;gt;argv[2]);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Incidentally, you can inspect the values of the client&amp;#39;s command arguments at
-any time, with a simple &lt;code&gt;gdb&lt;/code&gt; invocation. The arguments are of type &lt;code&gt;robj&lt;/code&gt;,
-which has a field &lt;code&gt;ptr&lt;/code&gt; that is a pointer to the actual value in memory. Since
-in our &lt;code&gt;set&lt;/code&gt; case these are strings, we can inspect them by typecasting to
-&lt;code&gt;char *&lt;/code&gt; like so:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;(gdb) p (char *)c-&amp;gt;argv[0]-&amp;gt;ptr
-$10 = 0x10032ae78 &amp;quot;set&amp;quot;
-(gdb) p (char *)c-&amp;gt;argv[1]-&amp;gt;ptr
-$11 = 0x10032b068 &amp;quot;users:1234&amp;quot;
-(gdb) p (char *)c-&amp;gt;argv[2]-&amp;gt;ptr
-$12 = 0x10032b098 &amp;quot;Paul Smith&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The first thing the server does in &lt;code&gt;setCommand&lt;/code&gt; is encode the value being set
-with &lt;code&gt;tryObjectEncoding&lt;/code&gt;. It will try to create an efficient encoding if the
-bytestring can be interpreted as an integer, for example. This can save space
-especially in the case where many numbers are being stored.  Additionally,
-Redis will try to reuse shared integers as values instead of allocating
-resources for new ones -- see the previous article for more on the creation
-and use of shared integers.&lt;/p&gt;
-
-&lt;p&gt;Once the value being set has been encoded, &lt;code&gt;setGenericCommand&lt;/code&gt; is called
-(&lt;code&gt;set&lt;/code&gt; shares &lt;code&gt;setGenericCommand&lt;/code&gt; with the &lt;code&gt;setnx&lt;/code&gt; and &lt;code&gt;setex&lt;/code&gt; commands). From
-here, &lt;code&gt;dbAdd&lt;/code&gt; is called, with the client, key, and value as arguments. &lt;code&gt;dbAdd&lt;/code&gt;
-will only add the value to the database&amp;#39;s hash table if the key does not
-already exist. In our case, since the key &lt;code&gt;users:1234&lt;/code&gt; does not exist, the
-value of &lt;code&gt;dictFind&lt;/code&gt; is null, and the function proceeds to add the value with
-&lt;code&gt;dictAdd&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;dictAdd&lt;/code&gt; takes the dictionary hash table, key, and value as arguments. It
-uses &lt;code&gt;_dictKeyIndex&lt;/code&gt; to find the index of a free slot in the hash table for
-our new entry. See the implementation in &lt;code&gt;dict.c&lt;/code&gt; and &lt;code&gt;dict.h&lt;/code&gt; for the details
-of key hashing, and the structure of the dictionary and its component hash
-tables (each Redis dictionary contains two hash tables in order to provide
-incremental rehashing as the dictionary grows). &lt;code&gt;dictAdd&lt;/code&gt; allocates memory for
-the new entry and stores it in the new index.&lt;/p&gt;
-
-&lt;p&gt;The server returns back up the stack from &lt;code&gt;dictAdd&lt;/code&gt; and &lt;code&gt;dbAdd&lt;/code&gt; to
-&lt;code&gt;setGenericCommand&lt;/code&gt;, where it increments the reference count on our new value.
-Redis uses reference counting in order to free memory used by values that have
-been deleted or have expired. It then &amp;quot;touches&amp;quot; the key so that if any clients
-are &lt;code&gt;watch&lt;/code&gt;ing the key, the next &lt;code&gt;exec&lt;/code&gt; command will fail. It also increments
-the server&amp;#39;s &lt;code&gt;dirty&lt;/code&gt; flag, which it uses to determine when to write out the
-dump file to disk. Finally, it writes out the reply to the client, which is a
-shared object, &lt;code&gt;shared.ok&lt;/code&gt;. This is special Redis string object in the
-protocol that consists of the bytestring &amp;quot;+OK\r\n&amp;quot;. Clients will typically
-convert this into the equivalent &amp;quot;true&amp;quot; value for their language.&lt;/p&gt;
-
-&lt;h1&gt;GET redux&lt;/h1&gt;
-
-&lt;p&gt;Our key is now set, so we can try the &lt;code&gt;get users:1234&lt;/code&gt; command again and see
-how it differs for a found key.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# db.c:9
-robj *lookupKey(redisDb *db, robj *key) {
-    dictEntry *de = dictFind(db-&amp;gt;dict,key-&amp;gt;ptr);
-    if (de) {
-        robj *val = dictGetEntryVal(de);
-
-        // ... skipping the lru &amp;amp; vm parts ... 
-
-        server.stat_keyspace_hits++;
-        return val;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The point where a &lt;code&gt;get&lt;/code&gt; on an existing key and a &lt;code&gt;get&lt;/code&gt; on a non-existent key
-differ is line 11, where the &lt;code&gt;de&lt;/code&gt; entry in the database&amp;#39;s dictionary is found.
-&lt;code&gt;dictGetEntryVal&lt;/code&gt; is a simple macro for accessing the field in the &lt;code&gt;de&lt;/code&gt; struct
-that carries the value associated with the key. Redis updates its statistics
-to indicate a key hit and returns the value object.&lt;/p&gt;
-
-&lt;p&gt;Again, as with the key miss from above (remember the null value is a Redis
-object, too), the value is decoded into the Redis bytestring protocol. This is
-the response to the client, and we have concluded our &lt;code&gt;GET&lt;/code&gt;/&lt;code&gt;SET&lt;/code&gt;/&lt;code&gt;GET&lt;/code&gt; dance.&lt;/p&gt;
 </content>
   </entry>
   </feed>
