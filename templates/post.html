@@ -2,6 +2,14 @@
 
 {% block title %}{{ post.title }}{% endblock %}
 
+{% block description -%}
+{% if post.description -%}
+	{{ post.description }}
+{% else -%}
+	{{ post.body | striptags | truncate }}
+{% endif -%}
+{% endblock -%}
+
 {% block head %}
 {{ super() }}
 <meta property="og:title" content="{{ post.title }}">
