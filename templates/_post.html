@@ -1,19 +1,27 @@
-<article class="post">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
     <header>
-        <h1><a href="{{ post.url }}" title="Permalink to this post">{{ post.title }}</a></h1>
+        <h1 itemprop="name">
+            <a href="{{ post.url }}" title="Permalink to this post" itemprop="url">
+                {{ post.title }}
+            </a>
+        </h1>
     </header>
 
     <p class="meta">
-        <time datetime="{{ post.pub_date.strftime('%Y-%m-%d') }}" pubdate>{{ post.pub_date.strftime('%B %d, %Y') }}</time>
+        <time datetime="{{ post.pub_date.strftime('%Y-%m-%d') }}" pubdate itemprop="datePublished">
+            {{ post.pub_date.strftime('%B %d, %Y') }}
+        </time>
+        <span class="byline">by <span itemprop="author">Paul Smith</span></span>
     </p>
 
     {% if post.image %}
     {% if post.image_url %}<a href="{{ post.image_url }}"{% if post.image_url_title %} title="{{ post.image_url_title }}"{% endif %}>{% endif %}
-    <img src="{{ post.image }}" style="display: block; float: right; margin-left: 15px"{% if post.image_alt %} alt="{{ post.image_alt }}"{% endif %}>
+    <img src="{{ post.image }}" class="post-img"{% if post.image_alt %} alt="{{ post.image_alt }}"{% endif %}
+        itemprop="image">
     {% if post.image_url %}</a>{% endif %}
     {% endif %}
 
-    <div class="body">
+    <div class="body" itemprop="articleBody">
         {{ post.body }}
     </div>
 </article>

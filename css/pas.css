@@ -121,6 +121,7 @@ a:hover {
 
 .blog-archive time,
 .articles time,
+.talks time,
 .post .meta {
     font-weight: normal;
     font-family: "Merriweather Sans", sans-serif;
@@ -131,6 +132,16 @@ a:hover {
 
 .post .meta {
     margin: 1em 0 2em;
+}
+
+.post .byline {
+    visibility: hidden;
+}
+
+.post .post-img {
+    display: block;
+    float: right;
+    margin-left: 15px;
 }
 
 .post .body {
