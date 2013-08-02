@@ -1,6 +1,7 @@
 title: I know about old things
 slug: old_things
 pub_date: 2010-10-31 12:00
+image: /images/floppy.jpg
 ---
 [This post by Dave Winer][1] is an example of an observation I’ve seen
 made recently, which roughly goes, kids today, they didn’t grow up

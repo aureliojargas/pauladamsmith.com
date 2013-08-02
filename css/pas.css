@@ -1,0 +1,181 @@
+body {
+    font: 300 16px/1.6 Merriweather, Georgia, serif;
+    color: #444;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Merriweather Sans", sans-serif;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.masthead {
+    position: relative;
+    height: 250px;
+    max-width: 100%;
+    background: url(../images/test2.jpg) center 0px no-repeat;
+    background-attachment: fixed;
+    margin-bottom: 2em;
+}
+
+.masthead h1 {
+    position: absolute;
+    top: 112px;
+    width: 100%;
+    text-align: center;
+    font-family: Merriweather, Georgia, serif;
+}
+
+.masthead h1 a {
+    color: #eee;
+    text-shadow: 1px 1px #111;
+}
+
+.masthead h1 a:hover {
+    text-decoration: none;
+}
+
+.masthead nav {
+    background: rgba(0, 0, 0, 0.80);
+    text-transform: uppercase;
+}
+
+.masthead nav a {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.masthead nav a:hover {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.navbar .nav,
+.navbar .nav > li {
+    float:none;
+    display:inline-block;
+    *display:inline; /* ie7 fix */
+    *zoom:1; /* hasLayout ie7 trigger */
+    vertical-align: top;
+}
+
+.navbar .inner {
+    text-align:center;
+}
+
+.recent > h2 {
+    margin-bottom: 40px;
+}
+
+.blog-archive {
+    margin-bottom: 40px;
+}
+
+.blog-archive .year {
+    color: #ccc;
+}
+
+.posts .thumb {
+    display: table;
+    height: 180px;
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: 2em;
+    border: 1px solid #eee;
+    padding: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -o-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.posts .thumb a {
+    display: table-cell;
+    vertical-align: middle;
+    /* background-url: ... */
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #eee;
+}
+
+.posts .thumb p {
+    text-align: center;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 3px;
+    font-size: 15px;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.8);
+}
+
+.posts .thumb a:hover {
+    color: #fff;
+}
+
+.posts .thumb a:hover p {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.posts img {
+    max-height: 180px;
+}
+
+.blog-archive time,
+.articles time,
+.post .meta {
+    font-weight: normal;
+    font-family: "Merriweather Sans", sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #777;
+}
+
+.post .meta {
+    margin: 1em 0 2em;
+}
+
+.post .body {
+    margin-bottom: 2em;
+}
+
+.post header h1 {
+    letter-spacing: -1px;
+}
+
+.post header h1 a {
+    color: #444;
+}
+
+.post header h1 a:hover {
+    text-decoration: none;
+}
+
+.recent-posts li {
+    font-size: 14px;
+}
+
+.post .fn {
+    font-size: 12px;
+}
+
+.project {
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #eee;
+}
+
+article {
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #eee;
+}
+
+footer {
+    border-top: 1px solid #ddd;
+    margin-top: 40px;
+    padding: 40px 0;
+    font-size: 14px;
+}
+
+footer .copyright {
+    font-size: 12px;
+}

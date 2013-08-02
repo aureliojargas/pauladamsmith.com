@@ -2,11 +2,15 @@
 
 {% block title %}{{ post.title }}{% endblock %}
 
-{% block extrahead %}
+{% block head %}
+{{ super() }}
 <meta property="og:title" content="{{ post.title }}">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://pauladamsmith.com{{ post.url }}">
-{% for key, value in post.meta %}
+{% if post.image -%}
+<meta property="og:url" content="http://pauladamsmith.com{{ post.image }}">
+{% endif %}
+{% for key, value in post.meta -%}
 <meta property="{{ key }}" content="{{ value }}">
 {% endfor %}
 {% endblock %}

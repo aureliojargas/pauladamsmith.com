@@ -1,6 +1,7 @@
 title: Parsing and formatting date/time in Go
 slug: go_time
 pub_date: 2011-05-19 22:00
+image: /images/gopher.png
 ---
 Go takes an interesting approach to [parsing strings to time objects,
 and formatting time objects as strings][1]. Instead of using codes like

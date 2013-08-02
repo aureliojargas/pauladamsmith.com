@@ -1,14 +1,13 @@
 title: del.icio.us is dead, long live del.icio.us
 slug: delicious
 pub_date: 2010-12-17 01:55:03
+image: /images/delicious-logo.png
+image_alt: del.icio.us logo
 ---
-
-<img src="/images/delicious-logo.png" alt="Delicious logo"
-style="float: right; margin-left: 1em; padding: 5px"> It slipped today
-that Yahoo! will soon to shut down [Delicious][delicious], née
-del.icio.us, the social bookmarking site. When it became obvious a few
-years ago care and feeding of the site had more or less stopped, I
-fled the service, like many other users, for the clones.
+It slipped today that Yahoo! will soon to shut down [Delicious][delicious],
+née del.icio.us, the social bookmarking site. When it became obvious a few
+years ago care and feeding of the site had more or less stopped, I fled the
+service, like many other users, for the clones.
 
 Delicious was important for two reasons. It was all about
 discovery—what your friends and the other interesting people you were

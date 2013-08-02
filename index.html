@@ -5,55 +5,24 @@
 {% block bodyattrs %} id=home{% endblock %}
 
 {% block content %}
-  <h2>Recent writing</h2>
-  <ol class="pub-list">
-    {% for post in posts %}
-      <li>
-	<time datetime="{{ post.pub_date.strftime('%Y-%m-%d') }}" pubdate>{{ post.pub_date.strftime('%B %d, %Y') }}</time>
-	<a href="{{ post.url }}">{{ post.title }}</a>
-      </li>
-    {% endfor %}
-  </ol>
-  
-  <h2>Elsewhere</h2>
-  <ul>
-    <li><a href="http://twitter.com/paulsmith" title="Follow me on
-		Twitter">Twitter: @paulsmith</a></li>
-    <li><a href="http://www.flickr.com/photos/psmith" title="My photos">Flickr</a></li>
-    <li><a href="http://tumblr.pauladamsmith.com/" title="My Tumblr">Link blog</a></li>
-  </ul>
+<div class="recent">
+	<h2>Recent posts</h2>
+	<div class="posts">
+		{% for row in posts[:6]|batch(3) %}
+		<div class="row">
+			{% for post in row %}
+			<div class="col-lg-4">
+				<div class="thumb">
+					<a href="{{ post.url }}" style="background-image: url({{ post.image }})">
+						<p>{{ post.title }}</p>
+					</a>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+		{% endfor %}
+	</div>
+</div>
 
-  <h2>Talks</h2>
-  <ol class="pub-list">
-      <li>
-          <time datetime="2012-03-10" pubdate>March 10, 2012</time>
-          <a href="http://lanyrd.com/2012/pycon/spchh/">
-            Spatial Data and Web Mapping with Python
-          </a>
-          <span class="where">(Given at PyCon 2012)</span>
-      </li>
-      <li>
-          <time datetime="2011-02-17" pubdate>February 17, 2011</time>
-          <a href="http://vimeo.com/20205955">Mapping with Location Data</a>
-          <span class="where">(Given at Refresh Baltimore)</span>
-      </li>
-      <li>
-          <time datetime="2009-05-04" pubdate>May 4, 2009</time>
-          <a href="http://www.slideshare.net/pauladamsmith/the-web-map-stack-on-django">The Web map stack on Django</a>
-          <span class="where">(Given at EuroDjangoCon ‘09)</span>
-      </li>
-  </ol>
-
-  <h2>Miscellaneous</h2>
-  <ul>
-    <li><a href="/misc/top_50_baltimore_restaurants_2010.html">Top 50
-        Baltimore restaurants for 2010</a>
-    <li>Elections
-      <ul>
-          <li><a href="/elections/2008-general/il-con-con/">Illinois 2008
-              Con-Con results map</a>
-          <li><a href="/elections/il5thse.html">Illinois 5th CD 2009 special
-              election map</a>
-      </ul>
-  </ul>
+<p><a href="/blog/" class="pull-right">Blog archive &rarr;</a></p>
 {% endblock %}

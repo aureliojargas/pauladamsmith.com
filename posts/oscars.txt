@@ -1,6 +1,7 @@
 title: Lexing Oscar
 slug: lexing-oscar
 pub_date: 2013-01-11 00:01
+image: /images/oscars.png
 ---
 For the past _n_ years, I’ve built and hosted a web app that lets my film
 buff friends and me compete by guessing who will win the Academy Awards by

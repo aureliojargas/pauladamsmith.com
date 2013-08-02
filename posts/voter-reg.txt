@@ -1,6 +1,7 @@
 title: Democratic Party’s voter registration app is now free and open-source software
 slug: dnc_voter_reg_foss
 pub_date: 2013-01-28 17:30
+image: /images/dnc.png
 ---
 We (the [DNC][dnc]) have [relicensed the Democratic Party’s voter registration
 application][comment] under a standard MIT license, and accompanied the source

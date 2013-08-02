@@ -1,12 +1,11 @@
 title: Public Good Software and me
 slug: pgs
 pub_date: 2013-07-23 15:00:00
-x-og-image: http://pauladamsmith.com/images/pgs.png
+image: /images/pgs.png
+image_alt: PGS logo by Aaron Draplin
+image_url: https://publicgoodsoftware.com
+image_url_title: Public Good Software
 ---
-<a href="https://publicgoodsoftware.com" title="Public Good Software">
-	<img src="/images/pgs.png" style="display: block; float: right; margin-left: 15px" alt="PGS logo">
-</a>
-
 Software that helps civil society organizations—non-profits, NGOs,
 charities—do their work should be better. It can be better. I want to help
 make it better. That’s why [I’ve started, along with two colleagues from the
@@ -41,7 +40,7 @@ claim and control.
 The first problem to tackle, and the first product that PGS will be developing
 to help solve, is the problem of disconnected data. It’s a fundamental problem
 that impacts CSOs and their supporters. Information about donors is in one
-database, volunteers in another, email subscribers in a third, then there's
+database, volunteers in another, email subscribers in a third, then there’s
 Facebook likers and Twitter followers and you don’t know if they’re in the
 other databases … Think of Mint.com, the way that service in its early days
 brought sanity to your financial life. We want to connect these disparate

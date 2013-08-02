@@ -1,10 +1,11 @@
 title: The Election Day Advent Calendar
 slug: the-election-day-advent-calendar
 pub_date: 2012-08-07 00:20
-x-og-image: http://pauladamsmith.com/images/edac2012.jpg
+image: /images/edac2012.jpg
+image_alt: The Election Day Advent Calendar
+image_url: http://www.kickstarter.com/projects/electioncalendar/the-election-day-advent-calendar
+image_url_title: The Kickstarter for the Election Day Advent Calendar
 ---
-<p style="float: right; margin: 0 0 10px 10px"><a href="http://www.kickstarter.com/projects/electioncalendar/the-election-day-advent-calendar" title="The Kickstarter for the Election Day Advent Calendar"><img src="/images/edac2012.jpg" alt="The Election Day Advent Calendar"></a></p>
-
 My friend Ben Helphand and I started scheming in 2005 on a way to
 celebrate the right to vote. We believed that a great nation deserves
 great civic rituals, and the election season was the natural time for

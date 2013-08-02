@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Projects{% endblock %}
+
+{% block bodyattrs %} id="projects"{% endblock %}
+
+{% block content %}
+
+<h1>Selected projects &amp; work</h1>
+
+{% for project in projects -%}
+<div class="project">
+    <h3>{{ project.name }}</h3>
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="description">
+                {{ project.description }}
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <figure>
+                <img src="{{ project.img }}" class="img-thumbnail img-responsive" alt="Screenshot of {{ project.name }}">
+            </figure>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+<h3>Miscellaneous</h3>
+<ul>
+	<li>
+		<a href="/misc/top_50_baltimore_restaurants_2010.html">Top 50 Baltimore restaurants for 2010</a>
+	</li>
+</ul>
+
+<h4>Elections</h4>
+<ul>
+	<li><a href="/elections/2008-general/il-con-con/">Illinois 2008 Con-Con results map</a></li>
+	<li><a href="/elections/il5thse.html">Illinois 5th CD 2009 special election map</a></li>
+</ul>
+{% endblock %}

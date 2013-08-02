@@ -1,11 +1,11 @@
 title: Announcing gogeos, a spatial data library for Go
 slug: gogeos
 pub_date: 2013-06-12 12:00:00
+image: /images/gogeos.png
+image_alt: Example of geometry processed by gogeos
+image_url: http://paulsmith.github.io/gogeos/
+image_url_title: gogeos
 ---
-<a href="http://paulsmith.github.io/gogeos/" title="gogeos">
-<img src="/images/gogeos.png" style="display: block; float: right; margin-left: 15px" alt="Example of geometry processed by gogeos">
-</a>
-
 I am announcing the initial release of [gogeos][gogeos], a library for the Go
 programming language. gogeos provides spatial data operations and geometric
 algorithms. While it is a Go library, the hard work is done by the

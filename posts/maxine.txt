@@ -1,9 +1,9 @@
 title: Maxine
 slug: maxine
 pub_date: 2011-08-27 16:10
+image: /images/maxine.jpg
+image_url: http://www.flickr.com/photos/psmith/6076865981/
 ---
-<a href="http://www.flickr.com/photos/psmith/6076865981/" title="P1040879.jpg by pauladamsmith, on Flickr"><img src="http://farm7.static.flickr.com/6184/6076865981_a0c284c99a.jpg" width="500" height="334" alt="P1040879.jpg"></a>
-
 One month ago today, Maxine Mills Smith arrived in this world. Her mom gave
 birth to her at Mercy Medical Center in Baltimore, Maryland, at six in the
 morning. She was, and continues to be, a long and strong gal. She enjoys

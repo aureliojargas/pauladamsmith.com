@@ -1,13 +1,29 @@
 <article class="post">
-  <header>
-    <h1><a href="{{ post.url }}" title="Permalink to this post">{{ post.title }}</a></h1>
-    <time datetime="{{ post.pub_date.strftime('%Y-%m-%d') }}" pubdate>{{ post.pub_date.strftime('%B %d, %Y') }}</time>
-  </header>
-  {{ post.body }}
-  {% if prev_post or next_post -%}
-    <nav>
-      {% if prev_post %}<div class="previous"><b>«</b> Previous: <a href="{{ prev_post.url }}">{{ prev_post.title }}</a></div>{% endif %}
-      {% if next_post %}<div class="next">Next: <a href="{{ next_post.url }}">{{ next_post.title }}</a> <b>»</b></div>{% endif %}
-    </nav>
-  {% endif -%}
+    <header>
+        <h1><a href="{{ post.url }}" title="Permalink to this post">{{ post.title }}</a></h1>
+    </header>
+
+    <p class="meta">
+        <time datetime="{{ post.pub_date.strftime('%Y-%m-%d') }}" pubdate>{{ post.pub_date.strftime('%B %d, %Y') }}</time>
+    </p>
+
+    {% if post.image %}
+    {% if post.image_url %}<a href="{{ post.image_url }}"{% if post.image_url_title %} title="{{ post.image_url_title }}"{% endif %}>{% endif %}
+    <img src="{{ post.image }}" style="display: block; float: right; margin-left: 15px"{% if post.image_alt %} alt="{{ post.image_alt }}"{% endif %}>
+    {% if post.image_url %}</a>{% endif %}
+    {% endif %}
+
+    <div class="body">
+        {{ post.body }}
+    </div>
 </article>
+
+{% if prev_post or next_post -%}
+<div class="recent-posts">
+    <h4>Recent posts</h4>
+    <ul>
+        {% if prev_post %}<li class="previous"><a href="{{ prev_post.url }}">{{ prev_post.title }}</a></li>{% endif %}
+        {% if next_post %}<li class="next"><a href="{{ next_post.url }}">{{ next_post.title }}</a></li>{% endif %}
+    </ul>
+</div>
+{% endif -%}

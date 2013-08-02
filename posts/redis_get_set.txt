@@ -1,6 +1,7 @@
 title: More Redis internals: Tracing a GET & SET
 slug: redis_get_set
 pub_date: 2011-03-10 15:48
+image: /images/redis.png
 ---
 In my [previous article](/articles/redis-under-the-hood.html), I took a
 superficial look at how Redis starts up and prepares itself to process

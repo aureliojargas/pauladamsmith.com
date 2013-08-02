@@ -1,9 +1,9 @@
 title: Going to work for Democrats
 slug: dnc
 pub_date: 2011-09-04 12:00
+image: /images/eb-to-dnc.png
+image_alt: EveryBlock to DNC logos
 ---
-<img src="/images/eb-to-dnc.png" style="display: block; float: right; margin-left: 15px">
-
 I have some exciting news: in a couple of weeks, I will be the new deputy
 director of technology at the [Democratic National Committee][dnc]. I’ll
 be helping to create software that helps get Democrats elected. It’s

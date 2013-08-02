@@ -4,19 +4,49 @@
 
 {% block bodyattrs %} class="blog"{% endblock %}
 
-{% block side %}
-<section>
-  <p>Blog archive</p>
-  <ul>
-    {% for year in years -%}
-      <li><a href="/blog/{{ year }}/">{{ year }}</a></li>
-    {% endfor -%}
-  </ul>
-</section>
-{% endblock %}
-
 {% block content %}
-{% for post in posts -%}
-  {% include "_post.html" %}
+
+<h2>
+    Blog archive
+    <small><a href="/atom.xml">RSS/Atom feed</a></small>
+</h2>
+
+<div class="blog-archive">
+{% for year, posts in posts_by_year -%}
+    <h3 class="year">{{ year }}</h3>
+    <dl class="dl-horizontal">
+    {% for post in posts -%}
+        <dt>
+            <time datetime="{{ post.pub_date.strftime('%Y-%m-%d') }}" pubdate>
+                {{ post.pub_date.strftime('%B %d') }}
+            </time>
+        </dt>
+        <dd>
+            <a href="{{ post.url }}">
+                {{ post.title }}
+            </a>
+        </dd>
+    {% endfor -%}
+    </dl>
 {% endfor -%}
+</div>
+
+<h2>Articles</h2>
+
+<dl class="dl-horizontal articles">
+    <dt>
+        <time datetime="2010-10-18" pubdate>October 18, 2010</time>
+    </dt>
+    <dd>
+        <a href="redis-under-the-hood.html" title="Redis: under the hood">Redis: under the hood</a>
+    </dd>
+    <dt>
+        <time datetime="2008-04-08" pubdate>April 8, 2008</time>
+    </dt>
+    <dd>
+        <a href="http://www.alistapart.com/articles/takecontrolofyourmaps">Take Control of Your Maps</a>
+        (A List Apart No. 256)
+    </dd>
+</ol>
+
 {% endblock %}

@@ -1,8 +1,8 @@
 title: A partial list of metaphors, visual and otherwise, anti-skeuomorphism zealots have to tackle to reach utopia
 slug: floppy
 pub_date: 2011-04-05 14:48
+image: /images/icons.jpg
 ---
-![icons](/images/icons.jpg)
 Motivated by irrational hatred and overstated claims of the continuing
 utility of a 3.5" floppy disk icon to mean “save”:
 

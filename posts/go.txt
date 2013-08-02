@@ -1,6 +1,7 @@
 title: Taking Go for a spin
 slug: go
 pub_date: 2011-01-12 08:00
+image: /images/gopher.png
 ---
 I was struck by the high-level abstractions [Go](http://golang.org/)
 provides for writing networked clients and servers, even by the standards of

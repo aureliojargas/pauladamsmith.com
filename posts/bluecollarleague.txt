@@ -1,6 +1,7 @@
 title: The All-Blue-Collar League
 slug: bluecollarleague
 pub_date: 2011-01-23 20:22
+image: /images/superbowlxlv.jpg
 ---
 In honor of the [all][pack]-[union][steelers] Super Bowl, I present the
 All-Blue-Collar League, a collection of U.S. professional sports franchises
