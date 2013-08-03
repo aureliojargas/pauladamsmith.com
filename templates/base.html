@@ -16,13 +16,13 @@
 </head>
 <body{% block bodyattrs %}{% endblock %}>
 	<header class="masthead">
-		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		</button>
-		<div class="nav-collapse collapse navbar-responsive-collapse">
-			<nav class="navbar navbar-static-top">
+		<div class="navbar navbar-static-top">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<div class="nav-collapse collapse navbar-responsive-collapse">
 				<div class="inner">
 					<ul class="nav navbar-nav">
 						<li><a href="/about.html">About</a></li>
@@ -30,7 +30,7 @@
 						<li><a href="/projects.html">Projects</a></li>
 					</ul>
 				</div>
-			</nav>
+			</div>
 		</div>
 		<h1><a href="/">Paul Smith</a></h1>
 	</header>
@@ -71,7 +71,7 @@
 		</div>
 	</footer>
 	</div>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+	<script src="http://code.jquery.com/jquery.js"></script>
     <script src="/js/tooltip.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     {# TODO: add local fallback #}

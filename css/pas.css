@@ -37,17 +37,17 @@ a:hover {
     text-decoration: none;
 }
 
-.masthead nav {
+.masthead .navbar {
     background: rgba(0, 0, 0, 0.80);
     text-transform: uppercase;
 }
 
-.masthead nav a {
+.masthead .nav a {
     font-size: 14px;
     color: rgba(255, 255, 255, 0.9);
 }
 
-.masthead nav a:hover {
+.masthead .nav a:hover {
     color: rgba(255, 255, 255, 0.5);
 }
 
