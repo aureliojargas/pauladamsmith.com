@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Paul Smith</title>
-  <subtitle>Programmer, co-founder of EveryBlock</subtitle>
+  <subtitle>PGS, DNC, EveryBlock</subtitle>
   <link href="http://pauladamsmith.com/atom.xml" rel="self" />
   <link href="http://pauladamsmith.com/" />
   <id>pauladamsmith.com</id>
@@ -13,7 +13,7 @@
   {% for entry in entries -%}
   <entry>
     <title>{{ entry.title }}</title>
-    <link href="{{ entry.url }}" />
+    <link href="http://pauladamsmith.com{{ entry.url }}" />
     <id>http://pauladamsmith.com{{ entry.url }}</id>
     <updated>{{ entry.atom_timestamp }}</updated>
     <content type="html">{{ entry.body|escape }}</content>
