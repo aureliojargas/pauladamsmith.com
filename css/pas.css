@@ -51,6 +51,10 @@ a:hover {
     color: rgba(255, 255, 255, 0.5);
 }
 
+.navbar-toggle:hover, .navbar-toggle:focus {
+    background-color: #000;
+}
+
 .navbar .nav,
 .navbar .nav > li {
     float:none;
