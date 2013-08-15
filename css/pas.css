@@ -1,10 +1,11 @@
 body {
-    font: 300 16px/1.6 Merriweather, Georgia, serif;
-    color: #444;
+    font: normal 16px/1.6 Bitter, Georgia, "Times New Roman", serif;
+    color: #555;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: "Merriweather Sans", sans-serif;
+    font-family: Bitter, Georgia, "Times New Roman", serif;
+    color: #333;
 }
 
 a:hover {
@@ -26,15 +27,16 @@ a:hover {
 
 .masthead h1 {
     position: absolute;
-    top: 112px;
+    top: 100px;
     width: 100%;
     text-align: center;
-    font-family: Merriweather, Georgia, serif;
+	letter-spacing: 5px;
+	font-size: 46px;
 }
 
 .masthead h1 a {
     color: #eee;
-    text-shadow: 1px 1px #111;
+    text-shadow: 2px 2px #222;
 }
 
 .masthead h1 a:hover {
@@ -132,7 +134,6 @@ a:hover {
 .talks time,
 .post .meta {
     font-weight: normal;
-    font-family: "Merriweather Sans", sans-serif;
     font-size: 12px;
     text-transform: uppercase;
     color: #777;
@@ -149,7 +150,7 @@ a:hover {
 .post .post-img {
     display: block;
     float: right;
-    margin-left: 15px;
+    margin: 0 0 24px 24px;
 }
 
 .post .body {
@@ -197,4 +198,9 @@ footer {
 
 footer .copyright {
     font-size: 12px;
+}
+
+pre code {
+	font-family: Inconsolata, Monaco, Menlo, Consolas, "Courier New", monospace;
+	font-size: 16px;
 }
