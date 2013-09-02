@@ -15,8 +15,18 @@
 <meta property="og:title" content="{{ post.title }}">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://pauladamsmith.com{{ post.url }}">
+<meta property="twitter:card" content="summary">
+<meta property="twitter:site" content="@paulsmith">
+<meta property="twitter:creator" content="@paulsmith">
+<meta property="twitter:title" content="{{ post.title }}">
+{% if post.description -%}
+<meta property="twitter:description" content="{{ post.description }}">
+{% else -%}
+<meta property="twitter:description" content="{{ post.body | striptags | truncate }}">
+{% endif -%}
 {% if post.image -%}
-<meta property="og:url" content="http://pauladamsmith.com{{ post.image }}">
+<meta property="og:image" content="http://pauladamsmith.com{{ post.image }}">
+<meta property="twitter:image" content="http://pauladamsmith.com{{ post.image }}">
 {% endif %}
 {% for key, value in post.meta -%}
 <meta property="{{ key }}" content="{{ value }}">
