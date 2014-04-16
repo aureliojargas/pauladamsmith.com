@@ -14,7 +14,7 @@
         <span class="byline">by <span itemprop="author">Paul Smith</span></span>
     </p>
 
-    {% if post.image %}
+    {% if post.image and not post.hide_post_image %}
     {% if post.image_url %}<a href="{{ post.image_url }}"{% if post.image_url_title %} title="{{ post.image_url_title }}"{% endif %}>{% endif %}
     <img src="{{ post.image }}" class="post-img"{% if post.image_alt %} alt="{{ post.image_alt }}"{% endif %}
         itemprop="image">
