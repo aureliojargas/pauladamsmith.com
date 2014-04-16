@@ -59,7 +59,7 @@ li {
   margin-top: 0;
 }
 
-#street-address {
+#address {
   float: right;
   margin: 0;
 }
@@ -90,6 +90,4 @@ img {
   display: none;
 }
 
-#fbt {
-    page-break-before: always;
-}
+#sysadmin { page-break-before: always; }
