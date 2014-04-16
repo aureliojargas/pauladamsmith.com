@@ -1,0 +1,20 @@
+title: Helping healthcare.gov
+slug: healthcare.gov
+pub_date: 2013-10-31 13:00:00
+image: /images/hc.gov.png
+image_alt: healthcare.gov screenshot
+image_url: https://healthcare.gov
+image_url_title: healthcare.gov
+---
+For the past 18 days, I have been part of the so-called “[tech surge][1]” that
+is helping to fix [healthcare.gov][2].
+
+We have already [improved performance and stability][3] of the site, and have
+helped to establish better processes for getting things done. There is still a
+lot of work to do to make the site the stable platform it needs to be.
+
+There is much talk about, but for now I am staying focused on the work ahead.
+
+[1]: http://www.hhs.gov/digitalstrategy/blog/2013/10/more-on-the-tech-surge.html
+[2]: https://healthcare.gov/
+[3]: http://www.hhs.gov/digitalstrategy/blog/2013/11/healthcare-gov-progress-update.html

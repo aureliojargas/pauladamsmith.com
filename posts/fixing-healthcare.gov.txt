@@ -1,0 +1,20 @@
+title: Fixing healthcare.gov
+pub_date: 2014-03-02 15:04:00
+slug: fixing-healthcare.gov
+image: /images/fix-hc_gov-thumb.jpg
+image_alt: Cover of Time magazine, 3/10/2014 edition and screenshot of All In w/ Chris Hayes from 2/28/2014
+hide_post_image: true
+---
+
+The [story of how HealthCare.gov was fixed][time] is told by Stephen
+Brill in the cover story of the March 10, 2014 issue of TIME magazine.
+
+<p><a href="http://time.com/10228/obamas-trauma-team/"><img src="/images/time-cover.jpg" width="770"></a></p>
+
+I also appeared on All In with Chris Hayes on MSNBC on February 28,
+2014 to [talk about it and my time with the ad hoc team][allin].
+
+<p><a href="http://www.msnbc.com/all-in/watch/the-nerds-who-saved-obamacare-175808579562"><img src="/images/all-in.jpg" width="770"></a></p>
+
+[allin]: http://www.msnbc.com/all-in/watch/the-nerds-who-saved-obamacare-175808579562 "The nerds who saved Obamacare"
+[time]: http://time.com/10228/obamas-trauma-team/ "Obama’s Trauma Team"

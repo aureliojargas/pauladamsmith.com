@@ -1,0 +1,212 @@
+title: healthcare.gov and ACA marketplace sites from the perspective of a software engineer
+pub_date: 2013-10-04 12:00:00
+slug: healthcare.gov-from-programmers-perspective
+image: /images/hcgov.jpg
+image_alt: Screenshot of healthcare.gov
+image_url: https://healthcare.gov/
+image_url_title: healthcare.gov
+---
+*Cross-posted at [Talking Points Memo](http://talkingpointsmemo.com/cafe/a-programmer-s-perspective-on-healthcare-gov-and-aca-marketplaces)*
+
+Full disclosure: my wife works at the Centers for Medicare and
+Medicaid Services (and this post is entirely my views, not hers), I
+worked on the president’s re-election campaign, and politically, I
+wish to see the PPACA law in general and the new marketplaces
+specifically succeed.
+
+This has been an important week in the history of health care in the
+United States and for technology professionals working in government
+and on related services. Here are some thoughts on
+[healthcare.gov](https://healthcare.gov/) and the state-based
+marketplace websites from my perspective as someone who was been
+developing and deploying web-based software applications for many
+years and who has experience with large systems and high-traffic
+sites.
+
+As I write this there is a weird mixture of angst, elation,
+anticipation, control-freakery, sympathetic embarassment, hope, and
+generalized anxiety about healthcare.gov and the state-based
+marketplace sites among supporters of Obamacare and also among
+left-leaning technologists. On the one hand, affordable health
+insurance is now available to any American; on the other, availability
+doesn’t necessarily mean you can get it, due to errors during the
+sign-up process on healthcare.gov and the state-based marketplace
+sites which have been widely reported. There is a sense that, while
+this is primarily a technology problem to be fixed, the political
+problem is larger and may risk the implementation and success of the
+overall law—if enough people perceive the marketplace sites to be
+broken, support for the law—already tenuous according to some
+polls—will erode, and the law’s opponents’ argument that
+implementation needs to be delayed or even defunded will be
+persuasive.
+
+It is natural for technologists to go into crisis mode and immediately
+start triaging problems and brainstorming solutions. They are smart
+and want to help and believe they can fix things. This is a totally
+appropriate attitude, and their nervous feelings are valid. The people
+implementing the marketplace sites have all the problems of developing
+large-scale, integrated, enterprise software, plus delivering a
+high-quality consumer experience. I think we should also have some
+perspective on what’s happening, and I would caution against
+panic. There are a number of things to bear in mind:
+
+**Architecture.** Caveat: I don’t have direct experience with the
+marketplace sites, only second-hand knowledge about how they’re
+implemented. That said, I know some details. The main thing to
+understand is there is no one, single Obamacare site—there is
+healthcare.gov, which is home to the federal marketplace and a portal
+to the state-based marketplaces, and there are the 14 state-based
+sites. The federal marketplace is for all Americans for whom their
+states either chose not to implement their own marketplace or their
+site isn’t ready yet.
+
+The user interface, or frontend, of healthcare.gov is quite
+interesting. It’s design has been compared favorably with top
+commercial sites. It was implemented using modern web development
+techniques, working well across browsers and on mobile devices. We
+used similar techniques on the president’s campaign: generate static
+files from templates with Jekyll, serve them from behind a CDN
+(Akamai, in the case of healthcare.gov). This gives you a very fast,
+low-latency user experience that’s very durable in the face of
+high-traffic loads. [Dave Cole has
+written](http://developmentseed.org/blog/new-healthcare-gov-is-open-and-cms-free/)
+about the process by which the frontend was developed, it’s
+fascinating to read if you have any experience with how government
+sites have typically been built. And you’ll notice, no one has
+complained about being able to access the site itself. healthcare.gov
+itself has been up continuously since October 1st. It’s submitting
+forms back to the server that’s been the issue.
+
+About the backend server: having a great frontend experience means
+little if you can’t complete a transaction with the
+service. (Although, not nothing—many important informational consumer
+resources reside on the frontend and have been wholly unaffected by
+the reported outages.) People may not realize that a major part of
+PPACA was the streamlining the rules surrounding Medicaid
+eligibility. healthcare.gov serves then as a portal, routing people to
+the appropriate resource they need to help them get covered. This
+means not only sending you to your state-based marketplace site if
+your state has one, but directing you to Medicaid instead of the
+marketplaces, if you are eligible, or determining that you meet
+requirements for a subsidy on the marketplace. In order to do these
+things, the system verifies your identity, income, and other personal
+data with new and existing government databases. In other words, so
+that it may route you to the correct entity that will be offering or
+providing you health insurance, healthcare.gov looks up your
+information online (i.e., during the course of a request-response
+cycle with the site). The architecture of healthcare.gov is an example
+of both the challenges of integration—different software services
+working together—and distributed systems—independent systems that may
+or may not be available or meeting certain service-level agreements or
+standards.
+
+An alternative to an online lookup of personal data or account
+creation would be to store the request for later processing. This is
+commonly referred to as queuing. It turns an online process into an
+offline one: the system goes from being synchronous—waiting for a
+response from another system after making a request to it—to
+asychronous—not waiting for the response and arranging to check the
+result somehow later. This is not a trivial change, as people who have
+implemented these systems will know. It requires a fairly fundamental
+redesign of the flow of the software, the application of business
+rules, and how certain operational details are carried out. However,
+it is now widely established pattern for system development. For
+example, when you buy a ticket from an airline reservation site, and
+wait for your credit card to be processed and the whole transaction to
+complete, that is an example of a synchronous, or online, system
+(internally, the system may very well be composed of asynchronous
+services, but the frontend interface that the user interacts with
+presents a synchronous experience). When you place an order with
+Amazon, on the other hand, you receive a response almost immediately
+(“thank you for your order!”). If there is a problem with your
+order—your card is expired, or was declined—you later receive a
+notification, usually an email, asking you to update your payment
+info. That is an example of an asynchronous system. Why does this
+matter? Asynchrous, distributed systems have components that are
+de-coupled—if one fails, it doesn’t necessarily bring the rest down
+with that. You have to design your system to be resilient for such
+failures, but it enables you to do things such as quickly store the
+contents of a form submission and acknowledge the user with a
+thank-you message when the system that looks up personal data or
+creates new accounts is down. This introduces operational complexity:
+you must have a functioning queue system, you must have programs that
+process the queue, they need to be monitored and errors have to be
+handled appropriately (since there is no online user that can respond
+to them), and notification systems like email that are out-of-band of
+the website may need to be employed (in case you need to ask the user
+to come back and provide more information).
+
+I don’t know to what extent healthcare.gov was designed with the
+challenges of distributed systems in mind, but moving toward more
+asynchronous data flows where possible will alleviate some of the poor
+user experiences we’ve seen reported. It will also free them up to
+still take in a high volume of requests while independently working to
+fix bugs in the transactional or informational data services.
+
+**Errors, user experience, and expectations.** In the reports about
+problems users have experienced with healthcare.gov and the
+state-based marketplace sites, we’ve seen screenshots and descriptions
+of ugly error messages. The quality of the healthcare.gov frontend,
+with its attractive design that’s more like a retail site than a
+government site, I think has primed users for an overall experience
+experience reflective of that design. They expect the under-the-hood
+to be as good as the hood appears. Ugly error messages, and
+disappointment at not being able to complete the sign-up process,
+frustrate expectations that were set by the site itself, and by its
+champions, myself included, who encouraged people to go to the site on
+day 1.
+
+The ugly error messages have for the most part been replaced with
+friendlier views, and we know that the backend engineers are working
+to fix the sign-up process. A way to handle expectations at this point
+for site users might be to remind them, at the point of a system error
+or maintenance page, that they have until December 15th to enroll for
+coverage beginning January 1st, 2014, and until March 31st to enroll
+for coverage in 2014. Another mechanism to reassure a frustrated user
+that couldn’t sign up might be a simple form that collect email
+addresses to be notified when the system is back online.
+
+**Unprecedented environmental hostility and limited time.** Ever since
+PPACA was passed, I’ve heard griping about would it take so long for
+Obamacare to come online. In reality, given the scope of the changes
+to the regulatory framework for health insurance markets, changes to
+Medicaid eligibility, and the implementation of the federal and
+state-based marketplaces, there was a huge amount of work to deliver a
+major new social insurance program in such a short amount of
+time. It’s natural that there would be bugs, and the president, HHS,
+and CMS teams have said as much. Going back, many regulatory and
+technical fixes to the law have been prevented from being taken up by
+Congress by the law’s opponents. And now of course the federal
+government is shutdown due in part to opposition to the law. While
+little of this hostility is new information to implementers, it is
+nonetheless remarkable what they were able to achieve in this
+environment. A suspected denial-of-service attack on New York’s site
+only compounds the outside forces set against this fledgling program.
+
+**State-based marketplaces.** It is a joke among Medicaid staff that
+you’ve seen one state’s Medicaid system, you’ve seen one state’s
+Medicaid system. 14 states chose to implement their own
+marketplace. While their sites will share some common services with
+the federal marketplace, and some large contractors worked on multiple
+sites, these are independently developed and administered sites with
+their own architectures, infrastructure, designs, and staff.
+
+**Time.** My strong belief is that these early problems will be
+largely forgotten very soon. People will get covered. People are
+getting enrolled, now, despite the problems. It’s worth remembering
+what happened during the implementation of Medicare Part D. There were
+many of the same types of reports, from pharmacies that couldn’t
+connect to government data services, to seniors that were temporarily
+unable to receive their benefit. Do we think about those stories now
+when we think about Part D? Of course not. Part D is just as strong
+and beloved piece of the social safety net firmament as any other. So
+it will be with Obamacare.
+
+None of this is to excuse the problems healthcare.gov has had this
+week. October 1st was a known deadline, major sites have been launched
+under hostile or constrained circumstances before. But I think if we
+understand a bit more everything involved, we might not be so quick to
+condemn or dismiss out of hand.
+
+*Update: my original post incorrectly stated there were 24 state-based
+marketplaces; there are 14.*
