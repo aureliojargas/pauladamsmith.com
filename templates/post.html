@@ -26,7 +26,7 @@
 {% endif -%}
 {% if post.image -%}
 <meta property="og:image" content="http://pauladamsmith.com{{ post.image }}">
-<meta property="twitter:image" content="http://pauladamsmith.com{{ post.image }}">
+<meta property="twitter:image:src" content="http://pauladamsmith.com{{ post.image }}">
 {% endif %}
 {% for key, value in post.meta -%}
 <meta property="{{ key }}" content="{{ value }}">
