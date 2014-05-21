@@ -1,8 +1,4 @@
-
-
-
-
-
+#define GEN_ID (__LINE__)
 
 (function() {
     var canvas, ctx, requestId, font, text;
@@ -224,19 +220,19 @@
 
         imguiPrepare();
 
-        button((223), 50, 50);
+        button(GEN_ID, 50, 50);
 
-        button((225), 150, 50);
+        button(GEN_ID, 150, 50);
 
-        if (button((227), 50, 150)) {
+        if (button(GEN_ID, 50, 150)) {
             bgcolor = new Date().getMilliseconds() * 0xc0cac0 | 0x77;
         }
 
-        if (button((231), 150, 150)) {
+        if (button(GEN_ID, 150, 150)) {
             exit();
         }
 
-        textfield((235), 50, 250, text);
+        textfield(GEN_ID, 50, 250, text);
 
         imguiFinish();
     }
@@ -310,4 +306,3 @@
 
     window.imgui = imgui;
 }());
-
