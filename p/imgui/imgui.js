@@ -269,7 +269,7 @@
             if (event.ctrlKey) {
                 state.keymod |= MOD_CTRL;
             }
-            if (state.keyentered === K_TAB) {
+            if (state.keyentered === K_TAB || state.keyentered === K_BACKSPACE) {
                 event.preventDefault();
             }
         }, false);
