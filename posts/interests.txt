@@ -72,6 +72,12 @@ JavaScript. I’m still just in playground mode with it.
 uniformly excellent and entertaining these talks are. Interesting and dense with
 practical knowledge.
 
+I also recently tried to teach myself [Acme][acme]. You can certainly glimpse
+the power of a system like that. But ultimately I decided editing speed is more
+important to me, and I’m pretty fast in Vim, so I abandoned the effort.
+
+[CoreOS][coreos] seems like it could become pretty important.
+
 Programming a computer, still a fun thing to do.
 
 [imgui]: https://mollyrocket.com/861
@@ -88,3 +94,5 @@ Programming a computer, still a fun thing to do.
 [functor]: http://blog.jle.im/entry/inside-my-world-ode-to-functor-and-monad
 [gophercon]: http://confreaks.com/events/gophercon2014
 [frptut]: https://jhusain.github.io/learnrx/
+[acme]: http://research.swtch.com/acme
+[coreos]: http://coreos.com/blog/zero-downtime-frontend-deploys-vulcand/
