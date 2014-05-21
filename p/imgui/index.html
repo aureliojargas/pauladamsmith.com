@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Immediate-mode GUI</title>
+        <script src="imgui.js"></script>
+    </head>
+    <body>
+        <canvas width="640" height="480"></canvas>
+        <script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                imgui(document.querySelector("canvas"));
+            });
+        </script>
+    </body>
+</html>
