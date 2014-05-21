@@ -1,0 +1,90 @@
+title: Things of recent interest
+pub_date: 2014-05-21 16:23:10
+slug: recent-interests
+image: /images/imgui_tut.gif
+image_alt: Screenshot of immediate-mode GUI tutorial
+---
+
+Here are a few things that have kept my interest lately:
+
+* **[Immediate-Mode Graphical User Interfaces][imgui]** Immediate-mode GUI is
+a straight-forward way of rendering a UI. It’s so simple, in fact, that I had to
+watch the video twice and do a [tutorial][imguitut] to understand it. (I did the
+tutorial using SDL on OS X, and then ported it to [JavaScript and
+canvas][imguiplayground]. Incidentally, I also used the [C preprocessor on my
+JavaScript file][makefile], following [this][cpp], to get statically-generated
+IDs for the widgets, it worked well.) The short explanation of immediate-mode
+GUI is, in your render() function that’s called for each frame of your
+application (ala requestAnimationFrame), you call functions that handle
+everything needed to draw, handle events, change state, and trigger other
+events, for your UI’s widgets. Your code looks something like `if (button(id, x,
+y)) buttonWasPressed();`, and that’s the entirety of rendering a button widget
+to the screen and handling click events on it. (In most cases, the widget
+functions return a boolean of whether the button was pressed, text field was
+changed, etc.) There are no callbacks or separate bindings. You maintain a tiny
+bit of global state that helps coordinate all the action. The upside is you have
+total control over your UI’s appearance and behavior. The downside is, you have
+to implement all of your UI’s appearance and behavior yourself. My feeling so
+far is that it is not something you would do if you were just implementing
+a typical UI in a web browswer, because you have all the browser’s widgets
+already at your disposal (not to mention HTML and CSS layout). You’d be
+reinventing the wheel.  But it seems an ideal approach for a game UI (which is
+where I believe the idea originated, in the game development world), on
+platforms where you don’t already have a core UI or widget library available, in
+a native mobile application where performance is paramount, or any kind of
+custom application, even on the web, where you want or need complete over the
+UI, because, for instance, the supplied browser form elements don’t suffice. For
+example, immediate-mode GUI would fit something like
+[Soundslice](http://soundslice.com)’s custom interface perfectly.
+([via][bloop])
+
+* **[Functional reactive programming][netflixyt]** This was an eye-opening talk
+for me. FRP could show us the way out of the fly bottle of complicated,
+callback-knotted async JavaScript UIs in the browser. The core idea is to treat
+events not as isolated occurances to be handled on a per-callback basic, but
+instead as collections, and once you do that, you have the power of higher-order
+functions like map, reduce, filter, and merge to describe complex behaviors as
+sort of a pipeline of collection processing. If you took Python’s list and
+generator comprehensions to browser events, you start to get the idea.
+[RxJS][rxjs] is the tool highlighted in the talk, but [bacon.js][baconjs] also
+seems to be a popular FRP library for JavaScript (haven’t tried it myself).
+There’s also a [browser-based FRP tutorial][frptut] to work through.
+
+* **[Traceur][traceur]** Programming FRP in JavaScript becomes a lot more
+pleasant with the new anonymous function syntax (`(x) => x + 1` instead of
+`function(x) { return x + 1; }`) coming in JavaScript 6, or ES6. Traceur
+compiles ES6 to JavaScript that will run in current browsers, so you can code
+and get the benefit of the new syntax and other upcoming language features now.
+I have it as a build step in a Makefile, alongside minification. Then
+presumably, barring language-breaking changes, you’d be able to remove the build
+step at some future date when ES6 has become widely adopted.
+
+* **[Elm][elm]** Elm is an entire language built around FRP which targets the
+browser. It is a Haskell or OCaml-like language that compiles down to HTML, CSS,
+and JavaScript. It seems to rely on the [functor][functor] concept, which it
+calls ‘lift’, to convert browser events into something its built-in higher-order
+functions can process. It’s arguable that because it is a functional language
+like Haskell, it’s more naturally suited for dealing with the sorts of
+concurrency issues in UIs that libraries like RxJS were created to address in
+JavaScript. I’m still just in playground mode with it.
+
+* **[GopherCon talks][gophercon]** It says something about the Go community how
+uniformly excellent and entertaining these talks are. Interesting and dense with
+practical knowledge.
+
+Programming a computer, still a fun thing to do.
+
+[imgui]: https://mollyrocket.com/861
+[bloop]: http://jlongster.com/Removing-User-Interface-Complexity,-or-Why-React-is-Awesome 
+[imguitut]: http://sol.gfxile.net/imgui/index.html
+[imguiplayground]: /p/imgui/
+[cpp]: http://www.nongnu.org/espresso/js-cpp.html
+[makefile]: https://github.com/paulsmith/pauladamsmith.com/blob/master/p/imgui/Makefile
+[netflixyt]: https://www.youtube.com/watch?v=XRYN2xt11Ek
+[rxjs]: https://github.com/Reactive-Extensions/RxJS
+[baconjs]: https://github.com/baconjs/bacon.js
+[traceur]: https://github.com/google/traceur-compiler
+[elm]: http://elm-lang.org/
+[functor]: http://blog.jle.im/entry/inside-my-world-ode-to-functor-and-monad
+[gophercon]: http://confreaks.com/events/gophercon2014
+[frptut]: https://jhusain.github.io/learnrx/
