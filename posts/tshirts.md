@@ -59,9 +59,9 @@ César.
 This is a shirt Ben Helphand gave me after a trip he took to Oregon. This would
 have been around 2004. The [Bus Project][bp] had made the shirt. Ben and
 I became friends after we went to Minnesota in 2002, volunteering on the senate
-campaign of the late [Paul Wellstone][pw]. After that, we scheme up ways to try
-to improve small-d democratic participation. The Bus Project was a big part of
-the inspiration that led to the creation of the [Election Day Advent
+campaign of the late [Paul Wellstone][pw]. After that, we would scheme up ways
+to try to improve small-d democratic participation. The Bus Project was a big
+part of the inspiration that led to the creation of the [Election Day Advent
 Calendar][edac] in 2006. I’ll miss the Vote, F*cker shirt but many washes
 rendered it too shrunken and I looked like a sausage in it.
 
