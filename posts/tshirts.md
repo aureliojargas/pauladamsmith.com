@@ -6,12 +6,7 @@ image_alt: Retired t montage
 hide_post_image: true
 ---
 
-The closer you get to moving, the less sentimental you are about those marginal
-possessions you tote from home to home. The ones you defer action on their
-final status: back in the rotation, daily use, or into archives? Or pitched,
-sold, donated, excised?
-
-I said “smell you later” to some printed t-shirts today, here are some.
+I said “smell you later” to some printed t-shirts in my possession today.
 
 ### Texas "Tremodillo"
 
@@ -62,7 +57,7 @@ César.
 ![Vote, F*cker t-shirt](/images/tshirts/IMG_20140726_124417.jpg)
 
 This is a shirt Ben Helphand gave me after a trip he took to Oregon. This would
-have been around 2004. The [Bus Project][bp] the made the shirt. Ben and
+have been around 2004. The [Bus Project][bp] had made the shirt. Ben and
 I became friends after we went to Minnesota in 2002, volunteering on the senate
 campaign of the late [Paul Wellstone][pw]. After that, we scheme up ways to try
 to improve small-d democratic participation. The Bus Project was a big part of
