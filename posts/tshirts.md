@@ -1,5 +1,5 @@
 title: T-shirt retirement
-pub_date: 2014-07-26 15:09:19
+pub_date: 2014-07-27 20:37:53
 slug: tshirt-retirement
 image: /images/tshirt-montage-x1.jpg
 image_alt: Retired t montage
