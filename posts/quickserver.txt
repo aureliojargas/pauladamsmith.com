@@ -1,0 +1,46 @@
+title: quickserver
+pub_date: 2014-06-19 17:44:10
+slug: quickserver
+image: /images/quickserver.png
+image_alt: Screenshot of quickserver source code
+---
+
+Everyone knows `python -m SimpleHTTPServer` to start a quick webserver in
+a directory, it’s pretty awesome. It either mounts on port 8000 by default or
+you can give it an alternate port as an command line argument. But if you’re
+like me, you have lots of server processes running at once, you often get
+conflicts where the port is already in use, or you have to hunt and peck for
+a free one.
+
+It’s much better to just let the OS assign an unused port to this quick
+webserver process, since you don’t really care where it goes. You can do this by
+passing 0 as the port argument, and that totally works: Python prints out the
+port it started the HTTP server on. There’s just one problem that trips me up:
+it prints out this new port number in such a way that you have to either mouse
+over, select, copy, open a new tab, paste, after typing in “localhost” or
+“0.0.0.0”, or you have to eyeball it and type it in with the new tab:
+
+```
+$ python -m SimpleHTTPServer 0
+Serving HTTP on 0.0.0.0 port 61200 ...
+```
+
+See what I mean, you have to snag that 61200 somehow. I just want to start
+a webserver and have it immediately open to that address in my browser! That
+output should be clickable or hook into OS X’s `open`.
+
+So [this shell script](https://github.com/paulsmith/quickserver/blob/master/quickserver) does that.
+
+```
+$ ./quickserver
+Serving HTTP on 0.0.0.0 port 61209 ...
+http://0.0.0.0:61209/
+127.0.0.1 - - [19/Jun/2014 17:21:56] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2014 17:21:57] code 404, message File not found
+127.0.0.1 - - [19/Jun/2014 17:21:57] "GET /favicon.ico HTTP/1.1" 404 -
+```
+
+![](https://i.imgur.com/0eb9q9Q.png)
+
+Probably too small to deserve it’s own repo but I figured someone might want to
+make it work on Ubuntu or whatever. [Here it is on GitHub](https://github.com/paulsmith/quickserver).
