@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Paul Smith</title>
-  <subtitle>PGS, DNC, EveryBlock</subtitle>
+  <subtitle>HealthCare.gov, DNC, EveryBlock</subtitle>
   <link href="http://pauladamsmith.com/atom.xml" rel="self" />
   <link href="http://pauladamsmith.com/" />
   <id>pauladamsmith.com</id>
