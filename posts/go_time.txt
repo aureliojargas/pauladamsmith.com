@@ -19,7 +19,7 @@ Or put another way:
 Instead of having to remember or lookup the traditional formatting codes for
 functions like `strftime`, you just count one-two-three-four and each place
 in the standard time corresponds to a component of a date/time object (the
-`Time` type in Go): one for day of the month, two for the month, three for
+`Time` type in Go): one for the month, two for day of the month, three for
 the hour (in 12-hour time), four for the minutes, etc.
 
 The way you put this into action is by putting together the parts of
